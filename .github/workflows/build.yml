@@ -101,9 +101,10 @@ jobs:
         if: runner.os == 'Linux'
         
       - name: Strip binaries (Linux)
-        if: runner.os == 'Linux'
         run: |
-        find game/grub_fortress/bin -type f -executable -exec strip --strip-all {} +
+        find game/grub_fortress/bin/linux64 -type f -executable -exec strip --strip-all {} +
+        shell: bash
+        if: runner.os == 'Linux'    
 
       - name: Build (Windows only)
         if: runner.os == 'Windows'
