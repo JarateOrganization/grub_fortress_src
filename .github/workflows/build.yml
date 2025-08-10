@@ -20,7 +20,7 @@ jobs:
           - os: ubuntu-latest
             build_script: ./buildtfgrubprojects
             build_cmd: ""
-            artifact_name: bf2-linux
+            artifact_name: tfgrub-linux
 
     steps:
       - name: Checkout repository
@@ -73,6 +73,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-msvc-
       #-- end caching
+      
+      - name: Make build script executable (Linux)
+        if: runner.os == 'Linux'
+        run: chmod +x ./buildbf2projects
+        working-directory: src
 
       - name: Install Linux build dependencies
         if: runner.os == 'Linux'
