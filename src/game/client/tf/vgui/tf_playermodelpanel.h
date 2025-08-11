@@ -54,6 +54,9 @@ public:
 	void	SetTeam( int iTeam );
 	int		GetTeam( void ) { return m_iTeam; }
 
+	void	SetPreviewSkin( int iSkin );
+	int		GetPreviewSkin( void ) { return m_nBody; }
+
 	void	UpdatePreviewVisuals( void );
 
 	// From IChoreoEventCallback
@@ -139,6 +142,10 @@ private:
 	void	LoadAndAttachAdditionalModel( const char *pMDLName, CEconItemView *pItem );
 	bool	FinishAttachAdditionalModel( const model_t *pModel );
 	void	RemoveAdditionalModels( void );
+
+	// Robot voice support
+	bool	ShouldUseRobotVoice( void ) const;
+	const char* GetSceneSoundToken( void ) const;
 
 	bool	UpdateCosmeticParticles( 
 		IMatRenderContext				*pRenderContext, 

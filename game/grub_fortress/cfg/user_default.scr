@@ -56,6 +56,14 @@ DESCRIPTION INFO_OPTIONS
 		{ "0" }
 	}
 	
+	"cl_clear_chat_on_disconnect"
+	{
+		"#TF_ClearTextChatOnDisconnect"
+		"#Tooltip_ClearTextChatOnDisconnect"
+		{ BOOL }
+		{ "0" }
+	}
+	
 	"chat_filter_settings"
 	{
 		"#TF_ChatFilterSettings"
@@ -74,14 +82,6 @@ DESCRIPTION INFO_OPTIONS
 	{
 		"#TF_autoreload"
 		"#Tooltip_autoreload"
-		{ BOOL }
-		{ "0" }
-	}
-	
-	"tfgrub_ammobucket"
-	{
-		"#TFGrub_Ammobucket"
-		"#Tooltip_TFGrub_Ammobucket"
 		{ BOOL }
 		{ "0" }
 	}
@@ -123,7 +123,6 @@ DESCRIPTION INFO_OPTIONS
 			"#tf_dingalingaling_Beepo"					"6"
 			"#tf_dingalingaling_Vortex"					"7"
 			"#tf_dingalingaling_Squasher"				"8"
-			"#tfgrub_dingalingaling_bubble"				"9"
 		}
 		{ "-1" }
 	}
@@ -173,7 +172,6 @@ DESCRIPTION INFO_OPTIONS
 			"#tf_dingalingaling_Beepo"					"6"
 			"#tf_dingalingaling_Vortex"					"7"
 			"#tf_dingalingaling_Squasher"				"8"
-			"#tfgrub_dingalingaling_bubble"				"9"
 		}
 		{ "0" }
 	}
@@ -382,6 +380,13 @@ DESCRIPTION INFO_OPTIONS
 		{ "1" }
 	}
 
+	"tf_enable_glows_after_respawn"
+	{
+		"#TF_EnableGlowsAfterRespawn"
+		{ BOOL }
+		{ "1" }
+	}
+
 	"cl_hud_playerclass_use_playermodel"
 	{
 		"#GameUI_HudPlayerClassUsePlayerModel"
@@ -394,7 +399,7 @@ DESCRIPTION INFO_OPTIONS
 	{
 		"#TF_viewmodelfov_option"
 		"#Tooltip_viewmodelfov_option"
-		{ SLIDER 54 90 }
+		{ SLIDER 54 70 }
 		{ "1" }
 	}
 	
@@ -522,6 +527,21 @@ DESCRIPTION INFO_OPTIONS
 	"tf_scoreboard_alt_class_icons"
 	{
 		"#TF_ScoreBoard_AltClassIcons"
+		{ BOOL }
+		{ "0" }
+	}
+
+	"tf_use_match_hud"
+	{
+		"#TF_UseMatchHUD"
+		{ BOOL }
+		{ "1" }
+	}
+
+	"bf_clean_spectator_hud"
+	{
+		"#BF_CleanSpectatorHUD"
+		"#Tooltip_CleanSpectatorHUD"
 		{ BOOL }
 		{ "0" }
 	}
@@ -655,14 +675,6 @@ DESCRIPTION INFO_OPTIONS
 		{ BOOL }
 		{ "0" }
 	}
-
-	"tfgrub_mirrored"
-	{
-		"#TFGrub_Mirrored"
-		"#Tooltip_TFGrub_Mirrored"
-		{ BOOL }
-		{ "0" }
-	}
 	
 	"tf_use_min_viewmodels"
 	{
@@ -677,7 +689,7 @@ DESCRIPTION INFO_OPTIONS
 		"#GameUI_DisableSprays"
 		"#Tooltip_DisableSprays"
 		{ BOOL }
-		{ "0" }
+		{ "1" }
 	}
 
 	"tf_hide_custom_decals"
@@ -751,20 +763,28 @@ DESCRIPTION INFO_OPTIONS
 		{ "1" }
 	}
 
-	"tf_discord_rpc"
+	"cl_promotional_codes_button_show"
 	{
-		"#TFGrub_DiscordRPC"
-		"#TFGrub_DiscordRPC"
+		"#TF_ShowPromotionalCodesButton"
+		"#Tooltip_ShowPromotionalCodesButton"
 		{ BOOL }
 		{ "1" }
 	}
-	
-	"tf_discord_rpc_updaterate"
+
+	"bf_disable_cosmetics"
 	{
-		"#TFGrub_DiscordRPC_UpdateRate"
-		"#Tooltip_TFGrub_DiscordRPC_UpdateRate"
-		{ NUMBER 5 15}
-		{ "5" }
+		"#BF_DisableCosmetics"
+		"#Tooltip_DisableCosmetics"
+		{ BOOL }
+		{ "0" }
+	}
+
+	"bf_disable_unusual_effects"
+	{
+		"#BF_DisableUnusualEffects"
+		"#Tooltip_DisableUnusualEffects"
+		{ BOOL }
+		{ "0" }
 	}
 
 	"category8"
