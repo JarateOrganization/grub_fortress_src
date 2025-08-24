@@ -50,6 +50,7 @@
 			// VPK and we can avoid making thousands of file system calls to attempt to open files
 			// in folders where they don't exist.  (Searching a VPK is much faster than making an operating
 			// system call.)
+			game+mod			|gameinfo_path|content/*
 			game_lv				|appid_440|tf/tf2_lv.vpk
 			game+mod			|appid_440|tf/tf2_textures.vpk
 			game+mod			|appid_440|tf/tf2_sound_vo_english.vpk
