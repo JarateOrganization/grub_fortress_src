@@ -29,9 +29,6 @@ Keep in mind, most of it is pretty shitty
   - **Better Fortress 2** – The mod Grub Fortress is a fork of  
     https://github.com/ALIEN31ITA/Better-Fortress-2
     
-  - **Team Fortress 2 Classic** – Rocket Gravity Attribute  
-    https://www.tf2classic.com
-    
   - **Team Fortress 2 Goldrush** – Removed MYM Hud, And V_Model Support  
     https://www.tf2goldrush.com/
     
@@ -44,11 +41,11 @@ Keep in mind, most of it is pretty shitty
   - **Hactica** – Ultimate Weapon Animation Fixes  
     https://gamebanana.com/wips/86367
     
-  - **FlaminSarge** – Class Team color changes in the loadout menu  
-    https://github.com/ValveSoftware/source-sdk-2013/pull/1305
-    
   - **NvC-DmN-CH** – HL2 Mirrored code  
     https://github.com/NvC-DmN-CH/Half-Life-2-Mirrored
+
+  - **wgetjane** – Fix sniper laser dot position being calculated inaccurately  
+    https://github.com/ValveSoftware/source-sdk-2013/pull/637
 
 ### Windows
 
