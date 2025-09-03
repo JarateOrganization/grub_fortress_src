@@ -47,6 +47,13 @@ DESCRIPTION INFO_OPTIONS
 		{ BOOL }
 		{ "1" }
 	}
+	"weapon5"
+	{
+		"Der Erwecker – Haau, Tabby"
+		"gamebanana.com/mods/543039"
+		{ BOOL }
+		{ "1" }
+	}
 	"category3"
 	{
 		"Community Help/Contributions"

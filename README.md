@@ -22,6 +22,9 @@ Keep in mind, most of it is pretty shitty
   - **The Pipebomb Launcher – Haau, Extra Ram**  
     https://gamebanana.com/mods/418217
 
+  - **Der Erwecker – Haau, Tabby**
+    https://gamebanana.com/mods/543039
+
 - **Community Help/Contributions**
   - **BetaM** – Custom Items, Credits menu, misc. fixes  
     https://www.youtube.com/BetaM
