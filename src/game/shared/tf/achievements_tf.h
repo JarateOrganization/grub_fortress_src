@@ -60,38 +60,6 @@ public:
 	virtual void Event_OnRoundComplete( float flRoundTime, IGameEvent *event );
 };
 
-//----------------------------------------------------------------------------------------------------------------
-// Helper class for achievements that involve killing players after walking through a teleporter
-template < class tBaseClass >
-class CTFAchievementTeleporterTimingKills : public tBaseClass
-{
-	DECLARE_CLASS( CTFAchievementTeleporterTimingKills, CBaseTFAchievement );
-
-	void Init() 
-	{
-		this->SetFlags( ACH_SAVE_GLOBAL | ACH_LISTEN_KILL_ENEMY_EVENTS );
-		this->SetGoal( 1 );
-	}
-
-	virtual void Event_EntityKilled( CBaseEntity *pVictim, CBaseEntity *pAttacker, CBaseEntity *pInflictor, IGameEvent *event ) 
-	{
-		if ( !pVictim || !pVictim->IsPlayer() )
-			return;
-
-		C_BasePlayer *pLocalPlayer = C_BasePlayer::GetLocalPlayer();
-		if ( pAttacker == pLocalPlayer && pVictim != pLocalPlayer )
-		{
-			C_TFPlayer *pTFAttacker = ToTFPlayer( pAttacker );
-			if ( pTFAttacker && pTFAttacker->m_Shared.InCond( TF_COND_TELEPORTED ) && ( gpGlobals->curtime - pTFAttacker->m_Shared.GetTimeTeleEffectAdded() <= 5.0f ) )
-			{
-				this->IncrementCount();
-			}
-		}
-	}
-};
-
-
-
 extern CAchievementMgr g_AchievementMgrTF;	// global achievement mgr for TF
 
 #endif // CLIENT_DLL

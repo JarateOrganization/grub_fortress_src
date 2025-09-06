@@ -54,10 +54,6 @@
 #include "vgui/ISystem.h"
 #include "report_player_dialog.h"
 
-#ifdef SAXXYMAINMENU_ENABLED
-#include "tf_hud_saxxycontest.h"
-#endif
-
 #include "c_tf_gamestats.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -556,11 +552,6 @@ CHudMainMenuOverride::CHudMainMenuOverride(IViewPort* pViewPort) : BaseClass(NUL
 	m_pCharacterImagePanel = NULL;
 	m_iCharacterImageIdx = -1;
 
-#ifdef SAXXYMAINMENU_ENABLED
-	m_pSaxxyAwardsPanel = NULL;
-	m_pSaxxySettings = NULL;
-#endif
-
 	m_pWarLandingPage = new CWarLandingPanel(this, "WarPanel");
 
 	m_flCheckTrainingAt = 0;
@@ -891,23 +882,6 @@ void CHudMainMenuOverride::ApplySettings(KeyValues* inResourceData)
 
 		m_bReapplyButtonKVs = true;
 	}
-
-#ifdef SAXXYMAINMENU_ENABLED
-	KeyValues* pSaxxySettings = inResourceData->FindKey("SaxxySettings");
-	if (pSaxxySettings)
-	{
-		if (m_pSaxxySettings)
-		{
-			m_pSaxxySettings->deleteThis();
-		}
-		m_pSaxxySettings = pSaxxySettings->MakeCopy();
-
-		if (m_pSaxxyAwardsPanel)
-		{
-			m_pSaxxyAwardsPanel->ApplySettings(m_pSaxxySettings);
-		}
-	}
-#endif
 
 	m_bPlayListExpanded = false;
 
@@ -1564,26 +1538,6 @@ void CHudMainMenuOverride::OnUpdateMenu(void)
 		m_flCheckUnclaimedItems = 0;
 		CheckUnclaimedItems();
 	}
-
-#ifdef SAXXYMAINMENU_ENABLED
-	const bool bSaxxyShouldBeVisible = !bInGame && !bInReplay;
-	if (!m_pSaxxyAwardsPanel && bSaxxyShouldBeVisible)
-	{
-		m_pSaxxyAwardsPanel = new CSaxxyAwardsPanel(this, "SaxxyPanel");
-
-		if (m_pSaxxySettings)
-		{
-			m_pSaxxyAwardsPanel->ApplySettings(m_pSaxxySettings);
-		}
-
-		m_pSaxxyAwardsPanel->InvalidateLayout(true, true);
-	}
-	else if (m_pSaxxyAwardsPanel && !bSaxxyShouldBeVisible)
-	{
-		m_pSaxxyAwardsPanel->MarkForDeletion();
-		m_pSaxxyAwardsPanel = NULL;
-	}
-#endif
 
 	if (m_pVRModeButton && m_pVRModeButton->IsVisible())
 	{

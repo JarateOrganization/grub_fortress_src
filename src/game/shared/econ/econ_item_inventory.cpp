@@ -802,6 +802,7 @@ void CInventoryManager::UpdateInventoryEquippedState( CPlayerInventory *pInvento
 //-----------------------------------------------------------------------------
 bool CInventoryManager::ShowItemsPickedUp( bool bForce, bool bReturnToGame, bool bNoPanel )
 {
+	return false;
 	CPlayerInventory *pLocalInv = GetLocalInventory();
 	if ( !pLocalInv )
 		return false;

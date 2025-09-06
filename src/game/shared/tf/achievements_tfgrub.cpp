@@ -146,36 +146,11 @@ bool CTFAchievementFullRound::PlayerWasInEntireRound( float flRoundTime )
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: Helper function to determine if local player is specified class
-//-----------------------------------------------------------------------------
-bool IsLocalTFPlayerClass(int iClass)
-{
-	C_TFPlayer* pLocalPlayer = C_TFPlayer::GetLocalTFPlayer();
-	return(pLocalPlayer && pLocalPlayer->IsPlayerClass(iClass));
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: Query if the gamerules allows achievement progress at this time
-//-----------------------------------------------------------------------------
-bool GameRulesAllowsAchievements(void)
-{
-	bool bRetVal = false;
-
-	if ((TFGameRules()->State_Get() < GR_STATE_TEAM_WIN) ||
-		(TFGameRules()->State_Get() == GR_STATE_STALEMATE))
-	{
-		bRetVal = true;
-	}
-
-	return bRetVal;
-}
-
-//-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-class CAchievementTFGrubPlayGameEveryClass : public CTFAchievementFullRound
+class CAchievementTFPlayGameEveryClass : public CTFAchievementFullRound
 {
-	DECLARE_CLASS( CAchievementTFGrubPlayGameEveryClass, CTFAchievementFullRound );
+	DECLARE_CLASS( CAchievementTFPlayGameEveryClass, CTFAchievementFullRound );
 	void Init() 
 	{
 		SetFlags( ACH_SAVE_GLOBAL | ACH_HAS_COMPONENTS | ACH_FILTER_FULL_ROUND_ONLY );
@@ -206,18 +181,18 @@ class CAchievementTFGrubPlayGameEveryClass : public CTFAchievementFullRound
 		}
 	}
 };
-DECLARE_ACHIEVEMENT( CAchievementTFGrubPlayGameEveryClass, ACHIEVEMENT_TFGRUB_PLAY_GAME_EVERYCLASS, "TFGRUB_PLAY_GAME_EVERYCLASS", 5 );
+DECLARE_ACHIEVEMENT( CAchievementTFPlayGameEveryClass, ACHIEVEMENT_TF_PLAY_GAME_EVERYCLASS, "TF_PLAY_GAME_EVERYCLASS", 3 );
 
-class CAchievementTFGrubPlayGameEveryMap : public CTFAchievementFullRound
+class CAchievementTFPlayGameEveryMap : public CTFAchievementFullRound
 {
-	DECLARE_CLASS( CAchievementTFGrubPlayGameEveryMap, CTFAchievementFullRound );
+	DECLARE_CLASS( CAchievementTFPlayGameEveryMap, CTFAchievementFullRound );
 	void Init() 
 	{
 		SetFlags( ACH_SAVE_GLOBAL | ACH_HAS_COMPONENTS | ACH_FILTER_FULL_ROUND_ONLY );
 
 		static const char *szComponents[] =
 		{
-			"koth_landfall", "koth_lumberyard", "ctf_warehouse"
+			"ctf_warehouse", "koth_landfall", "koth_lumberyard"
 		};		
 		m_pszComponentNames = szComponents;
 		m_iNumComponents = ARRAYSIZE( szComponents );
@@ -243,6 +218,6 @@ class CAchievementTFGrubPlayGameEveryMap : public CTFAchievementFullRound
 		}
 	}
 };
-DECLARE_ACHIEVEMENT( CAchievementTFGrubPlayGameEveryMap, ACHIEVEMENT_TFGRUB_PLAY_GAME_EVERYMAP, "TFGRUB_PLAY_GAME_EVERYMAP", 5 );
+DECLARE_ACHIEVEMENT( CAchievementTFPlayGameEveryMap, ACHIEVEMENT_TF_PLAY_GAME_EVERYMAP, "TF_PLAY_GAME_EVERYMAP", 3 );
 
 #endif // CLIENT_DLL

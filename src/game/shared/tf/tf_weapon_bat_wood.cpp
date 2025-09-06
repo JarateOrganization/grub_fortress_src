@@ -33,7 +33,7 @@ const float DEFAULT_ORNAMENT_EXPLODE_DAMAGE_MULT = 0.9f;
 
 //=============================================================================
 //
-// Weapon Bat tables.
+// Weapon Bat Wood tables.
 //
 
 // TFBat_Wood --

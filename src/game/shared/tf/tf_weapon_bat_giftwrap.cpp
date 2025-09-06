@@ -34,7 +34,7 @@ const float DEFAULT_ORNAMENT_EXPLODE_DAMAGE_MULT = 0.9f;
 
 //=============================================================================
 //
-// Weapon Bat tables.
+// Weapon Bat Giftwrap tables.
 //
 
 // CTFBat_Giftwrap --
@@ -63,6 +63,11 @@ PRECACHE_WEAPON_REGISTER( tf_projectile_ball_ornament );
 // -- CTFBall_Ornament
 
 static string_t s_iszTrainName;
+
+//=============================================================================
+//
+// CTFBat_Giftwrap
+//
 
 //-----------------------------------------------------------------------------
 // Purpose: 
