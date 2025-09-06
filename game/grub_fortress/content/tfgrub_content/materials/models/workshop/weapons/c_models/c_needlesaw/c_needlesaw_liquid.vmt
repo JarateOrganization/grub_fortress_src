@@ -4,7 +4,7 @@
 	"$selfillummask" "models/workshop/weapons/c_models/c_needlesaw/c_needlesaw_illum" 
 	"$additive" "1"
 	"$envmap" "env_cubemap"
-	"$envmaptint" "[.25 .25 1.75]"
+	//"$envmaptint" "[.25 .25 1.75]"
 	"$nodecal" 1
 	"$bluramount" 0.5
  	"$refractamount" .15
