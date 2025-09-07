@@ -302,5 +302,41 @@ class CAchievementTFGrubScout_KillWithNailgun3 : public CBaseTFAchievement
 };
 DECLARE_ACHIEVEMENT(CAchievementTFGrubScout_KillWithNailgun3, ACHIEVEMENT_TF_SCOUT_KILL_WITH_NAILGUN3, "TF_SCOUT_KILL_WITH_NAILGUN3", 5);
 
+class CAchievementTFGrubPlayGame2Fort : public CTFAchievementFullRound
+{
+	DECLARE_CLASS(CAchievementTFGrubPlayGame2Fort, CTFAchievementFullRound);
+	void Init()
+	{
+		SetFlags(ACH_SAVE_GLOBAL | ACH_HAS_COMPONENTS | ACH_FILTER_FULL_ROUND_ONLY);
+
+		static const char* szComponents[] =
+		{
+			"ctf_2fort"
+		};
+		m_pszComponentNames = szComponents;
+		m_iNumComponents = ARRAYSIZE(szComponents);
+		SetGoal(m_iNumComponents);
+	}
+
+	virtual void ListenForEvents()
+	{
+		ListenForGameEvent("teamplay_round_win");
+	}
+
+	virtual void Event_OnRoundComplete(float flRoundTime, IGameEvent* event)
+	{
+		float flTeamplayStartTime = m_pAchievementMgr->GetTeamplayStartTime();
+		if (flTeamplayStartTime > 0)
+		{
+			// has the player been present and on a game team since the start of this round (minus a grace period)?
+			if (flTeamplayStartTime < (gpGlobals->curtime - flRoundTime) + TF_FULL_ROUND_GRACE_PERIOD)
+			{
+				// yes, the achievement is satisfied for this map, set the corresponding bit
+				OnComponentEvent(m_pAchievementMgr->GetMapName());
+			}
+		}
+	}
+};
+DECLARE_ACHIEVEMENT(CAchievementTFGrubPlayGame2Fort, ACHIEVEMENT_TFGRUB_PLAY_GAME_2FORT, "TFGRUB_PLAY_GAME_2FORT", 5);
 
 #endif // CLIENT_DLL
