@@ -348,10 +348,10 @@
 		}
 		"nailgun"
 		{
-				"dfile"	"hud/nailgun/d_nailgun"
-				"dnegfile"	"hud/nailgun/dneg_nailgun"
+				"dfile"	"hud/tfgrub/d_tfgrub"
+				"dnegfile"	"hud/tfgrub/dneg_tfgrub"
 				"x"		"0"
-				"y"		"0"
+				"y"		"64"
 				"width"		"64"
 				"height"	"32"
 		}
@@ -3775,17 +3775,17 @@
 		}
 		"leadpipe"
 		{
-				"dfile"	"hud/leadpipe/d_leadpipe"
-				"dnegfile"	"hud/leadpipe/dneg_leadpipe"
+				"dfile"	"hud/tfgrub/d_tfgrub"
+				"dnegfile"	"hud/tfgrub/dneg_tfgrub"
 				"x"		"0"
-				"y"		"0"
+				"y"		"96"
 				"width"		"96"
 				"height"	"32"
 		}
 		"under_pressure"
 		{
-				"dfile"	"hud/under_pressure/d_under_pressure"
-				"dnegfile"	"hud/under_pressure/dneg_under_pressure"
+				"dfile"	"hud/tfgrub/d_tfgrub"
+				"dnegfile"	"hud/tfgrub/dneg_tfgrub"
 				"x"		"0"
 				"y"		"0"
 				"width"		"96"
@@ -3793,10 +3793,28 @@
 		}	
 		"perforator"
 		{
-				"dfile"	"hud/perforator/d_perforator"
-				"dnegfile"	"hud/perforator/dneg_perforator"
+				"dfile"	"hud/tfgrub/d_tfgrub"
+				"dnegfile"	"hud/tfgrub/dneg_tfgrub"
 				"x"		"0"
-				"y"		"0"
+				"y"		"32"
+				"width"		"96"
+				"height"	"32"
+		}
+		"big_owen"
+		{
+				"dfile"	"hud/tfgrub/d_tfgrub"
+				"dnegfile"	"hud/tfgrub/dneg_tfgrub"
+				"x"		"0"
+				"y"		"128"
+				"width"		"96"
+				"height"	"32"
+		}
+		"needlesaw"
+		{
+				"dfile"	"hud/tfgrub/d_tfgrub"
+				"dnegfile"	"hud/tfgrub/dneg_tfgrub"
+				"x"		"0"
+				"y"		"160"
 				"width"		"96"
 				"height"	"32"
 		}
