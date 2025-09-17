@@ -9,3 +9,8 @@ TF:Grub weapon selection is:
 - The Perforator (Heavy primary)
 - The Big Owen (Heavy primary)
 - Metal Backpack (Engineer secondary)
+- Der Erwecker (Medic melee)
+Maps unique to TF:Grub:
+- CTF Warehouse
+- KOTH Landfall
+- KOTH Lumberyard
