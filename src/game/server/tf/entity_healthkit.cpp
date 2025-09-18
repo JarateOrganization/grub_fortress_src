@@ -14,7 +14,7 @@
 #include "tf_weapon_lunchbox.h"
 #include "tf_gamestats.h"
 
-ConVar tf_sandvich_owner_can_heal("tf_sandvich_owner_can_heal", "0", FCVAR_NOTIFY, "If set to 1, allows Sandvich owners to pick up their thrown Sandvich as a health pack.");
+ConVar tfgrub_lunchbox_owner_can_heal("tfgrub_lunchbox_owner_can_heal", "0", FCVAR_NOTIFY, "If set to 1, allows Lunchbox owners to pick up their thrown Lunchbox item as a health pack.");
 
 //=============================================================================
 //
@@ -80,7 +80,7 @@ bool CHealthKit::MyTouch( CBasePlayer *pPlayer )
 		bool bIsSandvichOwner = (GetOwnerEntity() == pPlayer) && bIsAnyHeavyWithSandvichEquippedPickingUp;
 
 		// Check if Sandvich owner can receive health if the ConVar is enabled
-		if (bIsSandvichOwner && !tf_sandvich_owner_can_heal.GetBool())
+		if (bIsSandvichOwner && !tfgrub_lunchbox_owner_can_heal.GetBool())
 		{
 			if ( pPlayer->GiveAmmo( 1, TF_AMMO_GRENADES1, false ) )
 			{
