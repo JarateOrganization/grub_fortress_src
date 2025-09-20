@@ -457,7 +457,7 @@ not sure if it should be used as a weapon"
 				"clip size penalty"
 				{
 					"attribute_class"	"mult_clipsize"
-					"value"				"0.25"			
+					"value"				"0.50"			
 				}			
 				"damage penalty"
 				{
