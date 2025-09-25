@@ -63,6 +63,12 @@ public:
 
 	virtual void UpdateOnRemove( void ) OVERRIDE;
 
+#ifdef TFGRUB_DYNAMICLIGHT_FLAMETHROWER
+#ifdef CLIENT_DLL
+	dlight_t* m_pDynamicLight;
+#endif
+#endif
+
 #ifdef GAME_DLL
 	void PostEntityThink( void );
 
