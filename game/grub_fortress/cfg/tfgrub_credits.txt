@@ -73,6 +73,13 @@ DESCRIPTION INFO_OPTIONS
 		{ BOOL }
 		{ "1" }
 	}
+	"uvf"
+	{
+		"Ultimate Visual Fix Pack - agrastiOs, Nonhuman, Nonhuman, Whurr, PieSavvy, JarateKing, FlaminSarge"
+		"https://github.com/agrastiOs/Ultimate-TF2-Visual-Fix-Pack"
+		{ BOOL }
+		{ "1" }
+	}
 	"tf2gr"
 	{
 		"Team Fortress 2 Goldrush - Removed MYM Hud, And V_Model Support"
