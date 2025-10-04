@@ -476,7 +476,7 @@ not sure if it should be used as a weapon"
 				"damage penalty"
 				{
 					"attribute_class"	"mult_dmg"
-					"value"				"0.75"			
+					"value"				"0.85"			
 				}					
 			}
 			"visuals"

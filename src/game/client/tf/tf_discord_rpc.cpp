@@ -247,8 +247,13 @@ void CTFDiscordRPC::UpdateServerInfo()
 
 	Q_memset(&m_pRpc, 0, sizeof(m_pRpc));
 
-	m_pRpc.partyId = partyId;
-	m_pRpc.joinSecret = ni->GetAddress();
+	// @PracticeMedicine:
+	// the commented out bits assigns party details.
+	// @GrubPL:
+	// thanks practice, very cool!
+
+	//m_pRpc.partyId = partyId;
+	//m_pRpc.joinSecret = ni->GetAddress();
 
 	const char* pszGameType = NULL;
 	const char* pszGameTypeShort = NULL;

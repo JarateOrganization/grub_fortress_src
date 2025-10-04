@@ -12993,25 +12993,28 @@ void CTFPlayer::OnKilledOther_Effects( CBaseEntity *pVictim, const CTakeDamageIn
 
 	if ( IsPlayerClass( TF_CLASS_MEDIC ) )
 	{
-		float flUberChargeBonus = 0.0f;
-		CALL_ATTRIB_HOOK_FLOAT(flUberChargeBonus, add_onkill_ubercharge );
-
-		if (flUberChargeBonus > 0.0f)
+		if (pWeapon)
 		{
-			CWeaponMedigun* pMedigun = dynamic_cast<CWeaponMedigun*>(
-				Weapon_OwnsThisID(TF_WEAPON_MEDIGUN));
+			float flUberChargeBonus = 0.0f;
+			CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pWeapon, flUberChargeBonus, add_onkill_ubercharge );
 
-			if (pMedigun)
+			if (flUberChargeBonus > 0.0f)
 			{
-				if (TFGameRules() && TFGameRules()->IsPowerupMode() )
-				{
-					if (m_Shared.GetCarryingRuneType() != RUNE_NONE )
-						flUberChargeBonus *= 0.2f;
-					else
-						flUberChargeBonus *= 0.4f;
-				}
+				CWeaponMedigun* pMedigun = dynamic_cast<CWeaponMedigun*>(
+					Weapon_OwnsThisID(TF_WEAPON_MEDIGUN));
 
-				pMedigun->AddCharge( flUberChargeBonus );
+				if (pMedigun)
+				{
+					if (TFGameRules() && TFGameRules()->IsPowerupMode())
+					{
+						if (m_Shared.GetCarryingRuneType() != RUNE_NONE)
+							flUberChargeBonus *= 0.2f;
+						else
+							flUberChargeBonus *= 0.4f;
+					}
+
+					pMedigun->AddCharge(flUberChargeBonus);
+				}
 			}
 		}
 	}

@@ -912,25 +912,6 @@ void CHudMainMenuOverride::ApplySchemeSettings(IScheme* scheme)
 		Q_snprintf(szCondition, sizeof(szCondition), "if_%s", pszHoliday);
 		AddSubKeyNamed(pConditions, szCondition);
 
-		if (FStrEq(pszHoliday, "halloween"))
-		{
-
-			// for Halloween we also want to pick a random background
-			int nBackground = RandomInt(0, 5);
-
-			AddSubKeyNamed(pConditions, CFmtStr("if_halloween_%d", nBackground));
-			if ((nBackground == 3) || (nBackground == 4))
-			{
-				m_bBackgroundUsesCharacterImages = false;
-			}
-		}
-		else if (FStrEq(pszHoliday, "christmas"))
-		{
-			// for Christmas we also want to pick a random background
-			int nBackground = RandomInt(0, 1);
-			AddSubKeyNamed(pConditions, CFmtStr("if_christmas_%d", nBackground));
-		}
-
 		bHolidayActive = true;
 	}
 
