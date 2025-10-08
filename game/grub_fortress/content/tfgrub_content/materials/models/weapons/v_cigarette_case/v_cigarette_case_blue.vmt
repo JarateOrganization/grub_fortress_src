@@ -1,0 +1,9 @@
+"Patch"
+{
+	include "materials/models\weapons\v_cigarette_case\v_cigarette_case.vmt"
+	
+	insert
+	{
+	"$baseTexture" "models\weapons\v_cigarette_case\v_cigarette_case_blue"
+	}
+}
