@@ -9,7 +9,7 @@ DESCRIPTION INFO_OPTIONS
 	}
 	"grub"
 	{
-		"by Grub
+		"Grub – Lead TF:Grub Dev
 		NOTICE :If I Forgot to credit someone in here, reach out to me"
 		{ BOOL }
 		{ "1" }
@@ -17,6 +17,7 @@ DESCRIPTION INFO_OPTIONS
 	"sergantdeath"
 	{
 		"Sargeant Death - The Balance Journalist"
+		"steamcommunity.com/profiles/76561199026136810"
 		{ BOOL }
 		{ "1" }
 	}
