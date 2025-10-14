@@ -8241,6 +8241,17 @@ void CTFPlayerShared::Disguise( int nTeam, int nClass, CTFPlayer* pDesiredTarget
 			}
 #endif // GAME_DLL
 		}
+		int nDisguiseRequiresCloak = 0;
+		CALL_ATTRIB_HOOK_INT_ON_OTHER(m_pOuter, nDisguiseRequiresCloak, mod_disguise_requires_cloak);
+		if (nDisguiseRequiresCloak)
+		{
+			if (m_flCloakMeter < 100.f)
+			{
+				CSingleUserRecipientFilter filter(m_pOuter);
+				m_pOuter->EmitSound(filter, m_pOuter->entindex(), "Player.UseDeny", NULL, 0.f);
+				return;
+			}
+		}
 	}
 
 	m_hDesiredDisguiseTarget.Set( pDesiredTarget );

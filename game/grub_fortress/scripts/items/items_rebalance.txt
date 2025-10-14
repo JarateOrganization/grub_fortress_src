@@ -125,7 +125,22 @@
 					"value"					"0.80"
 				}
 			}
-		}	
+		}
+		"weapon_eternal_reward" // Your Eternal Reward
+		{
+			"attributes"
+			{
+				"mod_disguise_consumes_cloak"
+				{
+					"value"				"delete"
+				}
+				"mod_disguise_requires_cloak"
+				{
+					"attribute_class"	"mod_disguise_requires_cloak"
+					"value"				"1"
+				}
+			}
+		}
 	}
 	"items"
 	{

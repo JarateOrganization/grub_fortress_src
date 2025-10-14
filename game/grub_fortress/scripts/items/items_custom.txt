@@ -253,6 +253,16 @@ not sure if it should be used as a weapon"
 			"hidden"	"0"
 			"effect_type"	"negative"
 		}
+		"5007"
+		{
+			"name"	"mod_disguise_requires_cloak"
+			"attribute_class"	"mod_disguise_requires_cloak"
+			"description_string"	"#Attrib_DisguiseRequiresCloak"
+			"description_format"	"value_is_additive"
+			"hidden"	"0"
+			"stored_as_integer"	"1"
+			"effect_type"	"negative"
+		}
 	}
 	"items"
 	{
