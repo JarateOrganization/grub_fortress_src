@@ -176,6 +176,32 @@
 				}
 			}
 		}
+		"weapon_force_a_nature" // The Force-A-Nature
+		{
+			"attributes"
+			{
+				"Reload time decreased"
+				{
+					"attribute_class"	"mult_reload_time"
+					"value"	"0.85"
+				}
+			}
+		}
+		"weapon_soda_popper" // The Soda Popper
+		{
+			"attributes"
+			{
+				"Reload time decreased"
+				{
+					"value"	"delete"
+				}
+				"Reload time decreased"
+				{
+					"attribute_class"	"mult_reload_time"
+					"value"	"0.85"
+				}
+			}
+		}
 	}
 	"items"
 	{
