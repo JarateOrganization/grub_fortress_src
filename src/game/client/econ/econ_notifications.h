@@ -103,7 +103,7 @@ public:
 			return m_pSoundFilename;
 		}
 
-		return "ui/notification_alert.wav";
+		return " ";
 	}
 
 	int GetKVVersion() const { return m_iKVVersion; }

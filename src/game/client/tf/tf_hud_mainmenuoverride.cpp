@@ -664,6 +664,7 @@ void CHudMainMenuOverride::PaintTraverse(bool Repaint, bool allowForce)
 //-----------------------------------------------------------------------------
 void CHudMainMenuOverride::OnTick()
 {
+	/*
 	if (m_iNumNotifications != NotificationQueue_GetNumNotifications())
 	{
 		m_iNumNotifications = NotificationQueue_GetNumNotifications();
@@ -674,7 +675,7 @@ void CHudMainMenuOverride::OnTick()
 	{
 		AdjustNotificationsPanelHeight();
 	}
-
+	*/
 	static bool s_bRanOnce = false;
 	if (!s_bRanOnce)
 	{
