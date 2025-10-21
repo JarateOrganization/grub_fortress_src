@@ -17544,6 +17544,16 @@ void CTFPlayer::RemoveInvisibility( void )
 		m_Shared.AddCond( TF_COND_STEALTHED_USER_BUFF_FADING, ( bAEStealth ) ? 4.f : 0.5f );
 	}
 
+	float bModSpeedBoostOnCloak = 0;
+	CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pProvider, bModSpeedBoostOnCloak, mod_speed_boost_on_cloak );
+	if ( bModSpeedBoostOnCloak )
+	{
+		if ( m_Shared.InCond( TF_COND_SPEED_BOOST ) ) // this is here just in case it's needed somehow
+		{
+			m_Shared.RemoveCond( TF_COND_SPEED_BOOST );
+		}
+	}
+
 	m_Shared.FadeInvis( bAEStealth ? 2.f : 0.5f );
 }
 

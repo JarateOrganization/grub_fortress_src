@@ -225,6 +225,16 @@ bool CTFWeaponInvis::ActivateInvisibilityWatch( void )
 			flDecloakRate = 1.0f;
 
 		pOwner->m_Shared.FadeInvis( 1.0f );
+
+		float bModSpeedBoostOnCloak = 0;
+		CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pOwner, bModSpeedBoostOnCloak, mod_speed_boost_on_cloak );
+		if ( bModSpeedBoostOnCloak )
+		{
+			if ( pOwner->m_Shared.InCond( TF_COND_SPEED_BOOST) ) // For the mod_speed_boost_on_cloak attribute
+			{
+				pOwner->m_Shared.RemoveCond( TF_COND_SPEED_BOOST );
+			}
+		}
 	}
 	else
 	{
@@ -246,6 +256,12 @@ bool CTFWeaponInvis::ActivateInvisibilityWatch( void )
 			// Do standard cloak.
 			pOwner->m_Shared.AddCond( TF_COND_STEALTHED, -1.f, pOwner );
 
+			float bModSpeedBoostOnCloak = 0;
+			CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pOwner, bModSpeedBoostOnCloak, mod_speed_boost_on_cloak );
+			if ( bModSpeedBoostOnCloak )
+			{
+				pOwner->m_Shared.AddCond( TF_COND_SPEED_BOOST, -1.f, pOwner );
+			}
 
 			bDoSkill = true;
 		}

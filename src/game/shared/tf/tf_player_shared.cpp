@@ -7997,6 +7997,19 @@ void CTFPlayerShared::InvisibilityThink( void )
 		return;
 	}
 
+	if ( m_pOuter->GetPlayerClass()->GetClassIndex() == TF_CLASS_SPY && InCond( TF_COND_STEALTHED ) )
+	{
+		float bModSpeedBoostOnCloak = 0;
+		CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( m_pOuter, bModSpeedBoostOnCloak, mod_speed_boost_on_cloak );
+		if ( bModSpeedBoostOnCloak )
+		{
+			if ( m_flCloakMeter < 1.f )
+			{
+				RemoveCond( TF_COND_SPEED_BOOST );
+			}
+		}
+	}
+
 	float flTargetInvis = 0.0f;
 	float flTargetInvisScale = 1.0f;
 	if ( InCond( TF_COND_STEALTHED_BLINK ) || InCond( TF_COND_URINE ) )
