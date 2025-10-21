@@ -221,7 +221,7 @@
 				"heal on hit for rapidfire"
 				{
 					"attribute_class"		"add_onhit_addhealth"
-					"value"					"4"
+					"value"					"5"
 				}
 			}
 		}

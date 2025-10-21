@@ -5413,6 +5413,10 @@ void CTFPlayer::Regenerate( bool bRefillHealthAndAmmo /*= true*/ )
 			m_Shared.RemoveCond( TF_COND_PLAGUE );
 		}
 
+		if ( m_Shared.InCond( TF_COND_SPEED_BOOST ) )
+		{
+			m_Shared.RemoveCond( TF_COND_SPEED_BOOST );
+		}
 
 		m_Shared.SetSpyCloakMeter( 100.0f );
 		m_Shared.SetScoutEnergyDrinkMeter( 100.0f );

@@ -274,6 +274,16 @@ not sure if it should be used as a weapon"
 			"armory_desc"	"on_kill"
 			"stored_as_integer"	"0"
 		}
+		"5009"
+		{
+			"name"	"mod_speed_boost_on_cloak"
+			"attribute_class"	"mod_speed_boost_on_cloak"
+			"description_string"	"#Attrib_SpeedBoost_OnCloak"
+			"description_format"	"value_is_additive"
+			"hidden"	"0"
+			"effect_type"	"positive"
+			"stored_as_integer"	"0"
+		}
 	}
 	"items"
 	{
@@ -725,14 +735,53 @@ not sure if it should be used as a weapon"
 				"single wep deploy time decreased"
 				{
 					"attribute_class"	"mult_single_wep_deploy_time"
-					"value"	"0.5"
+					"value"				"0.5"
 				}
 				"damage penalty"
 				{
 					"attribute_class"	"mult_dmg"
-					"value"	"0.25"
+					"value"				"0.25"
 				}
 			}
+		}
+		"32011" // The Quickplay
+		{
+			"name"						"The Quickplay"
+			"prefab"					"weapon_invis"
+			"show_in_armory"			"1"
+			"moditem"					"1"
+			"item_type_name"			"#TF_Weapon_Watch"
+			"item_name"					"#TFGRUB_Weapon_Quickplay"
+			"item_slot"					"pda2"
+			"anim_slot"					"FORCE_NOT_USED"
+			"item_quality"				"unique"
+			"image_inventory"			"backpack/weapons/c_models/c_pocket_watch/parts/c_pocket_watch"
+			"model_player"				"models/weapons/v_models/v_watch_pocket_spy.mdl"
+			"attributes"
+			{
+				"mod_speed_boost_on_cloak"
+				{
+					"attribute_class"	"mod_speed_boost_on_cloak"
+					"value"				"1"
+				}
+				"mult decloak rate"
+				{
+					"attribute_class"	"mult_decloak_rate"
+					"value"				"0.5"
+				}
+				"mod_cloak_no_damage_reduction"
+				{
+					"attribute_class"	"mod_cloak_no_damage_reduction"
+					"value"				"1"
+				}
+				"cloak consume rate increased"
+				{
+					"attribute_class"	"mult_cloak_meter_consume_rate"
+					"value"				"1.25"
+				}
+			}
+			"mouse_pressed_sound"	"ui/item_watch_pickup.wav"
+			"drop_sound"			"ui/item_watch_drop.wav"
 		}
 	}
 }
