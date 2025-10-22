@@ -284,6 +284,15 @@ not sure if it should be used as a weapon"
 			"effect_type"	"positive"
 			"stored_as_integer"	"0"
 		}
+		"5010"
+		{
+			"name"	"mult decloak rate percentage"
+			"attribute_class"	"mult_decloak_rate"
+			"description_string"	"#Attrib_DecloakRate"
+			"description_format"	"value_is_additive_percentage"
+			"hidden"	"0"
+			"effect_type"	"positive"
+		}
 	}
 	"items"
 	{
@@ -765,7 +774,7 @@ not sure if it should be used as a weapon"
 					"attribute_class"	"mod_speed_boost_on_cloak"
 					"value"				"1"
 				}
-				"mult decloak rate"
+				"mult decloak rate percentage"
 				{
 					"attribute_class"	"mult_decloak_rate"
 					"value"				"0.5"
