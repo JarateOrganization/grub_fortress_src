@@ -228,6 +228,22 @@
 					"attribute_class"	"mult_healing_from_medics"
 					"value"				"0.5"
 				}
+				"weapon spread bonus"
+				{
+					"attribute_class"	"mult_spread_scale"
+					"value"	"0.8"
+				}	
+                "fire rate bonus"
+				{
+					"attribute_class"	"mult_postfiredelay"
+					"value"	"0.85"
+				}
+				"dmg penalty vs buildings"
+				{
+					"attribute_class"	"mult_dmg_vs_buildings"
+					"value" "0.65"
+				}
+
 			}
 		}
 		"133" // The Gunboats
