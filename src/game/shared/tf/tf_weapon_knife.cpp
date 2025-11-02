@@ -249,11 +249,6 @@ void CTFKnife::PrimaryAttack( void )
 	lagcompensation->StartLagCompensation( pPlayer, pPlayer->GetCurrentCommand() );
 #endif
 
-	if ( IsBackstab() );
-	{
-		SetBloody( true );
-	}
-
 	trace_t trace;
 	if ( DoSwingTrace( trace ) == true )
 	{
@@ -268,6 +263,7 @@ void CTFKnife::PrimaryAttack( void )
 				if ( CanPerformBackstabAgainstTarget( pTarget ) )
 				{
 					// store the victim to compare when we do the damage
+					SetBloody( true );
 					m_hBackstabVictim.Set( pTarget );
 					iBackstabVictimHealth = Max( m_hBackstabVictim->GetHealth(), 75 );
 					nBackStabVictimRuneType = m_hBackstabVictim->m_Shared.GetCarryingRuneType();
