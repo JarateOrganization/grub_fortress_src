@@ -179,3 +179,7 @@
 	// Outputs
 	output OnTrainStartRecede(void)   : "Sent when the train should start receding"
 ]
+
+@PointClass iconsprite("editor/tf_logic_multiple_escort.vmt") base(Targetname) = tf_logic_multiple_escort : "Multiple Escort Entity. This is used to detect a payload map with trains for both teams."
+[	
+]
