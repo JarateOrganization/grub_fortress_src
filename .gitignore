@@ -524,6 +524,7 @@ FodyWeavers.xsd
 /game/grub_fortress/trainingprogress.txt
 /game/mod_hl2mp_win64.exe
 /game/mod_tf_win64.exe
+/game/grub_fortress_win64.exe
 /game/grub_fortress/voice_ban.dt
 /game/grub_fortress/stats.txt
 /game/grub_fortress/GameState.txt
