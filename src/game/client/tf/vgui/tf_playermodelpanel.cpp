@@ -37,6 +37,8 @@
 DECLARE_BUILD_FACTORY( CTFPlayerModelPanel );
 #define SCENE_LERP_TIME 0.1f
 
+#define SCENE_LERP_TIME 0.1f
+
 char g_szSceneTmpName[256];
 
 static bool IsTauntItem( GameItemDefinition_t *pItemDef, const int iTeam, const int iClass, const char **ppSequence = NULL, const char **ppRequiredItem = NULL, const char **ppScene = NULL )
