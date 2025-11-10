@@ -105,6 +105,8 @@ ConVar hud_damagemeter_period( "hud_damagemeter_period", "0", FCVAR_NONE, "When 
 ConVar hud_damagemeter_ooctimer( "hud_damagemeter_ooctimer", "1", FCVAR_NONE, "How many seconds after the last damage event before we consider the player out of combat." );
 ConVar hud_damagemeter_report( "hud_damagemeter_report", "1", FCVAR_NONE, "Display end-of-combat DPS result (from first damage even to last before OOC timer hit)." );
 
+extern ConVar tfgrub_mirrored;
+
 struct hitsound_params_t
 {
 	hitsound_params_t( const char * pszName, int minpitch, int maxpitch )
@@ -1130,6 +1132,10 @@ void CAccountPanel::Paint( void )
 
 				flXPos = iX;
 				flYPos = iY;
+				if (tfgrub_mirrored.GetBool())
+				{
+					flXPos = ScreenWidth() - iX;
+				}
 			}
 
 			// If we have a background texture, then draw it!

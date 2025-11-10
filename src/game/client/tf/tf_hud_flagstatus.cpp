@@ -49,6 +49,7 @@ DECLARE_HUDELEMENT( CTFFlagCalloutPanel );
 ConVar tf_rd_flag_ui_mode( "tf_rd_flag_ui_mode", "3", FCVAR_DEVELOPMENTONLY, "When flags are stolen and not visible: 0 = Show outlines (glows), 1 = Show most valuable enemy flag (icons), 2 = Show all enemy flags (icons), 3 = Show all flags (icons)." );
 
 extern ConVar tf_flag_caps_per_round;
+extern ConVar tfgrub_mirrored;
 
 void AddSubKeyNamed( KeyValues *pKeys, const char *pszName );
 
@@ -193,6 +194,10 @@ float CTFArrowPanel::GetAngleRotation( void )
 		float dot = DotProduct( vecFlag, forward );
 		float angleBetween = acos( dot );
 
+		if (tfgrub_mirrored.GetBool())
+		{
+			right = -right;
+		}
 		dot = DotProduct( vecFlag, right );
 
 		if ( dot < 0.0f )
