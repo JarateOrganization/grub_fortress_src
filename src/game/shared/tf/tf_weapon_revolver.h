@@ -57,6 +57,10 @@ public:
 	const char*			GetEffectLabelText( void );
 	float				GetProgress( void ) { return 0.f; }
 
+	virtual void	FireBullet(CTFPlayer* pPlayer);
+	virtual void	ApplyPostHitEffects( const CTakeDamageInfo &inputInfo, CTFPlayer *pPlayer );
+	virtual bool	HasKnockback( void );
+
 #ifdef CLIENT_DLL
 	virtual void	GetWeaponCrosshairScale( float &flScale );
 #else

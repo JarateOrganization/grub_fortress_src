@@ -132,6 +132,89 @@
 					"attribute_class"	"mult_maxammo_secondary"
 					"value"			"0.5"
 				}
+				"scattergun has knockback"
+				{
+					"attribute_class"	"set_scattergun_has_knockback"
+					"value"				"1"
+				}
+			}
+		}
+		// Heal Saw Beta 1
+		"35000"
+		{
+			"name"						"Heal Saw Beta 1"
+			"item_name"					"Der Erwecker Beta 1"
+			"prefab"					"weapon_bonesaw"
+			"item_quality"				"unique"
+			"item_logname"				"needlesaw"
+			"item_iconname"				"needlesaw"
+			"item_description"			"(Credits : Haau, Tabby)"
+			"image_inventory"			"backpack/workshop/weapons/c_models/c_needlesaw/c_needlesaw"
+			"image_inventory_size_w"	"128"
+			"image_inventory_size_h"	"82"
+			"model_player"				"models/weapons/c_models/c_needlesaw/c_needlesaw.mdl"
+			"moditem" 					"1"
+			"attributes"
+			{
+				"heal teammate on hit"
+				{
+					"attribute_class"	"heal_teammate_on_hit"
+					"value"				"75"
+				}
+				"single wep deploy time decreased"
+				{
+					"attribute_class"	"mult_single_wep_deploy_time"
+					"value"				"0.5"
+				}
+				"damage penalty"
+				{
+					"attribute_class"	"mult_dmg"
+					"value"				"0.25"
+				}
+				"bleeding duration"
+				{
+					"attribute_class"	"bleeding_duration"
+					"value"             "4"
+				}
+			}
+		}
+		// Heal Saw Beta 2
+		"35001"
+		{
+			"name"						"Heal Saw Beta 2"
+			"item_name"					"Der Erwecker Beta 2"
+			"prefab"					"weapon_bonesaw"
+			"item_quality"				"unique"
+			"item_logname"				"needlesaw"
+			"item_iconname"				"needlesaw"
+			"item_description"			"(Credits : Haau, Tabby)"
+			"image_inventory"			"backpack/workshop/weapons/c_models/c_needlesaw/c_needlesaw"
+			"image_inventory_size_w"	"128"
+			"image_inventory_size_h"	"82"
+			"model_player"				"models/weapons/c_models/c_needlesaw/c_needlesaw.mdl"
+			"moditem" 					"1"
+			"attributes"
+			{
+				"heal teammate on hit"
+				{
+					"attribute_class"	"heal_teammate_on_hit"
+					"value"				"50"
+				}
+				"single wep deploy time decreased"
+				{
+					"attribute_class"	"mult_single_wep_deploy_time"
+					"value"				"0.5"
+				}
+				"damage penalty"
+				{
+					"attribute_class"	"mult_dmg"
+					"value"				"0.25"
+				}
+				"mark for death"
+				{
+					"attribute_class"	"mark_for_death"
+					"value"             "1"
+				}
 			}
 		}
 	}
