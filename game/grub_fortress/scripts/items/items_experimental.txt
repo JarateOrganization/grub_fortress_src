@@ -88,6 +88,16 @@
 					"attribute_class"	"mult_reload_time"
 					"value"	"0.65"
 				}
+				"weapon spread bonus"
+				{
+					"attribute_class"	"mult_spread_scale"
+					"value"	"0.75"
+				}	
+				"maxammo secondary reduced"
+				{
+					"attribute_class"	"mult_maxammo_secondary"
+					"value"				"0.33"
+				}
 			}
 		}
 		"34002" // The Lockwood
