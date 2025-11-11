@@ -737,7 +737,7 @@ not sure if it should be used as a weapon"
 			"image_inventory_size_w"	"128"
 			"image_inventory_size_h"	"82"
 			"model_player"				"models/weapons/c_models/c_needlesaw/c_needlesaw.mdl"
-			"moditem" 					"1"
+			"moditem"					"1"
 			"attributes"
 			{
 				"heal teammate on hit"

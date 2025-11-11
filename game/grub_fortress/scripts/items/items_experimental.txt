@@ -18,7 +18,7 @@
 			"model_player"				"models/weapons/c_models/c_pda_engineer/c_pda_engineer.mdl"
 			"used_by_classes"
 			{
-				"engineer"	"1"
+				"engineer"				"1"
 			}
 			"static_attrs"
 			{
@@ -64,8 +64,8 @@
 			"model_player"				"models/workshop/weapons/c_models/c_pep_pistol/c_pep_pistol.mdl"
 			"used_by_classes"
 			{
-		    	"scout"					"secondary"
-			    "engineer"				"secondary"
+				"scout"					"secondary"
+				"engineer"				"secondary"
 			}		
 			"static_attrs"
 			{
@@ -76,7 +76,7 @@
 				"clip size penalty"
 				{
 					"attribute_class"	"mult_clipsize"
-					"value" "0.25"
+					"value"				"0.25"
 				}
 				"fire rate bonus"
 				{
@@ -86,12 +86,12 @@
 				"Reload time decreased"
 				{
 					"attribute_class"	"mult_reload_time"
-					"value"	"0.65"
+					"value"				"0.65"
 				}
 				"weapon spread bonus"
 				{
 					"attribute_class"	"mult_spread_scale"
-					"value"	"0.75"
+					"value"				"0.75"
 				}	
 				"maxammo secondary reduced"
 				{
@@ -102,14 +102,19 @@
 		}
 		"34002" // The Lockwood
 		{
-			"name"						"The Lockwood"
-			"prefab"					"weapon_revolver"
+			"name"							"The Lockwood"
+			"prefab"						"weapon_revolver"
 			"show_in_armory"				"1"
-			"moditem"					"1"
+			"moditem"						"1"
 			"item_type_name"				"#TF_Weapon_Revolver"
-			"item_name"					"The Lockwood"
+			"item_name"						"The Lockwood"
 			"item_quality"					"unique"
-			"item_description"			"''Let's settle this like gentlemen!''"
+			"item_description"				"''Let's settle this like gentlemen!''"
+			"image_inventory"				"backpack/workshop/weapons/c_models/c_snub_nose/c_snub_nose"
+			"image_inventory_size_w"		"128"
+			"image_inventory_size_h"		"82"
+			"inspect_panel_dist" 			"32"
+			"model_player"	"models/workshop/weapons/c_models/c_snub_nose/c_snub_nose.mdl"
 			"attributes"
 			{
 				"damage bonus"
@@ -136,6 +141,46 @@
 				{
 					"attribute_class"	"set_scattergun_has_knockback"
 					"value"				"1"
+				}
+			}
+		}
+		"34003" // The Shell Grinder
+		{
+			"name"						"The Shell Grinder"
+			"prefab"					"weapon_shotgun"
+			"show_in_armory"				"1"
+			"moditem"					"1"
+			"item_type_name"				"#TF_Weapon_shotgun"
+			"item_name"					"The"
+			"item_quality"					"unique"
+			"used_by_classes"
+			{
+				"soldier"				"secondary"
+				"pyro"					"secondary"
+				"heavy"					"secondary"
+				"engineer"				"primary"
+			}	
+			"attributes"
+			{
+				"hold fire to load up to 4 shells"
+				{
+					"attribute_class"	"panic_attack"
+					"value"				"1"
+				}
+				"reload time decreased"
+				{
+					"attribute_class" 	"mult_reload_time"
+					"value"				"0.75"
+				}
+				"fire rate bonus"
+				{
+					"attribute_class"	"mult_postfiredelay"
+					"value"				"0.8"
+				}
+				"damage penalty"
+				{
+					"attribute_class"	"mult_dmg"
+					"value"				"0.8"
 				}
 			}
 		}
@@ -174,7 +219,7 @@
 				"bleeding duration"
 				{
 					"attribute_class"	"bleeding_duration"
-					"value"             "4"
+					"value"				"4"
 				}
 			}
 		}
@@ -213,7 +258,7 @@
 				"mark for death"
 				{
 					"attribute_class"	"mark_for_death"
-					"value"             "1"
+					"value"				"1"
 				}
 			}
 		}
