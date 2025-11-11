@@ -162,7 +162,7 @@
 			}	
 			"attributes"
 			{
-				"hold fire to load up to 4 shells"
+				"panic_attack"
 				{
 					"attribute_class"	"panic_attack"
 					"value"				"1"
