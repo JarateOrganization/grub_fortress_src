@@ -387,6 +387,11 @@
 		{
 			"attributes"
 			{
+				"provide on active"
+				{
+					"attribute_class"	"provide_on_active"
+					"value"				"1"
+				}
 				"dmg from ranged reduced"
 				{
 					"attribute_class"	"dmg_from_ranged"
