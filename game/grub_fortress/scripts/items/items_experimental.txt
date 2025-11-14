@@ -210,11 +210,6 @@
 					"attribute_class"	"add_onhit_ubercharge"
 					"value"	"0.01"
 				}
-				"Projectile speed increased"
-				{
-					"attribute_class"	"mult_projectile_speed"
-					"value"	"1.5"
-				}
 				"clip size penalty"
 				{
 					"attribute_class"	"mult_clipsize"
@@ -227,53 +222,21 @@
 				}
 			}
 		}
-		"34005" // Sgt. Hell
+		"34005" // Syringe gun test
 		{
-			"name"						"Sgt. Hell"
-			"prefab"					"weapon_shotgun"
+			"name"						"Syringe Gun Prototype 2"
+			"prefab"					"weapon_syringegun"
 			"show_in_armory"			"1"
 			"moditem"					"1"
 			"item_type_name"			"#TF_Weapon_shotgun"
-			"item_name"					"Sgt. Hell"
+			"item_name"					"Syringe Gun Prototype 2"
 			"item_quality"				"unique"
-			"used_by_classes"
-			{
-				"soldier"				"secondary"
-				"pyro"					"secondary"
-				"heavy"					"secondary"
-				"engineer"				"primary"
-			}	
 			"attributes"
 			{
-				"Set DamageType Ignite"
+				"Projectile speed increased"
 				{
-					"attribute_class"	"set_dmgtype_ignite"
-					"value" 			"1"
-				}
-				"damage bonus vs burning"
-				{
-					"attribute_class"	"mult_dmg_vs_burning"
-					"value"				"1.25"
-				}
-				"damage bonus vs burning"
-				{
-					"attribute_class"	"mult_dmg_vs_nonburning"
-					"value"				"0.67"
-				}
-				"clip size penalty"
-				{
-					"attribute_class"	"mult_clipsize"
-					"value"				"0.80"
-				}
-				"fire rate penalty"
-				{
-					"attribute_class"	"mult_postfiredelay"
-					"value"				"1.20"
-				}
-				"reload time increased"
-				{
-					"attribute_class" 	"mult_reload_time"
-					"value"				"1.25"
+					"attribute_class"	"mult_projectile_speed"
+					"value"				"1.66"
 				}
 			}
 		}
@@ -396,7 +359,7 @@
 		}
 		"35002"	// The Under Pressure Beta 1
 		{
-			"name"						"The Under Pressure beta 1"
+			"name"						"The Under Pressure Beta 1"
 			"item_quality"				"unique"
 			"prefab"					"weapon_syringegun"		
 			"item_description"			"(Credits : Haau, Dim)"				
@@ -404,7 +367,7 @@
 			"moditem"					"1"
 			"item_slot"					"primary"
 			"propername"				"1"
-			"item_name"					"TFGRUB_Weapon_UnderPressure"	
+			"item_name"					"The Under Pressure Beta 1"	
 			"item_logname"				"under_pressure"
 			"item_iconname"				"under_pressure"
 			"image_inventory"			"backpack\weapons\c_models\c_underpressure\c_underpressure"
@@ -452,7 +415,7 @@
 		}
 		"35003"	// The Under Pressure Beta 2
 		{
-			"name"						"The Under Pressure beta 2"
+			"name"						"The Under Pressure Beta 2"
 			"item_quality"				"unique"
 			"prefab"					"weapon_syringegun"		
 			"item_description"			"(Credits : Haau, Dim)"				
@@ -460,7 +423,7 @@
 			"moditem"					"1"
 			"item_slot"					"primary"
 			"propername"				"1"
-			"item_name"					"TFGRUB_Weapon_UnderPressure"	
+			"item_name"					"The Under Pressure Beta 2"	
 			"item_logname"				"under_pressure"
 			"item_iconname"				"under_pressure"
 			"image_inventory"			"backpack\weapons\c_models\c_underpressure\c_underpressure"
@@ -501,6 +464,59 @@
 			}
 			"mouse_pressed_sound"		"#ui/item_heavy_gun_pickup.wav"
 			"drop_sound"				"#ui/item_heavy_gun_drop.wav"
-		}			
+		}		
+		// The Perforator Beta 1
+		"35004"
+		{
+			"name"						"The Perforator Beta 1"
+			"item_quality"				"unique"
+			"prefab"					"weapon_minigun"
+			"show_in_armory"			"1"	
+			"moditem"					"1"
+			"item_description"			"Shoots nail projectiles
+			
+			(Credits : Haau, kibbleknight)"
+			"propername"				"0"
+			"item_name"					"The Perforator Beta 1"
+			"item_logname"				"perforator"
+			"item_iconname"				"perforator"
+			"image_inventory"			"backpack/weapons/w_models/w_nail_minigun"
+			"model_player"				"models/weapons/c_models/c_nail_minigun/c_nail_minigun.mdl"
+			"attach_to_hands"			"1"
+			"used_by_classes"
+			{
+				"heavy"				"1"
+			}
+			"attributes"
+			{
+				"override projectile type"
+				{
+					"attribute_class"	"override_projectile_type"
+					"value"				"32"
+				}
+				"damage bonus" 
+				{
+					"attribute_class"	"mult_dmg"
+					"value"				"2"
+				}			
+				"fire rate bonus"
+				{
+					"attribute_class"	"mult_postfiredelay"
+					"value"				"1.75"
+				}		
+				"maxammo primary increased" 
+				{
+					"attribute_class"	"mult_maxammo_primary"
+					"value"				"1.5"
+				}
+				"projectile spread angle penalty"
+				{
+					"attribute_class"	"projectile_spread_angle"
+					"value"	"3"
+				}					
+			}
+			"mouse_pressed_sound"		"#ui/item_heavy_gun_pickup.wav"
+			"drop_sound"				"#ui/item_heavy_gun_drop.wav"
+		}
 	}
 }
