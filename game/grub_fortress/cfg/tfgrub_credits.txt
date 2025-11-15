@@ -23,7 +23,7 @@ DESCRIPTION INFO_OPTIONS
 	}
 	"malos"
 	{
-		"Mr Malos - Modeler, Playtester"
+		"Mr Malos - Modeler, Mapper, Playtester"
 		"steamcommunity.com/profiles/76561198177986237"
 		{ BOOL }
 		{ "1" }
