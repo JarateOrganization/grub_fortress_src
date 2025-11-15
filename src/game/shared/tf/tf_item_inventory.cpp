@@ -1191,9 +1191,9 @@ void CTFPlayerInventory::UnequipLocal(uint64 ulItemID)
 	{
 		for (int iSlot = 0; iSlot < CLASS_LOADOUT_POSITION_COUNT; ++iSlot)
 		{
-			if (m_LoadoutItems[iClass][iSlot] == ulItemID) {
+//			if (m_LoadoutItems[iClass][iSlot] == ulItemID) {
 				m_LoadoutItems[iClass][iSlot] = 0;
-			}
+//			}
 		}
 	}
 }

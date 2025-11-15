@@ -597,7 +597,7 @@ not sure if it should be used as a weapon"
 				"fire rate bonus"
 				{
 					"attribute_class"	"mult_postfiredelay"
-					"value"				"1.33"
+					"value"				"0.67"
 				}		
 				"maxammo primary increased" 
 				{

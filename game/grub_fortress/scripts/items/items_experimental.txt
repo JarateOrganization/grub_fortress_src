@@ -12,10 +12,6 @@
 			"item_quality"				"unique"
 			"moditem" 					"1"
 			"attach_to_hands"			"1"
-			"image_inventory"			"backpack/weapons/w_models/w_builder"
-			"image_inventory_size_w"	"128"
-			"image_inventory_size_h"	"82"
-			"model_player"				"models/weapons/c_models/c_pda_engineer/c_pda_engineer.mdl"
 			"used_by_classes"
 			{
 				"engineer"				"1"
@@ -238,10 +234,6 @@
 			"item_quality"				"unique"
 			"moditem" 					"1"
 			"attach_to_hands"			"1"
-			"image_inventory"			"backpack/weapons/w_models/w_builder"
-			"image_inventory_size_w"	"128"
-			"image_inventory_size_h"	"82"
-			"model_player"				"models/weapons/c_models/c_pda_engineer/c_pda_engineer.mdl"
 			"used_by_classes"
 			{
 				"engineer"				"1"
@@ -497,7 +489,7 @@
 				"fire rate bonus"
 				{
 					"attribute_class"	"mult_postfiredelay"
-					"value"				"1.75"
+					"value"				"0.25"
 				}		
 				"maxammo primary increased" 
 				{

@@ -152,6 +152,8 @@ void CObjectDispenser::DetonateObject( void )
 	if ( m_bDying )
 		return;
 
+	// We don't need the BF2 Mini-Dispenser Explosion thing
+/* 
 	//Mini-Dispensers explode on detonation!
 	if (IsMiniBuilding() && !IsCarried() && !IsBuilding() && !IsPlacing())
 	{
@@ -170,7 +172,7 @@ void CObjectDispenser::DetonateObject( void )
 		CPVSFilter filter(vecOrigin);
 		TE_TFExplosion(filter, 0.0f, vecOrigin, Vector(0, 0, 0), TF_WEAPON_GRENADE_PIPEBOMB, kInvalidEHandleExplosion, -1, SPECIAL1, INVALID_STRING_INDEX);
 	}
-
+	*/
 
 	TFGameRules()->OnDispenserDestroyed( this );
 
