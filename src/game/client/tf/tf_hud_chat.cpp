@@ -41,12 +41,17 @@ int ClientUTIL_PlayerIsModDev( int clientIndex )
 	switch(steamid)
 	{
 		case 76561198813329543: // Grub
-			return 1; // Devs
+			return 1; // Dev tag
 		break;
 
 		case 76561199026136810: // Sargeant Death - The Balance Journalist
-			return 3; // Contributors
+		case 76561198177986237: // Mr Malos - Modeler, Playtester
+			return 3; // Contributor tag
 		break;
+
+		case 76561199057355482: // Cheesie_cake - Playtester
+			return 4; // Playtester tag
+			break;
 
 		default:
 			return 0;
@@ -550,11 +555,11 @@ void CHudChat::MsgFunc_SayText2( bf_read &msg )
 				case 1:
 					V_wcsncat( szPlainPlayerName, g_pVGuiLocalize->Find( "#TF_Tag_Dev" ), ARRAYSIZE(szPlainPlayerName) );
 					break;
-				case 2:
-					V_wcsncat( szPlainPlayerName, g_pVGuiLocalize->Find( "#TF_Tag_Publisher" ), ARRAYSIZE(szPlainPlayerName) );
-					break;
 				case 3:
 					V_wcsncat( szPlainPlayerName, g_pVGuiLocalize->Find( "#TF_Tag_Contributor" ), ARRAYSIZE(szPlainPlayerName) );
+					break;
+				case 4:
+					V_wcsncat(szPlainPlayerName, g_pVGuiLocalize->Find("#TF_Tag_Playtester"), ARRAYSIZE(szPlainPlayerName));
 					break;
 			}
 		}
@@ -578,7 +583,7 @@ void CHudChat::MsgFunc_SayText2( bf_read &msg )
 			// First, display special tags (HOST, DEV, PUBLISHER, CONTRIBUTOR) before any prefixes
 			const wchar_t *pszHostTagText = g_pVGuiLocalize->Find( "#TF_Tag_Host" );
 			const wchar_t *pszDevTagText = g_pVGuiLocalize->Find( "#TF_Tag_Dev" );
-			const wchar_t *pszPubTagText = g_pVGuiLocalize->Find( "#TF_Tag_Publisher" );
+			const wchar_t *pszPlaytestTagText = g_pVGuiLocalize->Find( "#TF_Tag_Playtester" );
 			const wchar_t *pszContribTagText = g_pVGuiLocalize->Find( "#TF_Tag_Contributor" );
 			
 			// Display HOST tag if present
@@ -600,15 +605,15 @@ void CHudChat::MsgFunc_SayText2( bf_read &msg )
 						pChatHistory->InsertString( pszDevTagText );
 						pChatHistory->InsertFade( hud_saytext_time.GetFloat(), CHAT_HISTORY_IDLE_FADE_TIME );
 						break;
-					case 2:
-						pChatHistory->InsertColorChange( Color( 46, 143, 191, 255 ) ); // #2E8FBF
-						pChatHistory->InsertString( pszPubTagText );
-						pChatHistory->InsertFade( hud_saytext_time.GetFloat(), CHAT_HISTORY_IDLE_FADE_TIME );
-						break;
 					case 3:
 						pChatHistory->InsertColorChange( Color( 95, 154, 63, 255 ) ); // #5F9A3F
 						pChatHistory->InsertString( pszContribTagText );
 						pChatHistory->InsertFade( hud_saytext_time.GetFloat(), CHAT_HISTORY_IDLE_FADE_TIME );
+						break;
+					case 4:
+						pChatHistory->InsertColorChange(Color(229, 208, 43, 255));
+						pChatHistory->InsertString( pszPlaytestTagText );
+						pChatHistory->InsertFade(hud_saytext_time.GetFloat(), CHAT_HISTORY_IDLE_FADE_TIME);
 						break;
 				}
 			}
@@ -713,16 +718,16 @@ void CHudChat::MsgFunc_SayText2( bf_read &msg )
 					
 					// Skip past any role tag in the message
 					wchar_t *pszDevTag = wcsstr( pszNameStart, pszDevTagText );
-					wchar_t *pszPubTag = wcsstr( pszNameStart, pszPubTagText );
+					wchar_t *pszPlaytestTag = wcsstr( pszNameStart, pszPlaytestTagText);
 					wchar_t *pszContribTag = wcsstr( pszNameStart, pszContribTagText );
 					
 					if ( pszDevTag )
 					{
 						pszNameStart = pszDevTag + wcslen( pszDevTagText );
 					}
-					else if ( pszPubTag )
+					else if ( pszPlaytestTag )
 					{
-						pszNameStart = pszPubTag + wcslen( pszPubTagText );
+						pszNameStart = pszPlaytestTag + wcslen( pszPlaytestTagText );
 					}
 					else if ( pszContribTag )
 					{
