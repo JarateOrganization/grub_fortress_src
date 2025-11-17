@@ -213,9 +213,9 @@ void CObjectDispenser::FirstSpawn()
 
 	bool bShouldBeMini = ShouldBeMiniBuilding( GetOwner() );
 
-//	UTIL_SetSize(this,
-//		bShouldBeMini ? MINI_DISPENSER_MINS : DISPENSER_MINS,
-//		bShouldBeMini ? MINI_DISPENSER_MAXS : DISPENSER_MAXS );
+	UTIL_SetSize(this,
+		DISPENSER_MINS,
+		DISPENSER_MAXS );
 
 	m_takedamage = DAMAGE_YES;
 	m_iAmmoMetal = 0;
@@ -385,9 +385,9 @@ void CObjectDispenser::SetModel( const char *pModel )
 		bool bShouldBeMini = ShouldBeMiniBuilding(GetOwner());
 
 		// Reset this after model change
-//		UTIL_SetSize(this,
-//			bShouldBeMini ? MINI_DISPENSER_MINS : DISPENSER_MINS,
-//			bShouldBeMini ? MINI_DISPENSER_MAXS : DISPENSER_MAXS);
+		UTIL_SetSize(this,
+			DISPENSER_MINS,
+			DISPENSER_MAXS );
 	ResetSequenceInfo();
 }
 
