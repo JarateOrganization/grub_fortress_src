@@ -37,12 +37,20 @@
 	{
 		"weapon_kritzkrieg" // The Kritzkrieg
 		{
+			"extra_wearable"			"models/weapons/c_models/c_kritz_backpack/c_kritz_backpack.mdl"
 			"attributes"
 			{
 				"lunchbox adds minicrits" // Used for the kritzkrieg's new sound effect
 				{
 					"attribute_class"	"set_weapon_mode"
 					"value"				"1"
+				}
+			}
+			"visuals"
+			{
+				"player_bodygroups"
+				{
+					"medic_backpack"			"1"
 				}
 			}
 		}
