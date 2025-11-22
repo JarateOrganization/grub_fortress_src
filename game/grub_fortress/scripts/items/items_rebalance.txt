@@ -35,6 +35,17 @@
     }
 	"prefabs"
 	{
+		"weapon_kritzkrieg" // The Kritzkrieg
+		{
+			"attributes"
+			{
+				"lunchbox adds minicrits" // Used for the kritzkrieg's new sound effect
+				{
+					"attribute_class"	"set_weapon_mode"
+					"value"				"1"
+				}
+			}
+		}
 		"weapon_crusaders_crossbow" // The Crusader's Crossbow
 		{
 			"attributes"

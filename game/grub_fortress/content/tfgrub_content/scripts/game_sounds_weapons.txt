@@ -8216,3 +8216,11 @@
 
 	"wave"	")ui/hitsound_bubble.wav"
 }
+
+"WeaponKritzkrieg.Healing"
+{
+	"channel"	"CHAN_WEAPON"
+	"soundlevel"	"SNDLVL_74dB"
+	"volume"	"1"
+	"wave"		")weapons/kritzkrieg_heal.wav"
+}

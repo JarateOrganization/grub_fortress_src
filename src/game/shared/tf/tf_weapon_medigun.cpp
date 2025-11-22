@@ -209,7 +209,7 @@ ConVar bf_medic_show_crit_heal_indicator( "bf_medic_show_crit_heal_indicator", "
 const char *g_pszMedigunHealSounds[] =
 {
 	"WeaponMedigun.HealingWorld",		// MEDIGUN_CHARGE_INVULN = 0,
-	"WeaponMedigun.HealingWorld",		// MEDIGUN_CHARGE_CRITICALBOOST,
+	"WeaponKritzkrieg.Healing",			// MEDIGUN_CHARGE_CRITICALBOOST,
 	"Weapon_Quick_Fix.Healing",			// MEDIGUN_CHARGE_MEGAHEAL,
 	"WeaponMedigun_Vaccinator.Healing",	// MEDIGUN_CHARGE_BULLET_RESIST,
 	"WeaponMedigun_Vaccinator.Healing",	// MEDIGUN_CHARGE_BLAST_RESIST,
@@ -374,6 +374,7 @@ void CWeaponMedigun::Precache()
 	PrecacheScriptSound( "WeaponMedigun.HealingHealer" );
 	PrecacheScriptSound( "WeaponMedigun.HealingTarget" );
 	PrecacheScriptSound( "WeaponMedigun.HealingWorld" );
+	PrecacheScriptSound( "WeaponKritzkrieg.Healing" );
 	PrecacheParticleSystem( "medicgun_beam_machinery" );
 
 	for( int i=0; i<ARRAYSIZE(g_MedigunEffects); ++i )
@@ -1125,7 +1126,7 @@ const char *CWeaponMedigun::GetHealSound( void ) const
 {
 	int iMedigunType = GetMedigunType();
 	const char *pszRetVal = g_pszMedigunHealSounds[iMedigunType];
-	if ( ( iMedigunType == MEDIGUN_CHARGE_INVULN ) || ( iMedigunType == MEDIGUN_CHARGE_CRITICALBOOST ) )
+	if ( ( iMedigunType == MEDIGUN_CHARGE_INVULN ) )
 	{
 		C_TFPlayer *pLocalPlayer = C_TFPlayer::GetLocalTFPlayer();
 		if ( pLocalPlayer )
@@ -1155,7 +1156,7 @@ const char *CWeaponMedigun::GetDetachSound( void ) const
 {
 	int iMedigunType = GetMedigunType();
 	const char *pszRetVal = "WeaponMedigun.HealingDetachWorld";
-	if ( ( iMedigunType == MEDIGUN_CHARGE_INVULN ) || ( iMedigunType == MEDIGUN_CHARGE_CRITICALBOOST ) )
+	if ( ( iMedigunType == MEDIGUN_CHARGE_INVULN ) )
 	{
 		C_TFPlayer *pLocalPlayer = C_TFPlayer::GetLocalTFPlayer();
 		if ( pLocalPlayer )
@@ -2067,7 +2068,7 @@ void CWeaponMedigun::StopHealSound( bool bStopHealingSound, bool bStopNoTargetSo
 				pHealingTargetEnt = m_hLastHealingTarget;
 			}
 			int iIndex = entindex();
-			if ( ( GetMedigunType() == MEDIGUN_CHARGE_INVULN ) || ( GetMedigunType() == MEDIGUN_CHARGE_CRITICALBOOST ) )
+			if ( ( GetMedigunType() == MEDIGUN_CHARGE_INVULN ) )
 			{
 				if ( pHealingTargetEnt && pHealingTargetEnt->IsPlayer() && ( pHealingTargetEnt == CBasePlayer::GetLocalPlayer() ) )
 				{
@@ -2334,7 +2335,7 @@ void CWeaponMedigun::ClientThink()
 			CLocalPlayerFilter filter;
 			CSoundEnvelopeController &controller = CSoundEnvelopeController::GetController();
 			int iIndex = entindex();
-			if ( ( GetMedigunType() == MEDIGUN_CHARGE_INVULN ) || ( GetMedigunType() == MEDIGUN_CHARGE_CRITICALBOOST ) )
+			if ( ( GetMedigunType() == MEDIGUN_CHARGE_INVULN ) )
 			{
 				if ( pHealingTargetEnt && pHealingTargetEnt->IsPlayer() && ( pHealingTargetEnt == CBasePlayer::GetLocalPlayer() ) )
 				{
