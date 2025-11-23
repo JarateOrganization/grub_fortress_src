@@ -209,6 +209,68 @@
 				"heavy" "secondary"
 			}
 		}
+		//Used for Afterburner
+		"weapon_baseflamethrower_nohealth"
+		{
+			"item_class"	"tf_weapon_flamethrower"
+			"prefab"		"weapon_newflame"
+			"craft_class"	"weapon"
+			"craft_material_type"	"weapon"
+			"item_type_name"	"#TF_Weapon_FlameThrower"
+			"item_slot"	"primary"
+			"used_by_classes"
+			{
+				"pyro"	"1"
+			}
+			"visuals"
+			{
+				"animation_replacement"
+				{
+					"ACT_MP_ATTACK_CROUCH_SECONDARYFIRE"	"ACT_MP_ATTACK_CROUCH_PRIMARY_ALT"
+					"ACT_MP_ATTACK_STAND_SECONDARYFIRE"		"ACT_MP_ATTACK_STAND_PRIMARY_ALT"
+					"ACT_MP_ATTACK_SWIM_SECONDARYFIRE"		"ACT_MP_ATTACK_SWIM_PRIMARY_ALT"
+				}
+			}
+		}
+
+		"weapon_flamethrower_nohprestore"
+		{
+			"prefab"	"weapon_baseflamethrower_nohealth"
+			"capabilities"
+			{
+				"nameable"		"1"
+			}
+			"tags"
+			{
+				"can_deal_damage"			"1"
+				"can_reflect_projectiles"	"1"
+				"can_extinguish"			"1"
+				"can_deal_posthumous_damage"	"1"
+				"can_deal_critical_damage"	"1"
+				"is_flamethrower" "1"
+			}
+			"base_item_name"	"TF_WEAPON_FLAMETHROWER"
+			"inspect_panel_dist" "91"
+			"enabled"	"1"
+			"item_name"	"#TF_Weapon_FlameThrower"
+			"item_description"	"#TF_Weapon_FlameThrower_desc"
+			"item_quality"	"normal"
+			"min_ilevel"	"1"
+			"max_ilevel"	"1"
+			"image_inventory"	"backpack/weapons/c_models/c_flamethrower/c_flamethrower"
+			"image_inventory_size_w"		"128"
+			"image_inventory_size_h"		"82"
+			"model_player"	"models/weapons/c_models/c_flamethrower/c_flamethrower.mdl"
+			"attach_to_hands"	"1"
+			"static_attrs"
+			{
+				"weapon_stattrak_module_scale"			"1"
+				"min_viewmodel_offset"					"10 0 -10"
+			}
+			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"
+			"drop_sound"		"ui/item_heavy_gun_drop.wav"
+			"particle_suffix"		"flamethrower"
+		}
 
 		//Big tex
 		"weapon_revolver_secondary"
@@ -498,6 +560,16 @@
 				"The Holy Marlin"		"1"
 			}
 		}
+		"pyro_pilotburner"
+		{
+			"name"	"#TFCSet_PyroPilot"
+			"items"
+			{
+				"The Afterburner"		"1"
+				"The Bone Dome"		"1"
+				"The Air Raider"		"1"	
+			}
+		}
 	}
 	"attributes"
 	{
@@ -702,6 +774,26 @@
 			"effect_type"	"negative"
 			"description_string"	"#Attrib_ItemCanTalk_Description"
 			"stored_as_integer"	"1"
+		}
+		"4017"
+		{
+			"name" "airblast dashes"
+			"attribute_class"	"airblast_dashes"
+			"description_format"	"value_is_additive"
+			"hidden"	"0"
+			"effect_type"	"neutral"
+			"description_string"	"#TFCW_Weapon_Afterburner_Dash"
+			"stored_as_integer"	"1"		
+		}
+		"4018"
+		{
+			"name" "afterburner negative text"
+			"attribute_class"	"afterburner_negative_text"
+			"description_format"	"value_is_additive"
+			"hidden"	"0"
+			"effect_type"	"negative"
+			"description_string"	"#TFCW_Weapon_Afterburner_NoBlast"
+			"stored_as_integer"	"1"		
 		}
 	}
 	"items"
@@ -2081,6 +2173,142 @@
 			}
 		}
 		//32015 - 32016 - 32017 | Engi set
+		//The big bang - PERMISSION GRANTED FROM AUTHOR
+		"32015"
+		{
+			"name"	"The Big Bang"
+			"item_class"	"tf_weapon_wrench"
+			"craft_class"	"weapon"
+			"craft_material_type"	"weapon"
+			"capabilities"
+			{
+				"nameable"		"1"
+			}
+			"tags"
+			{
+				"can_deal_damage"				"1"
+				"can_deal_posthumous_damage"	"1"
+				"can_destroy_sappers"			"1"
+			}
+			"show_in_armory"	"1"
+			"moditem" "1"
+			"item_type_name"	"#TF_Weapon_Hammer"
+			"item_name"	"#TFCW_Pipewrench"
+			"item_description"	"#TFCW_Pipewrench_Desc"
+			"item_slot"	"melee"
+			"item_quality"	"community"
+			"min_ilevel"	"20"
+			"max_ilevel"	"20"
+			"propername"	"1"
+			"item_logname"	"necro_smasher"
+			"item_iconname"	"necro_smasher"
+			"image_inventory"	"backpack/weapons/custommade/c_pipewrench"
+			"image_inventory_size_w"		"128"
+			"image_inventory_size_h"		"82"
+			"inspect_panel_dist" 			"45"
+			"model_player"	"models/weapons/c_models/c_the_big_bang/c_the_big_bang.mdl"
+			"attach_to_hands" "1"
+			"used_by_classes"
+			{
+				"engineer"	"1"
+			}
+			"static_attrs"
+			{
+				"min_viewmodel_offset"		"10 -2 -9"				
+			}
+			"attributes"
+			{
+				"crit mod disabled"
+				{
+					"attribute_class"	"mult_crit_chance"
+					"value"	"0"
+				}
+				"engy sentry damage bonus"
+				{
+					"attribute_class"	"mult_engy_sentry_damage"
+					"value" "1.25"
+				}
+				"fire rate penalty"
+				{
+					"attribute_class"	"mult_postfiredelay"
+					"value"	"1.2"
+				}
+				"kill eater score type"
+				{
+					"attribute_class"	"kill_eater_score_type"
+					"value" 	"0"									
+				}
+				"kill eater score type 2"
+				{
+					"attribute_class"	"kill_eater_score_type_2"
+					"value" 	"3"									
+				}
+				"is community contributed item"
+				{
+					"attribute_class"  "is_community_contributed_item"
+					"value"							"8"
+				}
+			}
+			"visuals"
+			{
+				"animation_replacement"
+				{
+					"ACT_VM_IDLE"	"ACT_ITEM3_VM_IDLE"
+					"ACT_VM_DRAW"	"ACT_ITEM3_VM_DRAW"
+					"ACT_VM_HITCENTER"	"ACT_ITEM3_VM_HITCENTER"
+					"ACT_VM_SWINGHARD"	"ACT_ITEM3_VM_SWINGHARD"
+				}
+			}
+			"mouse_pressed_sound"	"ui/item_metal_weapon_pickup.wav"
+			"drop_sound"		"ui/item_metal_weapon_drop.wav"
+		}
+		//The big Tex - PERMISSION GRANTED
+		"32016"
+		{
+			"name"	"The Big Tex"
+			"prefab"	"weapon_revolver_secondary"
+			"capabilities"
+			{
+				"nameable"		"1"
+			}
+			"tags"
+			{
+				"can_deal_damage"			"1"
+				"can_deal_mvm_penetration_damage"	"1"
+				"can_deal_long_distance_damage"	"1"
+			}
+			"item_class"	"tf_weapon_revolver_secondary"
+			"craft_class"	"weapon"
+			"craft_material_type"	"weapon"
+			"item_type_name"	"#TF_Weapon_Revolver"
+			"item_name"	"#TF_Weapon_Revolver"
+			"item_slot"	"secondary"
+			"item_quality"	"community"
+			"moditem" "1"
+			"min_ilevel"	"1"
+			"max_ilevel"	"1"
+			"image_inventory"	"backpack/weapons/w_models/w_revolver"
+			"image_inventory_size_w"		"128"
+			"image_inventory_size_h"		"82"
+			"model_player"	"models/weapons/c_models/c_big_tex/c_big_tex.mdl"
+			"attach_to_hands" "1"
+			"used_by_classes"
+			{
+				"engineer"	"1"
+			}
+			"visuals"
+			{
+				"animation_replacement"
+				{
+					"ACT_VM_DRAW"							"ACT_ENGINEER_REVOLVER_DRAW"
+					"ACT_VM_IDLE"							"ACT_ENGINEER_REVOLVER_IDLE"
+					"ACT_VM_PRIMARYATTACK"					"ACT_ENGINEER_REVOLVER_PRIMARYATTACK"
+					"ACT_VM_RELOAD"							"ACT_ENGINEER_REVOLVER_RELOAD"
+				}
+			}
+			"mouse_pressed_sound"	"ui/item_light_gun_pickup.wav"
+			"drop_sound"		"ui/item_light_gun_drop.wav"
+		}
 		//BMMH - PERMISSION GRANTED
 		"32017"
 		{
@@ -2131,6 +2359,107 @@
 					"value"							"9"
 				}		
 			}
+		}
+		"32020"
+		{
+			"name"		"The Afterburner"
+			"item_class"		"tf_weapon_flamethrower"
+			"prefab"		"weapon_flamethrower_nohprestore"
+			"craft_class"		"weapon"
+			"moditem" 	"1"
+			"craft_material_type"		"weapon"
+			"capabilities"
+			{
+				"nameable"		"1"
+				"can_craft_count"		"1"
+			}
+			"tags"
+			{
+				"can_deal_damage"		"1"
+				"can_deal_posthumous_damage"		"1"
+				"can_deal_critical_damage"		"1"
+				"is_flamethrower"		"1"
+			}
+			"item_logname"		"afterburner"
+			"item_iconname"		"afterburner"
+			"show_in_armory"		"1"
+			"item_type_name"		"#TF_Weapon_Flamethrower"
+			"item_name"		"#TFCW_Afterburner"
+			"item_description"		"#TFCW_Afterburner_Desc"
+			"item_slot"		"primary"
+			"image_inventory"		"backpack/weapons/custommade/c_pilotflamer"
+			"image_inventory_size_w"		"128"
+			"image_inventory_size_h"		"82"
+			"inspect_panel_dist"		"75"
+			"model_player"		"models/weapons/c_models/c_pilotflamer/c_pilotflamer.mdl"
+			"attach_to_hands"		"1"
+			"item_quality"		"community"
+			"propername"		"1"
+			"min_ilevel"		"10"
+			"max_ilevel"		"10"
+			"used_by_classes"
+			{
+				"pyro"		"1"
+			}
+			"static_attrs"
+			{
+				"min_viewmodel_offset"		"10 0 -10"
+			}
+			"visuals"
+			{
+				"animation_replacement"
+				{
+					"ACT_PRIMARY_VM_INSPECT_START"		"ACT_PRIMARY_ALT1_VM_INSPECT_START"
+					"ACT_PRIMARY_VM_INSPECT_IDLE"		"ACT_PRIMARY_ALT1_VM_INSPECT_IDLE"
+					"ACT_PRIMARY_VM_INSPECT_END"		"ACT_PRIMARY_ALT1_VM_INSPECT_END"
+				}
+			}
+            "attributes"
+            {
+				"is community contributed item"
+				{
+					"attribute_class"  "is_community_contributed_item"
+					"value"							"10"
+				}
+                "single wep deploy time decreased"
+                {
+                    "attribute_class"    "mult_single_wep_deploy_time"
+                    "value" "0.6"
+                }
+                "airblast pushback scale"
+                {
+                    "attribute_class"  "airblast_pushback_scale"
+                    "value"                            "0.8"
+                }
+                "airblast cost decreased"
+                {
+                    "attribute_class"  "mult_airblast_cost"
+                    "value"                            "0.75"
+                }
+                "maxammo primary reduced"
+                {
+                    "attribute_class"    "mult_maxammo_primary"
+                    "value" "0.6"
+                }               
+                "airblast dashes"
+                {
+                    "attribute_class"  "airblast_dashes"
+                    "value"                            "1"
+                }
+				"afterburner negative text"
+                {
+                    "attribute_class"  "afterburner_negative_text"
+                    "value"                            "1"
+                }
+                "weapon burn dmg increased"
+                {
+                    "attribute_class"  "mult_wpn_burndmg"
+                    "value"                            "1.25"
+                }
+            }
+			"mouse_pressed_sound"		"ui/item_heavy_gun_pickup.wav"
+			"drop_sound"		"ui/item_heavy_gun_drop.wav"
+			"xifier_class_remap"		"flamethrower"
 		}
 		"34000" 
 		{
@@ -2238,6 +2567,7 @@
 			"7"			"#Attrib_UGCW_BBeacon"
 			"8"			"#Attrib_UGCT_StreamSniper"
 			"9"			"#Attrib_UGCC_Canteen_Merasmus"
+			"10"		"#Attrib_UGC_NeoDement"
 		}
 	}
 	"client_loot_lists"

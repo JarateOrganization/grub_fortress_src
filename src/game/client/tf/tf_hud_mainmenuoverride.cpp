@@ -2584,7 +2584,7 @@ void CHudMainMenuOverride::LoadSplashTexts()
 		m_vecSplashTexts.AddToTail( CUtlString( "Better than the original!" ) );
 		m_vecSplashTexts.AddToTail( CUtlString( "Now with 100% more fortress!" ) );
 		m_vecSplashTexts.AddToTail( CUtlString( "Built different!" ) );
-		m_vecSplashTexts.AddToTail( CUtlString( "Community-driven excellence!" ) );
+		m_vecSplashTexts.AddToTail( CUtlString( "Community-driven experience!" ) );
 		m_vecSplashTexts.AddToTail( CUtlString( "The fortress evolved!" ) );
 	}
 }

@@ -20,7 +20,7 @@ DESCRIPTION INFO_OPTIONS
 	}	
 	"credit1_2"
 	{
-		"PracticeMedicine - Discord RPC rewrite, misc. Fixes
+		"PracticeMedicine - Discord RPC, misc. Fixes
 		Vvis - Give_econ command, Mini-Dispenser cost"
 		{ BOOL }
 		{ "1" }
@@ -109,6 +109,18 @@ DESCRIPTION INFO_OPTIONS
 	"credit5_2"
 	{
 		"NeoDos - Mini-Dispenser, Handy Partner"
+		{ BOOL }
+		{ "1" }
+	}
+	"credit5_3"
+	{
+		"MOTS0 - Baleful Beacon, Airborne Arsonist Edits"
+		{ BOOL }
+		{ "1" }
+	}
+	"credit5_4"
+	{
+		"NeoDement - Airborne Arsonist Edits"
 		{ BOOL }
 		{ "1" }
 	}

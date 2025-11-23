@@ -1,30 +1,40 @@
 "SplashTexts"
 {
-	"Better than ever!"
-	"Built different!"
-	"Community-driven excellence!"
-	"The fortress evolved!"
-	"Powered by passion!"
-	"Taking TF2 to the next level!"
-	"0.1h of playtime doesn't make you smarter!"
-	"You're not ficool enough."
-	"Sorry little timmy..."
-	"I am such a Big Tex!"
-	"You Big Mean Mother Hubbard!"
-	"Time for a Big Bang!"
-	"Couldn't you see the bloody bombs?"
-	"Have you tried the Barney Special yet?"
-	"Wanna Quickplay?"
-	"CRUSH... KILL... DESTROY!"
-	"I't's Grubbin' time!"
-	"Dear god..."
-	"#freethebox"
-	"How do i emote in this game?"
-	"Mini-Dispenser?... So inspiring..."
-	"The Bigger IS Better right fellas?"
-	"Hola amigos! wait... wrong map."
-	"You better patch that leak pal..."
-	"TAAAAAAAANK!"
-	"After 9 minutes of development, hopefully it's not a broken mess!"
-	"2 People with passion against the entire sourcemod community \n We are going to die after this right?"
+	"Better than ever!",
+	"Built different!",
+	"Community-driven experience!",
+	"The fortress evolved!",
+	"Powered by passion!",
+	"Taking TF2 to the next level!",
+	"0.1h+ of playtime will surely makes you smarter!",
+	"You're not ficool enough.",
+	"Sorry little timmy...",
+	"I am such a Big Tex!",
+	"You Big Mean Mother Hubbard!",
+	"Time for a Big Bang!",
+	"Couldn't you see the bloody bombs?",
+	"Have you tried the Barney Special yet?",
+	"Wanna Quickplay?",
+	"CRUSH... KILL... DESTROY!",
+	"I't's Grubbin' time!",
+	"Dear god...",
+	"#freethebox",
+	"How do i emote in this game?",
+	"Mini-Dispenser?... So inspiring...",
+	"The Bigger IS Better right fellas?",
+	"Hola amigos! wait... wrong map.",
+	"You better patch that leak pal...",
+	"TAAAAAAAANK!",
+	"After 9 minutes of development, hopefully it's not a broken mess!",
+	"You think we are soooo better?",
+	"Coding is ea- no it's not",
+	"Custom items on the lose.",
+	"You do know these texts are sarcastic right?",
+	"Soldier gifted a new pair of boots for Demoman",
+	"Enginear is Engihere",
+	"Poopy Joe survived... right?!",
+	"Worst, Passion Mod, Ever",
+	"SENTRY BUSTER!!!",
+	"Why are we exactly RAIDing this?"
+	"Where is the Heavy update? wait, we already had one"
 }

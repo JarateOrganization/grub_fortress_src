@@ -234,7 +234,7 @@
 		"ypos"			"32"
 		"zpos"			"1"
 		"wide"			"256"
-		"tall"			"64"
+		"tall"			"128"
 		"visible"		"1"
 		"enabled"		"1"
 		"image"			"../logo/new_tf2_logo"
@@ -246,8 +246,8 @@
 	{
 		"ControlName"	"CExLabel"
 		"fieldName"		"SplashTextLabel"
-		"xpos"			"c-250"
-		"ypos"			"75"
+		"xpos"			"c-285"
+		"ypos"			"145"
 		"zpos"			"2"
 		"wide"			"256"
 		"tall"			"20"
@@ -263,7 +263,7 @@
 	
 	"TFCharacterImage"
 	{
-		// "ControlName"	"ImagePanel"
+		"ControlName"	"ImagePanel"
 		"fieldName"		"TFCharacterImage"
 		"xpos"			"c-250"
 		"ypos"			"-80"
