@@ -91,7 +91,18 @@ OPTIONS
 	{
 		"category1"
 		{
-			"label"	"Gameplay"
+			"label"	"Scout"
+			"type"	"CATEGORY"
+		}
+		"bf_scout_stunball_old_stun"
+		{
+			"label"	"Old Sandman Stun"
+			"type"	"BOOL"
+			"val"	"1"
+		}
+		"category2"
+		{
+			"label"	"Heavy"
 			"type"	"CATEGORY"
 		}
 		"tfgrub_lunchbox_owner_can_heal"
@@ -100,9 +111,14 @@ OPTIONS
 			"type"	"BOOL"
 			"val"	"0"
 		}
-		"bf_scout_stunball_old_stun"
+		"category3"
 		{
-			"label"	"Old Sandman Stun"
+			"label"	"Engineer"
+			"type"	"CATEGORY"
+		}
+		"tfgrub_can_pickup_buildings"
+		{
+			"label"	"Allow Building Pickup"
 			"type"	"BOOL"
 			"val"	"1"
 		}
