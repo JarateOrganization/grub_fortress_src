@@ -89,7 +89,7 @@ OPTIONS
 	}
 	"#Replay_Contest_Rules"
 	{
-		"category1"
+		"category_scout"
 		{
 			"label"	"Scout"
 			"type"	"CATEGORY"
@@ -100,7 +100,7 @@ OPTIONS
 			"type"	"BOOL"
 			"val"	"1"
 		}
-		"category2"
+		"category_heavy"
 		{
 			"label"	"Heavy"
 			"type"	"CATEGORY"
@@ -111,7 +111,7 @@ OPTIONS
 			"type"	"BOOL"
 			"val"	"0"
 		}
-		"category3"
+		"category_engineer"
 		{
 			"label"	"Engineer"
 			"type"	"CATEGORY"
@@ -122,6 +122,34 @@ OPTIONS
 			"type"	"BOOL"
 			"val"	"1"
 		}
+		"category_general"
+		{
+			"label"	"General"
+			"type"	"CATEGORY"
+		}
+		"mp_friendlyfire"
+		{
+			"label"	"Friendly fire"
+			"type"	"BOOL"
+			"val"	"0"
+		}
+		"tf_weapon_criticals"
+		{
+			"label"	"Weapon Criticals"
+			"type"	"BOOL"
+			"val"	"0"
+		}
+		"tf_weapon_criticals_melee"
+		{
+			"label"	"Melee Weapon Criticals"
+			"type"	"LIST"
+			"options"
+			{
+				"Disabled"								"0"
+				"Enabled (if regular criticals are)"	"1"
+				"Enabled"								"2"
+			}
+			"val"	"2"
 	}
 //	"#GameUI_GameMenu_Options"
 //	{
