@@ -101,13 +101,6 @@ DESCRIPTION INFO_OPTIONS
 		{ BOOL }
 		{ "1" }
 	}
-	"tf2gr"
-	{
-		"Team Fortress 2 Goldrush - V_Model Support"
-		"www.tf2goldrush.com/"
-		{ BOOL }
-		{ "1" }
-	}
 	"ttrf_old_menu"
 	{
 		"Toru the Red Fox - Old TF2 Main menu"
