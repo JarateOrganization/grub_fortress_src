@@ -108,9 +108,18 @@ static const char* s_pszDisguiseProps[] =
 
 
 //-----------------------------------------------------------------------------------------------------
-// The Horseless Headless Horseman
+// Merasmus the magician
 //-----------------------------------------------------------------------------------------------------
 LINK_ENTITY_TO_CLASS( merasmus, CMerasmus );
+
+BEGIN_DATADESC( CMerasmus )
+#ifdef GAME_DLL
+	DEFINE_OUTPUT( m_OnStunStart, "OnStunStart" ),
+	DEFINE_OUTPUT( m_OnStunEnd, "OnStunEnd" ),
+	DEFINE_OUTPUT( m_OnStartFlying, "OnStartFlying" ),
+	DEFINE_OUTPUT( m_OnStopFlying, "OnStopFlying" ),
+#endif
+END_DATADESC()
 
 IMPLEMENT_SERVERCLASS_ST( CMerasmus, DT_Merasmus )
 	SendPropBool( SENDINFO( m_bRevealed ) ),
@@ -809,7 +818,7 @@ void CMerasmus::AddStun( CTFPlayer* pPlayer )
 void CMerasmus::OnBeginStun()
 {
 	EmitSound( "Halloween.Merasmus_Stun" );
-
+ 	m_OnStunStart.FireOutput( this , this );
 	m_bStunned = true;
 }
 
@@ -817,6 +826,7 @@ void CMerasmus::OnBeginStun()
 void CMerasmus::OnEndStun()
 {
 	m_stunTimer.Invalidate();
+	m_OnStunEnd.FireOutput( this , this );
 	m_bStunned = false;
 }
 

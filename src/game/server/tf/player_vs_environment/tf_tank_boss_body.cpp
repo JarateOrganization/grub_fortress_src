@@ -5,7 +5,7 @@
 #include "tf_tank_boss.h"
 #include "tf_tank_boss_body.h"
 
-ConVar bf_tank_boss_collisiontype("bf_tank_boss_collisiontype", "1", FCVAR_NONE, "Collision type for the tank \n 0 - CONTENTS_SOLID \n 1 - MASK_SOLID ");
+ConVar cf_tank_boss_collisiontype("cf_tank_boss_collisiontype", "1", FCVAR_NONE, "Collision type for the tank \n 0 - CONTENTS_SOLID \n 1 - MASK_SOLID ");
 
 //-------------------------------------------------------------------------------------------
 CTFTankBossBody::CTFTankBossBody( INextBot *bot ) : IBody( bot )
@@ -56,7 +56,7 @@ void CTFTankBossBody::Update( void )
 unsigned int CTFTankBossBody::GetSolidMask( void ) const
 {
 	//Convar for legacy maps support.
-	if ( bf_tank_boss_collisiontype.GetInt() )
+	if ( cf_tank_boss_collisiontype.GetInt() )
 		return MASK_SOLID;
 	else
 		return CONTENTS_SOLID;

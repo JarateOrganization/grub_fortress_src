@@ -522,6 +522,14 @@ void CTFPipebombLauncher::DeathNotice( CBaseEntity *pVictim )
 //-----------------------------------------------------------------------------
 bool CTFPipebombLauncher::DetonateRemotePipebombs( bool bFizzle )
 {
+	// Check for fizzle stickies attribute - always fizzle instead of detonating
+	int iFizzleStickies = 0;
+	CALL_ATTRIB_HOOK_INT( iFizzleStickies, mod_fizzle_stickies );
+	if ( iFizzleStickies && !bFizzle )
+	{
+		bFizzle = true; // Force fizzle
+	}
+
 	if ( GetDetonateMode() == TF_DETONATE_MODE_DOT && !bFizzle )
 	{
 		return ModifyPipebombsInView( TF_PIPEBOMB_DETONATE );

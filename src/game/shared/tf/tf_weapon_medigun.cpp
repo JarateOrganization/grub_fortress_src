@@ -203,7 +203,7 @@ extern ConVar tf_max_health_boost;
 ConVar hud_medicautocallers( "hud_medicautocallers", "0", FCVAR_ARCHIVE | FCVAR_ARCHIVE_XBOX );
 ConVar hud_medicautocallersthreshold( "hud_medicautocallersthreshold", "75", FCVAR_ARCHIVE | FCVAR_ARCHIVE_XBOX );
 ConVar hud_medichealtargetmarker ( "hud_medichealtargetmarker", "0", FCVAR_ARCHIVE | FCVAR_ARCHIVE_XBOX );
-ConVar bf_medic_show_crit_heal_indicator( "bf_medic_show_crit_heal_indicator", "1", FCVAR_ARCHIVE | FCVAR_USERINFO, "Show critical heal indicators above patients who haven't taken damage recently while playing as Medic." );
+ConVar cf_medic_show_crit_heal_indicator( "cf_medic_show_crit_heal_indicator", "1", FCVAR_ARCHIVE | FCVAR_USERINFO, "Show critical heal indicators above patients who haven't taken damage recently while playing as Medic." );
 #endif
 
 const char *g_pszMedigunHealSounds[] =
@@ -2589,7 +2589,7 @@ void CWeaponMedigun::UpdateMedicAutoCallers( void )
 void CWeaponMedigun::UpdateCritHealIndicators( void )
 {
 #ifdef CLIENT_DLL
-	if ( !bf_medic_show_crit_heal_indicator.GetBool() )
+	if ( !cf_medic_show_crit_heal_indicator.GetBool() )
 		return;
 
 	// Find teammates that can be crit healed

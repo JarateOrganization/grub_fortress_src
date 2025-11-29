@@ -16,9 +16,12 @@ BEGIN_DATADESC( CZombieSpawner )
 	DEFINE_KEYFIELD( m_nMaxActiveZombies, FIELD_INTEGER, "max_zombies" ),
 	DEFINE_KEYFIELD( m_bInfiniteZombies, FIELD_BOOLEAN, "infinite_zombies" ),
 	DEFINE_KEYFIELD( m_nSkeletonType, FIELD_INTEGER, "zombie_type" ),
+	DEFINE_KEYFIELD( m_iszModel, FIELD_STRING, "zombie_model" ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "Enable", InputEnable ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "Disable", InputDisable ),
 	DEFINE_INPUTFUNC( FIELD_INTEGER, "SetMaxActiveZombies", InputSetMaxActiveZombies ),
+	// Outputs
+	DEFINE_OUTPUT( m_OnZombieSpawn, "OnZombieSpawned" ),
 END_DATADESC()
 
 CZombieSpawner::CZombieSpawner()
@@ -55,10 +58,17 @@ void CZombieSpawner::Think()
 		CZombie *pZombie = CZombie::SpawnAtPos( GetAbsOrigin(), m_flZombieLifeTime, nZombieTeam, NULL, (CZombie::SkeletonType_t)m_nSkeletonType );
 		if ( pZombie )
 		{
+			if ( m_iszModel != NULL_STRING )
+			{
+				if ( g_pFullFileSystem->FileExists( STRING( m_iszModel ), "GAME" ) )
+				{
+					pZombie->SetModel( STRING( m_iszModel ) );
+				}
+			}
 			m_nSpawned++;
 			m_activeZombies.AddToTail( pZombie );
 		}
-
+		m_OnZombieSpawn.FireOutput( this, this );
 		SetNextThink( gpGlobals->curtime + RandomFloat( 1.5f, 3.f ) );
 		return;
 	}

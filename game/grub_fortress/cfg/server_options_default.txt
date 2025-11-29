@@ -1,158 +1,728 @@
-// I rewrote the system as the existing one does not have an easy way of supporting multiple tabs
-OPTIONS
+"options"
 {
-	"#GameUI_Server"	// Denotes a tab
+	"#GameUI_Server"
 	{
 		"category1"
 		{
-			"label"	"SERVER PROFILE"
-			"type"	"CATEGORY"
+			"label"		"SERVER PROFILE"
+			"type"		"CATEGORY"
 		}
-		"hostname"	// The cvar name
+		"hostname"
 		{
-			"label"	"#GameUI_ServerName"	// The label that shows up in-game
-			"type"	"STRING"
-			"val"	"Grub Fortress"
+			"label"		"#GameUI_ServerName"
+			"type"		"STRING"
+			"val"		"Custom Fortress 2"
 		}
 		"sv_tags"
 		{
-			"label"	"TAGS"
-			"type"	"STRING"
-			"val"	""
+			"label"		"TAGS"
+			"type"		"STRING"
 		}
 		"category2"
 		{
-			"label"	"SERVER SLOTS AND BOTS"
-			"type"	"CATEGORY"
+			"label"		"SERVER SLOTS AND BOTS"
+			"type"		"CATEGORY"
 		}
 		"maxplayers"
 		{
-			"label"	"#GameUI_MaxPlayers"
-			"type"	"STRING"
-			"val"	"24"
+			"label"		"#GameUI_MaxPlayers"
+			"type"		"STRING"
+			"val"		"32"
 		}
 		"tf_bot_quota"
 		{
-			"label"	"MAX BOTS:"
-			"type"	"STRING"
-			"val"	"0"
+			"label"		"MAX BOTS:"
+			"type"		"STRING"
+			"val"		"0"
 		}
 		"tf_bot_difficulty"
 		{
-			"label"	"#TF_Bot_Difficulty"
-			"type"	"LIST"
+			"label"		"#TF_Bot_Difficulty"
+			"type"		"LIST"
 			"options"
 			{
-				"#TF_Bot_Difficulty0"	"0"
-				"#TF_Bot_Difficulty1"	"1"
-				"#TF_Bot_Difficulty2"	"2"
-				"#TF_Bot_Difficulty3"	"3"
+				"#TF_Bot_Difficulty0"		"0"
+				"#TF_Bot_Difficulty1"		"1"
+				"#TF_Bot_Difficulty2"		"2"
+				"#TF_Bot_Difficulty3"		"3"
 			}
-			"val"	"0"
+			"val"		"0"
 		}
 		"category3"
 		{
-			"label"	"#GameUI_Map"
-			"type"	"CATEGORY"
+			"label"		"#GameUI_Map"
+			"type"		"CATEGORY"
 		}
 		"cl_map"
 		{
-			"label"	"#GameUI_Map"
-			"type"	"LIST"
+			"label"		"#GameUI_Map"
+			"type"		"LIST"
 			"options"
 			{
 				"#GameUI_RandomMap"		"-1"
+				"background_gravelpit"		"0"
+				"cf_devtest"		"1"
+				"arena_afterlife"		"2"
+				"arena_badlands"		"3"
+				"arena_byre"		"4"
+				"arena_granary"		"5"
+				"arena_lumberyard"		"6"
+				"arena_lumberyard_event"		"7"
+				"arena_nucleus"		"8"
+				"arena_offblast_final"		"9"
+				"arena_perks"		"10"
+				"arena_ravine"		"11"
+				"arena_sawmill"		"12"
+				"arena_watchtower"		"13"
+				"arena_well"		"14"
+				"background01"		"15"
+				"cp_5gorge"		"16"
+				"cp_altitude"		"17"
+				"cp_ambush_event"		"18"
+				"cp_badlands"		"19"
+				"cp_brew"		"20"
+				"cp_burghausen"		"21"
+				"cp_canaveral_5cp"		"22"
+				"cp_cargo"		"23"
+				"cp_carrier"		"24"
+				"cp_cloak"		"25"
+				"cp_coldfront"		"26"
+				"cp_conifer"		"27"
+				"cp_cowerhouse"		"28"
+				"cp_darkmarsh"		"29"
+				"cp_degrootkeep"		"30"
+				"cp_degrootkeep_rats"		"31"
+				"cp_dustbowl"		"32"
+				"cp_egypt_final"		"33"
+				"cp_fastlane"		"34"
+				"cp_fortezza"		"35"
+				"cp_foundry"		"36"
+				"cp_freaky_fair"		"37"
+				"cp_freight_final1"		"38"
+				"cp_frostwatch"		"39"
+				"cp_fulgur"		"40"
+				"cp_gorge"		"41"
+				"cp_gorge_event"		"42"
+				"cp_granary"		"43"
+				"cp_gravelpit"		"44"
+				"cp_gravelpit_snowy"		"45"
+				"cp_gullywash_final1"		"46"
+				"cp_hadal"		"47"
+				"cp_hardwood_final"		"48"
+				"cp_junction_final"		"49"
+				"cp_lavapit_final"		"50"
+				"cp_manor_event"		"51"
+				"cp_mercenarypark"		"52"
+				"cp_metalworks"		"53"
+				"cp_mossrock"		"54"
+				"cp_mountainlab"		"55"
+				"cp_overgrown"		"56"
+				"cp_powerhouse"		"57"
+				"cp_process_final"		"58"
+				"cp_reckoner"		"59"
+				"cp_snakewater_final1"		"60"
+				"cp_snowplow"		"61"
+				"cp_spookeyridge"		"62"
+				"cp_standin_final"		"63"
+				"cp_steel"		"64"
+				"cp_sulfur"		"65"
+				"cp_sunshine"		"66"
+				"cp_sunshine_event"		"67"
+				"cp_vanguard"		"68"
+				"cp_well"		"69"
+				"cp_yukon_final"		"70"
+				"ctf_2fort"		"71"
+				"ctf_2fort_invasion"		"72"
+				"ctf_applejack"		"73"
+				"ctf_crasher"		"74"
+				"ctf_doublecross"		"75"
+				"ctf_doublecross_event"		"76"
+				"ctf_doublecross_snowy"		"77"
+				"ctf_foundry"		"78"
+				"ctf_frosty"		"79"
+				"ctf_gorge"		"80"
+				"ctf_haarp"		"81"
+				"ctf_hellfire"		"82"
+				"ctf_helltrain_event"		"83"
+				"ctf_landfall"		"84"
+				"ctf_pelican_peak"		"85"
+				"ctf_penguin_peak"		"86"
+				"ctf_pressure"		"87"
+				"ctf_sawmill"		"88"
+				"ctf_snowfall_final"		"89"
+				"ctf_thundermountain"		"90"
+				"ctf_turbine"		"91"
+				"ctf_turbine_winter"		"92"
+				"ctf_well"		"93"
+				"itemtest"		"94"
+				"koth_badlands"		"95"
+				"koth_bagel_event"		"96"
+				"koth_blowout"		"97"
+				"koth_boardwalk"		"98"
+				"koth_brazil"		"99"
+				"koth_cachoeira"		"100"
+				"koth_cascade"		"101"
+				"koth_demolition"		"102"
+				"koth_dusker"		"103"
+				"koth_harvest_event"		"104"
+				"koth_harvest_final"		"105"
+				"koth_highpass"		"106"
+				"koth_king"		"107"
+				"koth_krampus"		"108"
+				"koth_lakeside_event"		"109"
+				"koth_lakeside_final"		"110"
+				"koth_lazarus"		"111"
+				"koth_los_muertos"		"112"
+				"koth_mannhole"		"113"
+				"koth_maple_ridge_event"		"114"
+				"koth_megalo"		"115"
+				"koth_megaton"		"116"
+				"koth_moonshine_event"		"117"
+				"koth_nucleus"		"118"
+				"koth_overcast_final"		"119"
+				"koth_probed"		"120"
+				"koth_rotunda"		"121"
+				"koth_sawmill"		"122"
+				"koth_sawmill_event"		"123"
+				"koth_sharkbay"		"124"
+				"koth_slasher"		"125"
+				"koth_slaughter_event"		"126"
+				"koth_slime"		"127"
+				"koth_snowtower"		"128"
+				"koth_suijin"		"129"
+				"koth_synthetic_event"		"130"
+				"koth_toxic"		"131"
+				"koth_undergrove_event"		"132"
+				"koth_viaduct"		"133"
+				"koth_viaduct_event"		"134"
+				"mvm_bigrock"		"135"
+				"mvm_coaltown"		"136"
+				"mvm_decoy"		"137"
+				"mvm_ghost_town"		"138"
+				"mvm_mannhattan"		"139"
+				"mvm_mannworks"		"140"
+				"mvm_rottenburg"		"141"
+				"pass_brickyard"		"142"
+				"pass_district"		"143"
+				"pass_timbertown"		"144"
+				"pd_atom_smash"		"145"
+				"pd_circus"		"146"
+				"pd_cursed_cove_event"		"147"
+				"pd_farmageddon"		"148"
+				"pd_galleria"		"149"
+				"pd_mannsylvania"		"150"
+				"pd_monster_bash"		"151"
+				"pd_pit_of_death_event"		"152"
+				"pd_selbyen"		"153"
+				"pd_snowville_event"		"154"
+				"pd_watergate"		"155"
+				"plr_bananabay"		"156"
+				"plr_cutter"		"157"
+				"plr_hacksaw"		"158"
+				"plr_hacksaw_event"		"159"
+				"plr_hightower"		"160"
+				"plr_hightower_event"		"161"
+				"plr_nightfall_final"		"162"
+				"plr_pipeline"		"163"
+				"pl_aquarius"		"164"
+				"pl_badwater"		"165"
+				"pl_barnblitz"		"166"
+				"pl_bloodwater"		"167"
+				"pl_borneo"		"168"
+				"pl_breadspace"		"169"
+				"pl_cactuscanyon"		"170"
+				"pl_camber"		"171"
+				"pl_cashworks"		"172"
+				"pl_chilly"		"173"
+				"pl_citadel"		"174"
+				"pl_coal_event"		"175"
+				"pl_corruption"		"176"
+				"pl_embargo"		"177"
+				"pl_emerge"		"178"
+				"pl_enclosure_final"		"179"
+				"pl_fifthcurve_event"		"180"
+				"pl_frontier_final"		"181"
+				"pl_frostcliff"		"182"
+				"pl_goldrush"		"183"
+				"pl_hasslecastle"		"184"
+				"pl_hoodoo_final"		"185"
+				"pl_millstone_event"		"186"
+				"pl_odyssey"		"187"
+				"pl_patagonia"		"188"
+				"pl_phoenix"		"189"
+				"pl_pier"		"190"
+				"pl_precipice_event_final"		"191"
+				"pl_rumble_event"		"192"
+				"pl_rumford_event"		"193"
+				"pl_sludgepit_event"		"194"
+				"pl_snowycoast"		"195"
+				"pl_spineyard"		"196"
+				"pl_swiftwater_final1"		"197"
+				"pl_terror_event"		"198"
+				"pl_thundermountain"		"199"
+				"pl_upward"		"200"
+				"pl_venice"		"201"
+				"pl_wutville_event"		"202"
+				"rd_asteroid"		"203"
+				"sd_doomsday"		"204"
+				"sd_doomsday_event"		"205"
+				"sd_marshlands"		"206"
+				"tc_hydro"		"207"
+				"tow_dynamite"		"208"
+				"tr_dustbowl"		"209"
+				"tr_target"		"210"
+				"vsh_distillery"		"211"
+				"vsh_maul"		"212"
+				"vsh_nucleus"		"213"
+				"vsh_outburst"		"214"
+				"vsh_skirmish"		"215"
+				"vsh_tinyrock"		"216"
+				"zi_atoll"		"217"
+				"zi_blazehattan"		"218"
+				"zi_devastation_final1"		"219"
+				"zi_murky"		"220"
+				"zi_sanitarium"		"221"
+				"zi_woods"		"222"
 			}
-			"val"	"-1"
+			"val"		"71"
 		}
 		"map_preview"
 		{
-			"label"	""
-			"type"	"CATEGORY"
+			"label"		"Unnamed"
+			"type"		"CATEGORY"
 		}
 		"category4"
 		{
-			"label"	"#IT_OtherOptions"
-			"type"	"CATEGORY"
+			"label"		"#IT_OtherOptions"
+			"type"		"CATEGORY"
 		}
 		"sv_use_steam_networking"
 		{
-			"label"	"#Start_Server_SteamNetworking"
-			"type"	"LIST"
+			"label"		"#Start_Server_SteamNetworking"
+			"type"		"LIST"
 			"options"
 			{
 				"#Server_Visibility_Local"		"0"
-				"#Start_Server_SteamNetworking"	"1"
+				"#Start_Server_SteamNetworking"		"1"
 			}
-			"val"	"0"
+			"val"		"0"
+		}
+		"sv_password"
+		{
+			"label"		"SERVER PASSWORD"
+			"type"		"STRING"
+		}
+		"category5"
+		{
+			"label"		"COMMUNICATION SETTINGS"
+			"type"		"CATEGORY"
+		}
+		"sv_alltalk"
+		{
+			"label"		"ENABLE ALL TALK"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"sv_voiceenable"
+		{
+			"label"		"ENABLE VOICE CHAT"
+			"type"		"BOOL"
+			"val"		"1"
+		}
+		"category6"
+		{
+			"label"		"ROUND AND TIME SETTINGS"
+			"type"		"CATEGORY"
+		}
+		"mp_timelimit"
+		{
+			"label"		"TIME LIMIT (MINUTES)"
+			"type"		"STRING"
+			"val"		"0"
+		}
+		"mp_winlimit"
+		{
+			"label"		"WIN LIMIT"
+			"type"		"STRING"
+			"val"		"0"
+		}
+		"mp_maxrounds"
+		{
+			"label"		"MAX ROUNDS"
+			"type"		"STRING"
+			"val"		"0"
+		}
+		"mp_bonusroundtime"
+		{
+			"label"		"BONUS ROUND TIME (SECONDS)"
+			"type"		"STRING"
+			"val"		"15"
+		}
+		"mp_stalemate_enable"
+		{
+			"label"		"ENABLE STALEMATE/SUDDEN DEATH"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"category7"
+		{
+			"label"		"TEAM SETTINGS"
+			"type"		"CATEGORY"
+		}
+		"mp_teams_unbalance_limit"
+		{
+			"label"		"TEAM BALANCE LIMIT"
+			"type"		"STRING"
+			"val"		"1"
+		}
+		"mp_autoteambalance"
+		{
+			"label"		"AUTO TEAM BALANCE"
+			"type"		"BOOL"
+			"val"		"1"
+		}
+		"mp_scrambleteams_auto"
+		{
+			"label"		"AUTO SCRAMBLE TEAMS"
+			"type"		"BOOL"
+			"val"		"1"
+		}
+		"category8"
+		{
+			"label"		"NETWORK AND PERFORMANCE"
+			"type"		"CATEGORY"
+		}
+		"sv_pure"
+		{
+			"label"		"SERVER PURE"
+			"type"		"LIST"
+			"options"
+			{
+				"OFF"		"0"
+				"PURE (WHITELIST)"		"1"
+				"PURE (STRICT)"		"2"
+			}
+			"val"		"0"
+		}
+		"sv_region"
+		{
+			"label"		"SERVER REGION"
+			"type"		"LIST"
+			"options"
+			{
+				"AUTOMATIC"		"-1"
+				"US EAST"		"0"
+				"US WEST"		"1"
+				"SOUTH AMERICA"		"2"
+				"EUROPE"		"3"
+				"ASIA"		"4"
+				"AUSTRALIA"		"5"
+				"MIDDLE EAST"		"6"
+				"AFRICA"		"7"
+			}
+			"val"		"-1"
+		}
+		"sv_downloadurl"
+		{
+			"label"		"FAST DOWNLOAD URL"
+			"type"		"STRING"
+		}
+		"sv_allowupload"
+		{
+			"label"		"ALLOW UPLOADS"
+			"type"		"BOOL"
+			"val"		"1"
+		}
+		"sv_allowdownload"
+		{
+			"label"		"ALLOW DOWNLOADS"
+			"type"		"BOOL"
+			"val"		"1"
 		}
 	}
 	"#Replay_Contest_Rules"
 	{
-		"category_scout"
+		"category1"
 		{
-			"label"	"Scout"
-			"type"	"CATEGORY"
+			"label"		"GAMEPLAY RULES"
+			"type"		"CATEGORY"
 		}
-		"bf_scout_stunball_old_stun"
+		"sv_cheats"
 		{
-			"label"	"Old Sandman Stun"
-			"type"	"BOOL"
-			"val"	"1"
+			"label"		"ENABLE CHEATS"
+			"type"		"BOOL"
+			"val"		"0"
 		}
-		"category_heavy"
+		"mp_tournament"
 		{
-			"label"	"Heavy"
-			"type"	"CATEGORY"
+			"label"		"TOURNAMENT MODE"
+			"type"		"BOOL"
+			"val"		"0"
 		}
-		"tfgrub_lunchbox_owner_can_heal"
+		"mp_highlander"
 		{
-			"label"	"#TFGRUB_Lunchbox_OwnerPickup"
-			"type"	"BOOL"
-			"val"	"0"
-		}
-		"category_engineer"
-		{
-			"label"	"Engineer"
-			"type"	"CATEGORY"
-		}
-		"tfgrub_can_pickup_buildings"
-		{
-			"label"	"Allow Building Pickup"
-			"type"	"BOOL"
-			"val"	"1"
-		}
-		"category_general"
-		{
-			"label"	"General"
-			"type"	"CATEGORY"
+			"label"		"HIGHLANDER MODE (REQUIRES TOURNAMENT MODE)"
+			"type"		"BOOL"
+			"val"		"0"
 		}
 		"mp_friendlyfire"
 		{
-			"label"	"Friendly fire"
-			"type"	"BOOL"
-			"val"	"0"
+			"label"		"ENABLE FRIENDLY FIRE"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"mp_disable_respawn_times"
+		{
+			"label"		"DISABLE RESPAWN TIMES"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"tf_birthday"
+		{
+			"label"		"BIRTHDAY MODE"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"sv_gravity"
+		{
+			"label"		"GRAVITY"
+			"type"		"STRING"
+			"val"		"800"
+		}
+		"cf_allow_ladders"
+		{
+			"label"		"ALLOW LADDERS"
+			"type"		"BOOL"
+			"val"		"1"
+		}
+		"cf_instantrespawn"
+		{
+			"label"		"INSTANT RESPAWN"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"cf_max_speed"
+		{
+			"label"		"MAX SPEED"
+			"type"		"STRING"
+			"val"		"520"
+		}
+		"category2"
+		{
+			"label"		"CLASS AND WEAPON MODIFIERS"
+			"type"		"CATEGORY"
+		}
+		"tf_classlimit"
+		{
+			"label"		"GLOBAL CLASS LIMIT"
+			"type"		"STRING"
+			"val"		"0"
 		}
 		"tf_weapon_criticals"
 		{
-			"label"	"Weapon Criticals"
-			"type"	"BOOL"
-			"val"	"0"
+			"label"		"ENABLE RANDOM CRITS"
+			"type"		"BOOL"
+			"val"		"1"
 		}
 		"tf_weapon_criticals_melee"
 		{
-			"label"	"Melee Weapon Criticals"
-			"type"	"LIST"
+			"label"		"ENABLE RANDOM CRITS ON MELEE"
+			"type"		"LIST"
 			"options"
 			{
-				"Disabled"								"0"
-				"Enabled (if regular criticals are)"	"1"
-				"Enabled"								"2"
+				"OFF"		"0"
+				"ON"		"1"
+				"ON (IGNORES WEAPON CRITICALS)"		"2"
 			}
-			"val"	"2"
+			"val"		"1"
+		}
+		"tf_use_fixed_weaponspreads"
+		{
+			"label"		"USE FIXED WEAPON SPREAD"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"sv_infinite_ammo"
+		{
+			"label"		"INFINITE AMMO"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"cf_infinite_shotgun_knockback"
+		{
+			"label"		"INFINITE F.A.N KNOCKBACK"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"category3"
+		{
+			"label"		"INDIVIDUAL CLASS LIMITS"
+			"type"		"CATEGORY"
+		}
+		"tf_tournament_classlimit_scout"
+		{
+			"label"		"SCOUT LIMIT"
+			"type"		"STRING"
+			"val"		"-1"
+		}
+		"tf_tournament_classlimit_soldier"
+		{
+			"label"		"SOLDIER LIMIT"
+			"type"		"STRING"
+			"val"		"-1"
+		}
+		"tf_tournament_classlimit_pyro"
+		{
+			"label"		"PYRO LIMIT"
+			"type"		"STRING"
+			"val"		"-1"
+		}
+		"tf_tournament_classlimit_demoman"
+		{
+			"label"		"DEMOMAN LIMIT"
+			"type"		"STRING"
+			"val"		"-1"
+		}
+		"tf_tournament_classlimit_heavy"
+		{
+			"label"		"HEAVY LIMIT"
+			"type"		"STRING"
+			"val"		"-1"
+		}
+		"tf_tournament_classlimit_engineer"
+		{
+			"label"		"ENGINEER LIMIT"
+			"type"		"STRING"
+			"val"		"-1"
+		}
+		"tf_tournament_classlimit_medic"
+		{
+			"label"		"MEDIC LIMIT"
+			"type"		"STRING"
+			"val"		"-1"
+		}
+		"tf_tournament_classlimit_sniper"
+		{
+			"label"		"SNIPER LIMIT"
+			"type"		"STRING"
+			"val"		"-1"
+		}
+		"tf_tournament_classlimit_spy"
+		{
+			"label"		"SPY LIMIT"
+			"type"		"STRING"
+			"val"		"-1"
+		}
+		"category3b"
+		{
+			"label"		"COSMETICS AND VOICE"
+			"type"		"CATEGORY"
+		}
+		"cf_cosmetic_restrictions"
+		{
+			"label"		"COSMETIC RESTRICTIONS"
+			"type"		"LIST"
+			"options"
+			{
+				"NONE"		"0"
+				"HALLOWEEN ONLY"		"1"
+				"ALL RESTRICTED"		"2"
+			}
+			"val"		"0"
+		}
+		"cf_voicespam"
+		{
+			"label"		"ALLOW VOICE SPAM"
+			"type"		"BOOL"
+			"val"		"1"
+		}
+		"cf_max_voice_speak_delay"
+		{
+			"label"		"MAX VOICE SPEAK DELAY (SECONDS)"
+			"type"		"STRING"
+			"val"		"1.5"
+		}
+		"category4"
+		{
+			"label"		"MANN VS MACHINE OPTIONS"
+			"type"		"CATEGORY"
+			"prefix"		"mvm_"
+		}
+		"cf_mvm_footstep_sounds"
+		{
+			"label"		"UNIQUE GIANT FOOTSTEP SOUNDS"
+			"type"		"BOOL"
+			"val"		"1"
+			"prefix"		"mvm_"
+		}
+		"cf_mvm_inspect_friends_only"
+		{
+			"label"		"INSPECT FRIENDS ONLY"
+			"type"		"BOOL"
+			"val"		"0"
+			"prefix"		"mvm_"
+		}
+		"cf_mvmvs_enable_human_busters"
+		{
+			"label"		"ENABLE HUMAN SENTRY BUSTERS"
+			"type"		"BOOL"
+			"val"		"0"
+			"prefix"		"mvm_"
+		}
+		"cf_mvmvs_invader_bomb_chance"
+		{
+			"label"		"INVADER BOMB CHANCE (%)"
+			"type"		"STRING"
+			"val"		"0"
+			"prefix"		"mvm_"
+		}
+		"cf_mvmvs_max_bosses"
+		{
+			"label"		"MAX BOSSES"
+			"type"		"STRING"
+			"val"		"1"
+			"prefix"		"mvm_"
+		}
+		"cf_mvmvs_max_giants"
+		{
+			"label"		"MAX GIANTS"
+			"type"		"STRING"
+			"val"		"3"
+			"prefix"		"mvm_"
+		}
+		"cf_mvmvs_playstyle"
+		{
+			"label"		"MVM VS PLAYSTYLE"
+			"type"		"LIST"
+			"options"
+			{
+				"TRADITIONAL MVM"		"0"
+				"ROBOT CONTROL"		"1"
+				"MIXED (RANDOM)"		"2"
+			}
+			"val"		"0"
+			"prefix"		"mvm_"
+		}
+		"cf_mvmvs_restrict_slots"
+		{
+			"label"		"RESTRICT ROBOT SLOTS"
+			"type"		"BOOL"
+			"val"		"1"
+			"prefix"		"mvm_"
+		}
+		"cf_mvmvs_robot_stations"
+		{
+			"label"		"ENABLE ROBOT UPGRADE STATIONS"
+			"type"		"BOOL"
+			"val"		"0"
+			"prefix"		"mvm_"
+		}
+		"cf_mvmvs_use_loadout"
+		{
+			"label"		"ROBOTS USE PLAYER LOADOUT"
+			"type"		"BOOL"
+			"val"		"0"
+			"prefix"		"mvm_"
+		}
 	}
-//	"#GameUI_GameMenu_Options"
-//	{
-//		
-//	}
 }

@@ -234,6 +234,16 @@ void CTFWeaponBaseMelee::PrimaryAttack()
 // -----------------------------------------------------------------------------
 void CTFWeaponBaseMelee::SecondaryAttack()
 {
+	// Check for ghostly dash attribute first
+	int iGhostlyDash = 0;
+	CALL_ATTRIB_HOOK_INT( iGhostlyDash, mod_ghostly_dash );
+	if ( iGhostlyDash )
+	{
+		// Call the base class implementation for ghostly dash
+		BaseClass::SecondaryAttack();
+		return;
+	}
+
 	if ( !CanAttack() )
 		return;
 

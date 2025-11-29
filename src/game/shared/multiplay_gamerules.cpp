@@ -134,7 +134,7 @@ ConVar mp_waitingforplayers_time( "mp_waitingforplayers_time", "0", FCVAR_GAMEDL
 #endif
 
 #ifdef TF_DLL
-ConVar bf_voicespam("bf_voicespam", "0", FCVAR_NOTIFY, "Allow voice commands to be spammed. 1 = spam with subtitiles, 2 = spam without subtitles");
+ConVar cf_voicespam("cf_voicespam", "0", FCVAR_NOTIFY, "Allow voice commands to be spammed. 1 = spam with subtitiles, 2 = spam without subtitles");
 #endif
 
 ConVar mp_waitingforplayers_restart( "mp_waitingforplayers_restart", "0", FCVAR_GAMEDLL, "Set to 1 to start or restart the WaitingForPlayers period." );
@@ -1784,7 +1784,7 @@ ConVarRef suitcharger( "sk_suitcharger" );
 
 					// Send a subtitle to anyone in the PAS
 					#ifdef TF_DLL
-					if (bf_voicespam.GetInt() != 2)
+					if (cf_voicespam.GetInt() != 2)
 					{
 						UserMessageBegin(filter, "VoiceSubtitle");
 						WRITE_BYTE(pPlayer->entindex());

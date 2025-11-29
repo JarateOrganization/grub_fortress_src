@@ -25,7 +25,8 @@ enum FlareGunTypes_t
 	FLAREGUN_NORMAL = 0,
 	FLAREGUN_DETONATE,
 	FLAREGUN_GRORDBORT,
-	FLAREGUN_SCORCHSHOT
+	FLAREGUN_SCORCHSHOT,
+	FLAREGUN_NOCRITS,
 };
 
 //=============================================================================

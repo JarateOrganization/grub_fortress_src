@@ -170,6 +170,11 @@ bool CTFPowerup::ValidTouch( CBasePlayer *pPlayer )
 	// enemies in mann vs machine can't pick up any powerups
 	if ( TFGameRules()->IsMannVsMachineMode() && pPlayer->GetTeamNumber() == TF_TEAM_PVE_INVADERS )
 	{
+		//Mannpower pickups can be used
+		if ( ClassMatches( "item_powerup_rune" ) )
+		{ 
+			return true;
+		}
 		return false;
 	}
 

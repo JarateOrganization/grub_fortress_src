@@ -8,6 +8,7 @@
 #include "c_tf_playerresource.h"
 #include <ctime>
 #include "inetchannelinfo.h"
+#include "KeyValues.h"
 #include "filesystem.h"
 
 // memdbgon.h must be the last include in a cpp file!!!!
@@ -81,7 +82,7 @@ bool CTFDiscordRPC::Init()
 	if (!tf_discord_rpc.GetBool())
 		return true;
 
-	DiscordEventHandlers handlers;
+	DiscordEventHandlers handlers{};
 	handlers.ready = &CTFDiscordRPC::DiscordReady;
 	handlers.disconnected = &CTFDiscordRPC::DiscordDisconnected;
 	handlers.errored = &CTFDiscordRPC::DiscordError;
@@ -294,6 +295,10 @@ void CTFDiscordRPC::UpdateServerInfo()
 		case TF_GAMETYPE_PASSTIME:
 			pszGameType = "Passtime";
 			pszGameTypeShort = "pass";
+			break;
+		case TF_GAMETYPE_RAID:
+			pszGameType = "Raid";
+			pszGameTypeShort = "raid";
 			break;
 		default:
 			pszGameType = "Unknown Gamemode";

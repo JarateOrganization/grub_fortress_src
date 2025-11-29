@@ -39,3 +39,20 @@ float CTFFireAxe::GetInitialAfterburnDuration() const
 }
 #endif
 
+#ifdef CLIENT_DLL
+//-----------------------------------------------------------------------------
+// Purpose: Show the meter if we have mod_soul_defense
+//-----------------------------------------------------------------------------
+bool CTFFireAxe::ShouldDrawMeter() const
+{
+	float flSoulDefense = 0.f;
+	CALL_ATTRIB_HOOK_FLOAT( flSoulDefense, mod_soul_defense );
+	if ( flSoulDefense > 0.f )
+	{
+		return true;
+	}
+	
+	return BaseClass::ShouldDrawMeter();
+}
+#endif
+

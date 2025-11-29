@@ -37,6 +37,7 @@ CTFProjectile_ScrapBall *CTFProjectile_ScrapBall::Create( CBaseEntity *pLauncher
 	if ( pRocket )
 	{
 		pRocket->SetScorer( pScorer );
+		pRocket->m_iMetalCost = 0; // Initialize metal cost
 	}
 
 	return pRocket;
@@ -136,6 +137,40 @@ int CTFProjectile_ScrapBall::GiveMetal( CTFPlayer *pPlayer )
 }
 
 //-----------------------------------------------------------------------------
+// Purpose: Add a player to the list of players hit by this projectile
+//-----------------------------------------------------------------------------
+void CTFProjectile_ScrapBall::AddHitPlayer( CTFPlayer *pPlayer )
+{
+	if ( !pPlayer )
+		return;
+		
+	// Check if this player was already hit
+	if ( HasHitPlayer( pPlayer ) )
+		return;
+		
+	// Add to the list
+	m_HitPlayers.AddToTail( pPlayer->entindex() );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Check if a player was already hit by this projectile
+//-----------------------------------------------------------------------------
+bool CTFProjectile_ScrapBall::HasHitPlayer( CTFPlayer *pPlayer ) const
+{
+	if ( !pPlayer )
+		return false;
+		
+	int iPlayerIndex = pPlayer->entindex();
+	for ( int i = 0; i < m_HitPlayers.Count(); i++ )
+	{
+		if ( m_HitPlayers[i] == iPlayerIndex )
+			return true;
+	}
+	
+	return false;
+}
+
+//-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
 void CTFProjectile_ScrapBall::Explode( trace_t *pTrace, CBaseEntity *pOther )
@@ -205,7 +240,7 @@ void CTFProjectile_ScrapBall::Explode( trace_t *pTrace, CBaseEntity *pOther )
 
 	CSoundEnt::InsertSound ( SOUND_COMBAT, vecOrigin, 1024, 3.0 );
 
-	// Damage.
+	// Damage enemies only (no self-damage or team damage)
 	CBaseEntity *pAttacker = GetOwnerEntity();
 	IScorer *pScorerInterface = dynamic_cast<IScorer*>( pAttacker );
 	if ( pScorerInterface )
@@ -219,8 +254,9 @@ void CTFProjectile_ScrapBall::Explode( trace_t *pTrace, CBaseEntity *pOther )
 
 	float flRadius = GetRadius();
 
-	if ( pAttacker ) // No attacker, deal no damage. Otherwise we could potentially kill teammates.
+	if ( pAttacker )
 	{
+		CTFPlayer *pAttackerPlayer = ToTFPlayer( pAttacker );
 		CTFPlayer *pTarget = ToTFPlayer( GetEnemy() );
 		if ( pTarget )
 		{
@@ -230,11 +266,33 @@ void CTFProjectile_ScrapBall::Explode( trace_t *pTrace, CBaseEntity *pOther )
 			RecordEnemyPlayerHit( pTarget, true );
 		}
 
+		// Apply radius damage to enemies only
 		CTakeDamageInfo info( this, pAttacker, GetOriginalLauncher(), vec3_origin, vecOrigin, GetDamage(), GetDamageType(), GetDamageCustom() );
-		CTFRadiusDamageInfo radiusinfo( &info, vecOrigin, flRadius, NULL, TF_ROCKET_RADIUS_FOR_RJS, GetDamageForceScale() );
-		TFGameRules()->RadiusDamage( radiusinfo );
+		
+		// Manually apply damage to enemies in radius to avoid friendly fire
+		for ( int i = 1; i <= gpGlobals->maxClients; i++ )
+		{
+			CBaseEntity *pEntity = UTIL_PlayerByIndex( i );
+			if ( !pEntity )
+				continue;
+				
+			// Skip teammates and the attacker
+			if ( pAttackerPlayer && pEntity->GetTeamNumber() == pAttackerPlayer->GetTeamNumber() )
+				continue;
+				
+			float flDist = ( pEntity->GetAbsOrigin() - vecOrigin ).Length();
+			if ( flDist <= flRadius )
+			{
+				// Apply damage with falloff
+				float flAdjustedDamage = GetDamage() * ( 1.0f - ( flDist / flRadius ) );
+				if ( flAdjustedDamage > 0 )
+				{
+					CTakeDamageInfo enemyInfo( this, pAttacker, GetOriginalLauncher(), vec3_origin, pEntity->GetAbsOrigin(), flAdjustedDamage, GetDamageType(), GetDamageCustom() );
+					pEntity->TakeDamage( enemyInfo );
+				}
+			}
+		}
 	}
-
 
 	// Don't decal players with scorch.
 	if ( ( iNoSelfBlastDamage == 0 ) )
@@ -242,11 +300,62 @@ void CTFProjectile_ScrapBall::Explode( trace_t *pTrace, CBaseEntity *pOther )
 		UTIL_DecalTrace( pTrace, "Scorch" );
 	}
 
-	//Fix buildings BLOCK
-
+	// Get the Engineer who fired this projectile
 	CTFPlayer *pScorer = ToTFPlayer( GetOwnerEntity() );
+	
+	// Use the stored metal cost, not the attribute
+	int iMetalCost = GetMetalCost();
+	
+	// Scan for ally players in radius and track hits (excluding the Engineer who fired)
+	CUtlVector<CTFPlayer*> hitPlayers;
+	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
+	{
+		CTFPlayer *pPlayer = ToTFPlayer( UTIL_PlayerByIndex( i ) );
+		if ( !pPlayer || pPlayer->GetTeamNumber() != GetTeamNumber() )
+			continue;
+		
+		// Exclude the Engineer who fired the scrapball
+		if ( pPlayer == pScorer )
+			continue;
+			
+		float flDist = ( pPlayer->GetAbsOrigin() - vecOrigin ).Length();
+		if ( flDist <= flRadius )
+		{
+			// Track this player as hit
+			AddHitPlayer( pPlayer );
+			hitPlayers.AddToTail( pPlayer );
+		}
+	}
+	
+	// Split metal among hit players and give them ammo
+	int iHitPlayerCount = GetHitPlayerCount();
+	if ( iHitPlayerCount > 0 && iMetalCost > 0 )
+	{
+		int iMetalPerPlayer = iMetalCost / iHitPlayerCount;
+		
+		FOR_EACH_VEC( hitPlayers, i )
+		{
+			CTFPlayer *pPlayer = hitPlayers[i];
+			if ( pPlayer )
+			{
+				// Give this player their share of metal
+				pPlayer->GiveAmmo( iMetalPerPlayer, TF_AMMO_METAL, false, kAmmoSource_DispenserOrCart );
+				
+				// Give primary ammo (based on max ammo * 20%)
+				int iMaxPrimary = pPlayer->GetMaxAmmo( TF_AMMO_PRIMARY );
+				pPlayer->GiveAmmo( iMaxPrimary * 0.2f, TF_AMMO_PRIMARY, true, kAmmoSource_DispenserOrCart );
+				
+				// Give secondary ammo (based on max ammo * 20%)
+				int iMaxSecondary = pPlayer->GetMaxAmmo( TF_AMMO_SECONDARY );
+				pPlayer->GiveAmmo( iMaxSecondary * 0.2f, TF_AMMO_SECONDARY, true, kAmmoSource_DispenserOrCart );
+			}
+		}
+		
+		// Play an impact sound
+		EmitSound( "Weapon_Arrow.ImpactFleshCrossbowHeal" );
+	}
 
-	//Scan for buildings
+	// Scan for buildings to repair/upgrade
 	CUtlVector<CBaseObject*> objVector;
 	for ( int i = 0; i < IBaseObjectAutoList::AutoList().Count(); ++i )
 	{
@@ -260,33 +369,24 @@ void CTFProjectile_ScrapBall::Explode( trace_t *pTrace, CBaseEntity *pOther )
 			objVector.AddToTail( pObj );
 		}
 	}
-
-	int iAmmoPerShot = 0;
-	CALL_ATTRIB_HOOK_INT_ON_OTHER( GetLauncher(), iAmmoPerShot, mod_ammo_per_shot );
 	
 	int iValidObjCount = objVector.Count();
-	if ( iValidObjCount > 0 )
+	if ( iValidObjCount > 0 && iMetalCost > 0 )
 	{
 		FOR_EACH_VEC( objVector, i )
 		{
 			CBaseObject *pObj = objVector[i];
 
-			//if (pObj->GetHealth() == pObj->GetMaxHealth())
-				//return;
-
 			bool bRepairHit = false;
 			bool bUpgradeHit = false;
 
-			bRepairHit = ( pObj->Command_Repair( pScorer, iAmmoPerShot, 1.f ) > 0 );
+			bRepairHit = ( pObj->Command_Repair( pScorer, iMetalCost, 1.f ) > 0 );
 
 			if ( !bRepairHit )
 			{
 				bUpgradeHit = pObj->CheckUpgradeOnHit( pScorer );
 			}
 		}
-		// Play an impact sound.
-		EmitSound( "Weapon_Arrow.ImpactFleshCrossbowHeal" );
-		//UTIL_Remove( this );
 	}
 
 	// Remove the rocket.

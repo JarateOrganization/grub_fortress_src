@@ -45,6 +45,7 @@
 #include "halloween/halloween_base_boss.h"
 #include "tf_fx.h"
 #include "tf_gamestats.h"
+#include "func_respawnroom.h"
 // Client specific.
 #else
 #include "c_tf_player.h"
@@ -1533,12 +1534,118 @@ void CTFWeaponBase::SecondaryAttack( void )
 	if ( iAltFireDisabled )
 		return;
 
+	// Check for ghostly dash attribute
+	int iGhostlyDash = 0;
+	CALL_ATTRIB_HOOK_INT( iGhostlyDash, mod_ghostly_dash );
+	if ( iGhostlyDash )
+	{
+		CTFPlayer *pOwner = GetTFPlayerOwner();
+		if ( pOwner )
+		{
+			// Get the loadout position for this weapon
+			CEconItemView *pItem = GetAttributeContainer()->GetItem();
+			if ( pItem && pItem->GetStaticData() )
+			{
+				loadout_positions_t eLoadoutPosition = (loadout_positions_t)pItem->GetStaticData()->GetLoadoutSlot( pOwner->GetPlayerClass()->GetClassIndex() );
+				if ( eLoadoutPosition >= FIRST_LOADOUT_SLOT_WITH_CHARGE_METER && eLoadoutPosition <= LAST_LOADOUT_SLOT_WITH_CHARGE_METER )
+				{
+					float flCharge = pOwner->m_Shared.GetItemChargeMeter( eLoadoutPosition );
+					if ( flCharge >= 100.0f )
+					{
+						// Perform the dash
+						PerformGhostlyDash( pOwner, eLoadoutPosition );
+						m_flNextSecondaryAttack = gpGlobals->curtime + 0.5f; // Small cooldown
+						return;
+					}
+				}
+			}
+		}
+	}
+
 	// Set the weapon mode.
 	m_iWeaponMode = TF_WEAPON_SECONDARY_MODE;
 
 
 	// Don't hook secondary for now.
 	return;
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Perform the ghostly dash mechanic
+//-----------------------------------------------------------------------------
+void CTFWeaponBase::PerformGhostlyDash( CTFPlayer *pOwner, loadout_positions_t eLoadoutPosition )
+{
+	if ( !pOwner )
+		return;
+
+#ifdef GAME_DLL
+	// Get the direction the player is looking
+	Vector vecForward;
+	AngleVectors( pOwner->EyeAngles(), &vecForward );
+	
+	// Flatten to horizontal plane (no vertical component)
+	vecForward.z = 0.0f;
+	VectorNormalize( vecForward );
+	
+	// Dash distance: 512 Hammer Units
+	const float flDashDistance = 512.0f;
+	
+	// Calculate new position
+	Vector vecCurrentPos = pOwner->GetAbsOrigin();
+	Vector vecNewPos = vecCurrentPos + (vecForward * flDashDistance);
+	
+	// Perform trace to catch walls and geometry first
+	trace_t tr;
+	UTIL_TraceHull( vecCurrentPos, vecNewPos, pOwner->GetPlayerMins(), pOwner->GetPlayerMaxs(), 
+		MASK_PLAYERSOLID, pOwner, COLLISION_GROUP_PLAYER_MOVEMENT, &tr );
+	
+	// Now check along the path for respawn rooms we shouldn't enter
+	float flStepSize = 32.0f;
+	int nSteps = (int)(tr.fraction * flDashDistance / flStepSize);
+	Vector vecFinalPos = tr.endpos;
+	
+	for ( int i = 1; i <= nSteps; i++ )
+	{
+		Vector vecCheckPos = vecCurrentPos + (vecForward * (flStepSize * i));
+		
+		// Check all func_respawnroom entities
+		for ( int j = 0; j < IFuncRespawnRoomAutoList::AutoList().Count(); j++ )
+		{
+			CFuncRespawnRoom *pRespawnRoom = static_cast<CFuncRespawnRoom*>( IFuncRespawnRoomAutoList::AutoList()[j] );
+			if ( !pRespawnRoom || !pRespawnRoom->GetActive() )
+				continue;
+			
+			// Check if this point is in a respawn room
+			if ( pRespawnRoom->PointIsWithin( vecCheckPos ) )
+			{
+				// Check if it's an enemy respawn room
+				if ( pRespawnRoom->GetTeamNumber() != TEAM_UNASSIGNED && 
+					 pRespawnRoom->GetTeamNumber() != pOwner->GetTeamNumber() )
+				{
+					// Blocked by enemy spawn - stop before entering
+					vecFinalPos = vecCurrentPos + (vecForward * (flStepSize * (i - 1)));
+					goto dash_complete;
+				}
+			}
+		}
+	}
+	
+dash_complete:
+	// Teleport to the final position
+	pOwner->SetAbsOrigin( vecFinalPos );
+	
+	// Clear velocity to prevent momentum carry-over
+	pOwner->SetAbsVelocity( vec3_origin );
+	
+	// Play a sound effect
+	pOwner->EmitSound( "Halloween.EyeballBossTeleport" );
+	
+	// Reset the charge meter
+	pOwner->m_Shared.SetItemChargeMeter( eLoadoutPosition, 0.0f );
+	
+	// Send animation event
+	pOwner->DoAnimationEvent( PLAYERANIMEVENT_ATTACK_SECONDARY );
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -2409,10 +2516,15 @@ void CTFWeaponBase::ItemBusyFrame( void )
 
 	if ( ( pOwner->m_nButtons & IN_ATTACK2 ) && /*m_bInReload == false &&*/ m_bInAttack2 == false )
 	{
+		// Check if this weapon has the ghostly dash attribute - if so, don't do class special skill
+		int iGhostlyDash = 0;
+		CALL_ATTRIB_HOOK_INT( iGhostlyDash, mod_ghostly_dash );
+		
 		// Check if this weapon has the attribute to disable alt-fire
 		int iAltFireDisabled = 0;
 		CALL_ATTRIB_HOOK_INT( iAltFireDisabled, unimplemented_altfire_disabled );
-		if ( !iAltFireDisabled )
+		
+		if ( !iAltFireDisabled && !iGhostlyDash )
 		{
 			pOwner->DoClassSpecialSkill();
 		}

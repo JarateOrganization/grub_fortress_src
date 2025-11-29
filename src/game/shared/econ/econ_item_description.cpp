@@ -3389,7 +3389,7 @@ bool CEconItemDescription::CVisibleAttributeDisplayer::OnIterateAttributeValue( 
 {
 	if ( !pAttrDef->IsHidden() )
 	{
-		attrib_iterator_value_t attrVal = { pAttrDef, value };
+		attrib_iterator_value_t attrVal = { pAttrDef, value, m_vecAttributes.Count() };
 		m_vecAttributes.AddToTail( attrVal );
 	}
 
@@ -3398,10 +3398,8 @@ bool CEconItemDescription::CVisibleAttributeDisplayer::OnIterateAttributeValue( 
 
 void CEconItemDescription::CVisibleAttributeDisplayer::SortAttributes()
 {
-	// We need to make sure we process attributes in the same order when iterating on the GC and the client
-	// when looking for agreement. We take advantage of this to also sort our attributes into a coherent
-	// order for display -- first come neutral attributes, then positive, then negative. In the event of a
-	// tie, we sort by attribute index, which is arbitrary but consistent across the client/GC.
+	// Sort attributes by effect type first (neutral, positive, negative),
+	// then preserve the order they were defined in the schema (iteration order).
 	struct AttributeValueSorter
 	{
 		static int sSort( const attrib_iterator_value_t *pA, const attrib_iterator_value_t *pB )
@@ -3410,7 +3408,8 @@ void CEconItemDescription::CVisibleAttributeDisplayer::SortAttributes()
 			if ( iEffectTypeDelta != 0 )
 				return iEffectTypeDelta;
 
-			return pA->m_pAttrDef->GetDefinitionIndex() - pB->m_pAttrDef->GetDefinitionIndex();
+			// Preserve schema definition order within each effect type
+			return pA->m_iIterationOrder - pB->m_iIterationOrder;
 		}
 	};
 

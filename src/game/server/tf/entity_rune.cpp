@@ -446,6 +446,7 @@ bool CTFRune::RepositionRune( RuneTypes_t nType, int nTeamNumber )
 		CTFInfoPowerupSpawn *pSpawnPoint = vecSpawnPoints[index];
 		CTFRune *pNewRune = CreateRune( vecSpawnPoints[index]->GetAbsOrigin(), nType, TEAM_ANY, false, false );
 		pSpawnPoint->SetRune( pNewRune );
+		pSpawnPoint->m_OnPowerupSpawned.FireOutput( pSpawnPoint, pSpawnPoint );
 
 		return true;
 	}
@@ -605,6 +606,11 @@ BEGIN_DATADESC( CTFInfoPowerupSpawn )
 
 	DEFINE_KEYFIELD( m_bDisabled, FIELD_BOOLEAN, "disabled" ),
 	DEFINE_KEYFIELD( m_nTeam, FIELD_INTEGER, "team" ),
+	//Outputs
+	DEFINE_OUTPUT( m_OnPowerupSpawned, "OnPowerupSpawned" ),
+	//Inputs
+	DEFINE_INPUTFUNC( FIELD_INTEGER, "SpawnType", InputSpawnType ),
+	DEFINE_INPUTFUNC( FIELD_INTEGER, "SpawnRandom", InputSpawnRandom ),
 
 END_DATADESC()
 
@@ -623,4 +629,24 @@ void CTFInfoPowerupSpawn::Spawn()
 
 	// set baseclass team number
 	ChangeTeam( m_nTeam );
+}
+//-----------------------------------------------------------------------------
+// Custom Fortress: Force Spawn or Spawn Random Inputs
+//-----------------------------------------------------------------------------
+void CTFInfoPowerupSpawn::InputSpawnType( inputdata_t &inputdata )
+{
+	if ( inputdata.value.Int() > RUNE_TYPES_MAX - 1 )
+	{ 
+		Msg("Tried to spawn an Invalid Powerup Type! Use a number between 0 to %i!\n", RUNE_TYPES_MAX - 1);
+		return;
+	}
+	
+	CTFRune *pNewRune = CTFRune::CreateRune( this->GetAbsOrigin(), (RuneTypes_t)inputdata.value.Int(), this->GetTeamNumber(), false, false);
+	m_OnPowerupSpawned.FireOutput( pNewRune, this );
+}
+
+void CTFInfoPowerupSpawn::InputSpawnRandom( inputdata_t &inputdata )
+{
+	CTFRune *pNewRune = CTFRune::CreateRune( this->GetAbsOrigin(), (RuneTypes_t)RandomInt( 0, RUNE_TYPES_MAX - 1 ) , inputdata.value.Int(), false, false );
+	m_OnPowerupSpawned.FireOutput( pNewRune, this );
 }

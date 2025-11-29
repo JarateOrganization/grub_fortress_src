@@ -33,7 +33,7 @@ DECLARE_HUDELEMENT( CHudInspectPanel );
 
 static float s_flLastInspectDownTime = 0.f;
 
-extern ConVar bf_mvm_inspect_friends_only;
+extern ConVar cf_mvm_inspect_friends_only;
 
 void InspectDown()
 {
@@ -173,7 +173,7 @@ void CHudInspectPanel::UserCmd_InspectTarget( void )
 			// Inspect a player
 			else if ( pTargetPlayer && ( pTargetPlayer->GetTeamNumber() != TF_TEAM_PVE_INVADERS ) )
 			{
-				if ( !GetClientModeTFNormal()->BIsFriendOrPartyMember( pTargetPlayer ) && bf_mvm_inspect_friends_only.GetBool() )
+				if ( !GetClientModeTFNormal()->BIsFriendOrPartyMember( pTargetPlayer ) && cf_mvm_inspect_friends_only.GetBool() )
 				{
 					internalCenterPrint->Print( "#TF_Invalid_Inspect_Target" );
 					return;

@@ -49,6 +49,7 @@
 extern ConVar tf_grenadelauncher_max_chargetime;
 ConVar tf_grenadelauncher_chargescale( "tf_grenadelauncher_chargescale", "1.0", FCVAR_CHEAT | FCVAR_REPLICATED | FCVAR_DEVELOPMENTONLY );
 ConVar tf_grenadelauncher_livetime( "tf_grenadelauncher_livetime", "0.8", FCVAR_CHEAT | FCVAR_REPLICATED | FCVAR_DEVELOPMENTONLY );
+ConVar cf_demoman_wall_bounce_directs( "cf_demoman_wall_bounce_directs", "0", FCVAR_REPLICATED | FCVAR_NOTIFY, "If enabled, Demoman's grenades will still explode on contact with players even after bouncing off surfaces." );
 extern ConVar tf_sticky_radius_ramp_time;
 extern ConVar tf_sticky_airdet_radius;
 extern ConVar friendlyfire;
@@ -909,8 +910,12 @@ void CTFGrenadePipebombProjectile::VPhysicsCollision( int index, gamevcollisione
 		// Blow up if we hit an enemy we can damage
 		else if ( pHitEntity->GetTeamNumber() && ( pHitEntity->GetTeamNumber() != GetTeamNumber() || friendlyfire.GetBool() ) && pHitEntity->m_takedamage != DAMAGE_NO || pHitEntity->m_bExplodesProjectiles )
 		{
-			SetThink( &CTFGrenadePipebombProjectile::Detonate );
-			SetNextThink( gpGlobals->curtime );
+			// Check if we should allow direct hits after bouncing
+			if ( m_bTouched == false || cf_demoman_wall_bounce_directs.GetBool() )
+			{
+				SetThink( &CTFGrenadePipebombProjectile::Detonate );
+				SetNextThink( gpGlobals->curtime );
+			}
 		}
 
 		if ( m_bTouched == false )
@@ -1196,6 +1201,18 @@ void CTFGrenadePipebombProjectile::DetonateThink( void )
 
 void CTFGrenadePipebombProjectile::PreArmThink( void )
 {
+	// Check for floating stickies - make them float on water
+	int iFloatingStickies = 0;
+	CALL_ATTRIB_HOOK_INT_ON_OTHER( GetLauncher(), iFloatingStickies, mod_floating_stickies );
+	if ( iFloatingStickies && GetWaterLevel() > 0 )
+	{
+		// Apply upward force to keep sticky floating
+		Vector vecVelocity = GetAbsVelocity();
+		vecVelocity.z = Max( vecVelocity.z, 50.0f ); // Minimum upward velocity
+		SetAbsVelocity( vecVelocity );
+		SetGravity( 0.1f ); // Very low gravity in water
+	}
+
 	SetContextThink( &CTFGrenadePipebombProjectile::ArmThink, gpGlobals->curtime + GetLiveTime(), "ARM_THINK" );
 }
 
@@ -1224,6 +1241,37 @@ void CTFGrenadePipebombProjectile::ArmThink( void )
 
 			// We didn't find the medic.  What provided TF_COND_CRITBOOSTED?
 			Assert( m_CritMedics.Count() );
+		}
+	}
+
+	// Check for proximity detonation
+	int iProximityStickies = 0;
+	CALL_ATTRIB_HOOK_INT_ON_OTHER( GetLauncher(), iProximityStickies, mod_proximity_stickies );
+	if ( iProximityStickies && HasStickyEffects() && m_bTouched )
+	{
+		// Check if armed
+		if ( ( gpGlobals->curtime - m_flCreationTime ) >= GetLiveTime() )
+		{
+			// Check for nearby enemies
+			CTFPlayer *pOwner = ToTFPlayer( GetThrower() );
+			if ( pOwner )
+			{
+				const float flProximityRadius = 150.0f; // Proximity detection radius
+				CBaseEntity *pEntity = NULL;
+				for ( CEntitySphereQuery sphere( GetAbsOrigin(), flProximityRadius ); ( pEntity = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
+				{
+					if ( !pEntity || !pEntity->IsPlayer() || !pEntity->IsAlive() )
+						continue;
+
+					CTFPlayer *pPlayer = ToTFPlayer( pEntity );
+					if ( !pPlayer || pPlayer == pOwner || pPlayer->GetTeamNumber() == pOwner->GetTeamNumber() )
+						continue;
+
+					// Enemy is in range, detonate!
+					Detonate();
+					return;
+				}
+			}
 		}
 	}
 

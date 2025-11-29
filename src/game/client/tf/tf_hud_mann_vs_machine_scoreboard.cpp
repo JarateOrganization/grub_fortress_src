@@ -18,7 +18,7 @@ using namespace vgui;
 extern ConVar tf_mvm_respec_credit_goal;
 extern ConVar tf_mvm_respec_limit;
 extern ConVar tf_scoreboard_alt_class_icons;
-extern ConVar bf_gamemode_mvmvs;
+extern ConVar cf_gamemode_mvmvs;
 
 DECLARE_BUILD_FACTORY( CMvMScoreboardEnemyInfo );
 
@@ -287,7 +287,7 @@ void CTFHudMannVsMachineScoreboard::InitPlayerList ( IScheme *pScheme )
 	m_pPlayerList->RemoveAllSections();
 	
 	// Check if we're in MvM Versus mode
-	bool bMvMVersusMode = TFGameRules() && TFGameRules()->IsMannVsMachineMode() && bf_gamemode_mvmvs.GetBool();
+	bool bMvMVersusMode = TFGameRules() && TFGameRules()->IsMannVsMachineMode() && cf_gamemode_mvmvs.GetBool();
 	
 	if ( bMvMVersusMode )
 	{
@@ -413,7 +413,7 @@ void CTFHudMannVsMachineScoreboard::UpdatePlayerList ()
 		return;
 
 	// Check if we're in MvM Versus mode
-	bool bMvMVersusMode = TFGameRules() && TFGameRules()->IsMannVsMachineMode() && bf_gamemode_mvmvs.GetBool();
+	bool bMvMVersusMode = TFGameRules() && TFGameRules()->IsMannVsMachineMode() && cf_gamemode_mvmvs.GetBool();
 
 	// Count players on each team first to manage section visibility
 	int defenderCount = 0;

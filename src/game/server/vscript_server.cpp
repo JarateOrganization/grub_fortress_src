@@ -39,6 +39,11 @@
 #include "bot/tf_bot.h"
 #endif
 
+#ifdef CLIENT_DLL
+#include "c_tf_player.h"
+#include "econ/econ_notifications.h"
+#endif 
+
 #if defined( _WIN32 ) || defined( POSIX )
 #include "vscript_server_nut.h"
 #endif
@@ -77,6 +82,7 @@ ConVar script_connect_debugger_on_mapspawn( "script_connect_debugger_on_mapspawn
 
 ConVar script_attach_debugger_at_startup( "script_attach_debugger_at_startup", "0" );
 ConVar script_break_in_native_debugger_on_error( "script_break_in_native_debugger_on_error", "0" );
+ConVar cf_vscript_allow_notifications( "cf_vscript_allow_notifications", "1", FCVAR_NOTIFY | FCVAR_REPLICATED, "Max time after a voice command until player can do another one");
 
 #define VSCRIPT_CONVAR_ALLOWLIST_NAME "cfg/vscript_convar_allowlist.txt"
 
@@ -2014,6 +2020,40 @@ static void Script_ClientPrint( HSCRIPT hPlayer, int iDest, const char *pText )
 	}
 }
 
+
+static void Script_SendNotification( HSCRIPT hPlayer, float flLifetime, const char *pText, const char *iszSound )
+{
+
+	if ( !cf_vscript_allow_notifications.GetBool() ) 
+	{
+		Msg( "Server needs cf_vscript_allow_notifications set to 1 for sending custom notifications to players\n" );
+		return;
+	}
+
+
+	CBaseEntity *pBaseEntity = ToEnt( hPlayer );
+	CBasePlayer *pPlayer = dynamic_cast<CBasePlayer*>( pBaseEntity );
+	CRecipientFilter filter;
+	
+	if( hPlayer )
+	{
+		filter.AddRecipient( pPlayer );
+	}
+	else
+	{
+		filter.AddAllPlayers();
+	}
+
+	filter.MakeReliable();
+
+	UserMessageBegin( filter, "VS_SendNotification" );
+		WRITE_FLOAT( flLifetime );
+		WRITE_STRING( pText );
+		WRITE_STRING( iszSound );
+	MessageEnd();
+}
+
+
 static void ScriptEmitAmbientSoundOn( const char *soundname, float volume, int soundlevel, int pitch, HSCRIPT entity )
 {
 	if ( !soundname || !*soundname )
@@ -2772,6 +2812,7 @@ bool VScriptServerInit()
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_GetFrameCount, "GetFrameCount", "Returns the engines current frame count" );
 
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_ClientPrint, "ClientPrint", "Print a client message" );
+				ScriptRegisterFunctionNamed( g_pScriptVM, Script_SendNotification, "SendNotification", "Send a notification" );
 				ScriptRegisterFunctionNamed( g_pScriptVM, ScriptEmitAmbientSoundOn, "EmitAmbientSoundOn", "Play named ambient sound on an entity." );
 				ScriptRegisterFunctionNamed( g_pScriptVM, ScriptStopAmbientSoundOn, "StopAmbientSoundOn", "Stop named ambient sound on an entity." );
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_SetFakeClientConVarValue, "SetFakeClientConVarValue", "Sets a USERINFO client ConVar for a fakeclient" );
@@ -3581,6 +3622,7 @@ DECLARE_SCRIPT_CONST( ETFDmgCustom, TF_DMG_CUSTOM_RUNE_REFLECT )
 DECLARE_SCRIPT_CONST( ETFDmgCustom, TF_DMG_CUSTOM_DRAGONS_FURY_IGNITE )
 DECLARE_SCRIPT_CONST( ETFDmgCustom, TF_DMG_CUSTOM_DRAGONS_FURY_BONUS_BURNING )
 DECLARE_SCRIPT_CONST( ETFDmgCustom, TF_DMG_CUSTOM_SLAP_KILL )
+DECLARE_SCRIPT_CONST( ETFDmgCustom, TF_DMG_CUSTOM_MARLIN_KILL )
 DECLARE_SCRIPT_CONST( ETFDmgCustom, TF_DMG_CUSTOM_CROC )
 DECLARE_SCRIPT_CONST( ETFDmgCustom, TF_DMG_CUSTOM_TAUNTATK_GASBLAST )
 DECLARE_SCRIPT_CONST( ETFDmgCustom, TF_DMG_CUSTOM_AXTINGUISHER_BOOSTED )

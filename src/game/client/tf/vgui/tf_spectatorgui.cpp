@@ -76,7 +76,7 @@ void HUDCleanSpectatorChangedCallBack( IConVar *var, const char *pOldString, flo
 		pPanel->InvalidateLayout( true, true );
 	}
 }
-ConVar bf_clean_spectator_hud( "bf_clean_spectator_hud", "0", FCVAR_ARCHIVE, "Hide the spectator GUI elements for a cleaner viewing experience.", HUDCleanSpectatorChangedCallBack );
+ConVar cf_clean_spectator_hud( "cf_clean_spectator_hud", "0", FCVAR_ARCHIVE, "Hide the spectator GUI elements for a cleaner viewing experience.", HUDCleanSpectatorChangedCallBack );
 
 void HUDTournamentSpecChangedCallBack( IConVar *var, const char *pOldString, float flOldValue )
 {
@@ -306,8 +306,8 @@ bool CTFSpectatorGUI::NeedsUpdate( void )
 void CTFSpectatorGUI::Update()
 {
 	// Check if clean spectator HUD is enabled and hide panel if needed
-	static ConVarRef bf_clean_spectator_hud( "bf_clean_spectator_hud" );
-	if ( bf_clean_spectator_hud.GetBool() && IsVisible() )
+	static ConVarRef cf_clean_spectator_hud( "cf_clean_spectator_hud" );
+	if ( cf_clean_spectator_hud.GetBool() && IsVisible() )
 	{
 		SetVisible( false );
 		return;
@@ -809,8 +809,8 @@ void CTFSpectatorGUI::UpdateKeyLabels( void )
 void CTFSpectatorGUI::ShowPanel(bool bShow)
 {
 	// Check if clean spectator HUD is enabled
-	static ConVarRef bf_clean_spectator_hud( "bf_clean_spectator_hud" );
-	if ( bf_clean_spectator_hud.GetBool() && bShow )
+	static ConVarRef cf_clean_spectator_hud( "cf_clean_spectator_hud" );
+	if ( cf_clean_spectator_hud.GetBool() && bShow )
 	{
 		// Hide the spectator GUI completely when clean mode is enabled
 		BaseClass::ShowPanel( false );

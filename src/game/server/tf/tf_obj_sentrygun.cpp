@@ -1836,6 +1836,17 @@ bool CObjectSentrygun::MoveTurret( void )
 		iBaseTurnRate *= 1.35f;
 	}
 
+	// Apply turn rate multiplier from attributes
+	float flTurnRateMult = 1.0f;
+	if ( GetOwner() && !IsDisposableBuilding() )
+	{
+		CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( GetOwner(), flTurnRateMult, mult_sentry_turn_rate );
+		if ( flTurnRateMult != 1.0f )
+		{
+			iBaseTurnRate = (int)( (float)iBaseTurnRate / flTurnRateMult );
+		}
+	}
+
 	// any x movement?
 	if ( m_vecCurAngles.x != m_vecGoalAngles.x )
 	{

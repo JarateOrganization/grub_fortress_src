@@ -16,6 +16,8 @@
 // TF Flare Projectile functions (Server specific).
 //
 #define FLARE_MODEL					"models/weapons/w_models/w_flaregun_shell.mdl"
+#define FLARE_DETONATOR_MODEL		"models/weapons/w_models/w_detonator_shell.mdl" 
+#define FLARE_SPITFIRE_MODEL		"models/weapons/w_models/w_pilotflare.mdl"
 #define FLARE_GRAVITY				0.3f
 #define FLARE_SPEED					2000.0f
 
@@ -107,6 +109,21 @@ void CTFProjectile_Flare::Spawn()
 	SetModel( FLARE_MODEL );
 	BaseClass::Spawn();
 
+	CTFFlareGun *pFlareGun = dynamic_cast< CTFFlareGun* >( GetLauncher() );
+	if ( pFlareGun )
+	{ 
+		switch ( pFlareGun->GetFlareGunType() )
+		{
+		case FLAREGUN_DETONATE:
+			SetModel( FLARE_DETONATOR_MODEL );
+			break;
+
+		case FLAREGUN_NOCRITS:
+			SetModel( FLARE_SPITFIRE_MODEL );
+			break;
+		}
+	}
+
 	float flHeatSeekPower = GetHeatSeekPower();
 
 	if ( flHeatSeekPower > 0.0f )
@@ -153,6 +170,8 @@ void CTFProjectile_Flare::Spawn()
 void CTFProjectile_Flare::Precache()
 {
 	PrecacheModel( FLARE_MODEL );
+	PrecacheModel( FLARE_DETONATOR_MODEL );
+	PrecacheModel( FLARE_SPITFIRE_MODEL );
 	PrecacheParticleSystem( "flaregun_trail_red" );
 	PrecacheParticleSystem( "flaregun_trail_crit_red" );
 	PrecacheParticleSystem( "flaregun_trail_blue" );
@@ -318,6 +337,7 @@ void CTFProjectile_Flare::Explode( trace_t *pTrace, CBaseEntity *pOther )
 
 	bool bDetonate = false;
 	bool bNoRandomCrit = false;
+	bool bNoCrits = false;
 	if ( pFlareGun )
 	{
 		switch ( pFlareGun->GetFlareGunType() )
@@ -334,11 +354,15 @@ void CTFProjectile_Flare::Explode( trace_t *pTrace, CBaseEntity *pOther )
 			bDetonate = true;
 			bNoRandomCrit = true;
 			break;
+
+		case FLAREGUN_NOCRITS:
+			bNoCrits = true;
+			break;
 		}
 	}
 
 	// Flares that hit a burning player crit, unless it's a detonate flare - they mini-crit
-	if ( pTFVictim && pTFVictim->m_Shared.InCond( TF_COND_BURNING ) && !bDetonate && !bNoRandomCrit )
+	if ( pTFVictim && pTFVictim->m_Shared.InCond( TF_COND_BURNING ) && !bDetonate && !bNoRandomCrit && !bNoCrits )
 	{
 		m_bCritical = true;
 	}

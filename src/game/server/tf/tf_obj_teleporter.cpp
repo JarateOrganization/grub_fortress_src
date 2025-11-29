@@ -88,8 +88,8 @@ PRECACHE_REGISTER( obj_teleporter );
 
 ConVar tf_teleporter_fov_start( "tf_teleporter_fov_start", "120", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "Starting FOV for teleporter zoom.", true, 1, false, 0 );
 ConVar tf_teleporter_fov_time( "tf_teleporter_fov_time", "0.5", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "How quickly to restore FOV after teleport.", true, 0.0, false, 0 );
-ConVar tf_teleporter_always_bread( "tf_teleporter_always_bread", "0", FCVAR_REPLICATED, "Force to spawn Bread everytime someone teleports" );
-ConVar tf_teleporter_spawns_tossable_bread( "tf_teleporter_spawns_tossable_bread", "0", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "I don't like tossing cooked wheat" );
+ConVar cf_teleporter_always_bread( "cf_teleporter_always_bread", "0", FCVAR_REPLICATED, "Force to spawn Bread everytime someone teleports" );
+ConVar cf_teleporter_spawns_tossable_bread( "cf_teleporter_spawns_tossable_bread", "0", FCVAR_REPLICATED | FCVAR_DEVELOPMENTONLY, "Enable Bread Tossing item drops when teleported" );
 extern ConVar tf_bot_engineer_mvm_building_health_multiplier;
 
 LINK_ENTITY_TO_CLASS( obj_teleporter, CObjectTeleporter );
@@ -415,7 +415,7 @@ bool CObjectTeleporter::IsPlacementPosValid( void )
 
 	// m_vecBuildOrigin is the proposed build origin
 
-	if( TFGameRules() && TFGameRules()->IsMannVsMachineMode() && GetTeamNumber() == TF_TEAM_PVE_INVADERS && bf_gamemode_mvmvs.GetBool())
+	if( TFGameRules() && TFGameRules()->IsMannVsMachineMode() && GetTeamNumber() == TF_TEAM_PVE_INVADERS && cf_gamemode_mvmvs.GetBool())
 	{
 		if ( PointInFlagDetectionZone( m_vecBuildOrigin, this ) )
 			return false;
@@ -456,7 +456,7 @@ void CObjectTeleporter::OnGoActive( void )
 	m_flLastStateChangeTime = 0.0f;	// used as a flag to initialize the playback rate to 0 in the first DeterminePlaybackRate
 
 	// Handle bot spawn teleporters in versus
-	if ( GetBuilder() && GetBuilder()->GetTeamNumber() == TF_TEAM_PVE_INVADERS && !GetBuilder()->IsBot() && !IsEntrance() && TFGameRules() && TFGameRules()->IsMannVsMachineMode() && bf_gamemode_mvmvs.GetBool() )
+	if ( GetBuilder() && GetBuilder()->GetTeamNumber() == TF_TEAM_PVE_INVADERS && !GetBuilder()->IsBot() && !IsEntrance() && TFGameRules() && TFGameRules()->IsMannVsMachineMode() && cf_gamemode_mvmvs.GetBool() )
 	{
 		CUtlStringList spawnPoints;
 		for ( int i=0; i<ITFTeamSpawnAutoList::AutoList().Count(); ++i )
@@ -1067,7 +1067,7 @@ void CObjectTeleporter::RecieveTeleportingPlayer( CTFPlayer* pTeleportingPlayer 
 
 			// 1/20 of te time teleport bread -- except for Soldier who does it 1/3 of the time.
 			int nMax = pTeleportingPlayer->GetPlayerClass()->GetClassIndex() == TF_CLASS_SOLDIER  ? 2 : 19;
-			if ( RandomInt( 0, nMax ) == 0 || tf_teleporter_always_bread.GetBool() )
+			if ( RandomInt( 0, nMax ) == 0 || cf_teleporter_always_bread.GetBool() )
 			{
 				SpawnBread( pTeleportingPlayer );
 			}
@@ -1468,7 +1468,7 @@ void CObjectTeleporter::MakeCarriedObject( CTFPlayer *pCarrier )
 	ShowDirectionArrow( false );
 
 	// Clear teleporter spawn points when picked up in MvM Versus to prevent robots from spawning at old location
-	if ( GetBuilder() && GetBuilder()->GetTeamNumber() == TF_TEAM_PVE_INVADERS && !GetBuilder()->IsBot() && !IsEntrance() && TFGameRules() && TFGameRules()->IsMannVsMachineMode() && bf_gamemode_mvmvs.GetBool() )
+	if ( GetBuilder() && GetBuilder()->GetTeamNumber() == TF_TEAM_PVE_INVADERS && !GetBuilder()->IsBot() && !IsEntrance() && TFGameRules() && TFGameRules()->IsMannVsMachineMode() && cf_gamemode_mvmvs.GetBool() )
 	{
 		m_teleportWhereName.RemoveAll();
 	}
@@ -1525,7 +1525,7 @@ void CObjectTeleporter::SpawnBread( const CTFPlayer* pTeleportingPlayer )
 		studiohdr_t *pStudioHdr = mdlcache->GetStudioHdr( h );
 		if ( pStudioHdr && mdlcache->GetVCollide( h ) )
 		{	
-			if ( !tf_teleporter_spawns_tossable_bread.GetBool() )
+			if ( !cf_teleporter_spawns_tossable_bread.GetBool() )
 			{ 
 				// Try to create entity
 				pProp = dynamic_cast< CPhysicsProp * >( CreateEntityByName( "prop_physics_override" ) );

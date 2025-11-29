@@ -325,8 +325,8 @@ void CEconWearable::UpdateWearableBodyGroups( CBasePlayer* pPlayer )
 		}
 		
 		// Check if cosmetics are disabled and this is a cosmetic item
-		extern ConVar bf_disable_cosmetics;
-		if ( bf_disable_cosmetics.GetBool() )
+		extern ConVar cf_disable_cosmetics;
+		if ( cf_disable_cosmetics.GetBool() )
 		{
 			// Check if this is a cosmetic item by checking if it would be hidden by the cosmetics disable
 			CTFWearable *pTFWearable = dynamic_cast<CTFWearable*>( pItem );

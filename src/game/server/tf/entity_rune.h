@@ -198,7 +198,9 @@ public:
 	bool IsDisabled() const { return m_bDisabled; }
 	bool HasRune() const { return m_hRune != NULL; }
 	void SetRune( CTFRune *pRune ) { m_hRune = pRune; }
-
+	void InputSpawnRandom( inputdata_t &inputdata );
+	void InputSpawnType( inputdata_t &inputdata );
+	COutputEvent m_OnPowerupSpawned;
 private:
 	bool m_bDisabled;
 	int m_nTeam;

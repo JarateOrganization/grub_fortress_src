@@ -97,13 +97,13 @@ class CMannVsMachineUpgrades;
 //extern ConVar tf_populator_damage_multiplier;
 
 extern ConVar tf_mvm_defenders_team_size;
-extern ConVar bf_gamemode_mvmvs;
-extern ConVar bf_mvmvs_use_loadout;
-extern ConVar bf_mvmvs_playstyle;
-extern ConVar bf_mvmvs_max_bosses;
-extern ConVar bf_mvmvs_max_giants;
-extern ConVar bf_mvmvs_restrict_slots;
-extern ConVar bf_mvmvs_enable_human_busters;
+extern ConVar cf_gamemode_mvmvs;
+extern ConVar cf_mvmvs_use_loadout;
+extern ConVar cf_mvmvs_playstyle;
+extern ConVar cf_mvmvs_max_bosses;
+extern ConVar cf_mvmvs_max_giants;
+extern ConVar cf_mvmvs_restrict_slots;
+extern ConVar cf_mvmvs_enable_human_busters;
 extern ConVar tf_mvm_max_invaders;
 
 const int kLadder_TeamSize_6v6 = 6;

@@ -521,6 +521,7 @@ static const char *s_aGameTypeNames[] =
 	"#Gametype_RobotDestruction",
 	"#GameType_Passtime",
 	"#GameType_PlayerDestruction",
+	"#GameType_RaidMode"
 };
 COMPILE_TIME_ASSERT( TF_GAMETYPE_COUNT == ARRAYSIZE( s_aGameTypeNames ) );
 
@@ -539,7 +540,8 @@ static const char *s_aEnumGameTypeName[] =
 	"TF_GAMETYPE_MVM",
 	"TF_GAMETYPE_RD",
 	"TF_GAMETYPE_PASSTIME",
-	"TF_GAMETYPE_PD"
+	"TF_GAMETYPE_PD",
+	"TF_GAMETYPE_RAID"
 };
 COMPILE_TIME_ASSERT( TF_GAMETYPE_COUNT == ARRAYSIZE( s_aEnumGameTypeName ) );
 
@@ -959,6 +961,7 @@ const char *g_szSpecialDamageNames[] =
 	"TF_DMG_CUSTOM_DRAGONS_FURY_IGNITE",
 	"TF_DMG_CUSTOM_DRAGONS_FURY_BONUS_BURNING",
 	"TF_DMG_CUSTOM_SLAP_KILL",
+	"TF_DMG_CUSTOM_MARLIN_KILL",
 	"TF_DMG_CUSTOM_CROC",
 	"TF_DMG_CUSTOM_TAUNTATK_GASBLAST",
 	"TF_DMG_CUSTOM_AXTINGUISHER_BOOSTED",

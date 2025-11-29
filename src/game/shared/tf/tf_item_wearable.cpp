@@ -19,8 +19,8 @@
 #include "econ_item_schema.h"
 
 // ConVar declarations for cosmetic and unusual effect disabling
-extern ConVar bf_disable_cosmetics;
-extern ConVar bf_disable_unusual_effects;
+extern ConVar cf_disable_cosmetics;
+extern ConVar cf_disable_unusual_effects;
 #else
 #include "tf_player.h"
 #endif
@@ -286,7 +286,7 @@ int	CTFWearable::InternalDrawModel( int flags )
 
 #ifdef CLIENT_DLL
 	// Check if we should hide the cosmetic model while keeping the entity visible for unusual effects
-	if ( bf_disable_cosmetics.GetBool() )
+	if ( cf_disable_cosmetics.GetBool() )
 	{
 		// Check if this is a cosmetic item (not a weapon-associated wearable)
 		if ( !GetWeaponAssociatedWith() )
@@ -304,7 +304,7 @@ int	CTFWearable::InternalDrawModel( int flags )
 					if ( IsMiscSlot( iLoadoutSlot ) || iLoadoutSlot == LOADOUT_POSITION_HEAD )
 					{
 						// If unusual effects are enabled, check if this item has them
-						if ( !bf_disable_unusual_effects.GetBool() )
+						if ( !cf_disable_unusual_effects.GetBool() )
 						{
 							// Check if this item has unusual effects
 							static CSchemaAttributeDefHandle pAttrDef_AttachParticleEffect( "attach particle effect" );
@@ -371,7 +371,7 @@ bool CTFWearable::ShouldDraw()
 
 #ifdef CLIENT_DLL
 	// Check if cosmetics are disabled
-	if ( bf_disable_cosmetics.GetBool() )
+	if ( cf_disable_cosmetics.GetBool() )
 	{
 		// Check if this is a cosmetic item (not a weapon-associated wearable)
 		if ( !GetWeaponAssociatedWith() )
@@ -390,7 +390,7 @@ bool CTFWearable::ShouldDraw()
 					if ( IsMiscSlot( iLoadoutSlot ) || iLoadoutSlot == LOADOUT_POSITION_HEAD )
 					{
 						// Check if unusual effects are enabled AND this item has unusual effects
-						if ( !bf_disable_unusual_effects.GetBool() )
+						if ( !cf_disable_unusual_effects.GetBool() )
 						{
 							// Check if this item has unusual effects
 							static CSchemaAttributeDefHandle pAttrDef_AttachParticleEffect( "attach particle effect" );
@@ -516,7 +516,7 @@ bool CTFWearable::ShouldDrawParticleSystems( void )
 
 #ifdef CLIENT_DLL
 	// Check if unusual effects should be disabled
-	if ( bf_disable_unusual_effects.GetBool() )
+	if ( cf_disable_unusual_effects.GetBool() )
 	{
 		// When unusual effects are disabled, hide ALL particle systems on wearables
 		return false;

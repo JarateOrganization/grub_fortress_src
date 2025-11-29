@@ -24,6 +24,7 @@
 #include "hud_vote.h"
 #include "inputsystem/iinputsystem.h"
 #include "iinput.h"
+#include "usermessages.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -1484,3 +1485,19 @@ CON_COMMAND( cl_add_notification, "Adds a notification" )
 }
 
 #endif
+
+USER_MESSAGE( VS_SendNotification )
+{
+    float flLifetime = msg.ReadFloat();
+    static char szString[512];
+    msg.ReadString( szString, sizeof(szString) );
+
+	static char iszSoundFile[512];
+    msg.ReadString( iszSoundFile, sizeof(iszSoundFile) );
+
+    CEconNotification *pNotification = new CEconNotification();
+    pNotification->SetText( szString );
+    pNotification->SetLifetime( flLifetime );
+    pNotification->SetSoundFilename( iszSoundFile );
+    NotificationQueue_Add( pNotification );
+}

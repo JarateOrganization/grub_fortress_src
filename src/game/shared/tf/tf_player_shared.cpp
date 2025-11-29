@@ -125,13 +125,13 @@ ConVar tf_invuln_time( "tf_invuln_time", "1.0", FCVAR_DEVELOPMENTONLY | FCVAR_RE
 extern ConVar tf_player_movement_restart_freeze;
 extern ConVar mp_tournament_readymode_countdown;
 extern ConVar tf_max_charge_speed;
-ConVar bf_mvm_footstep_sounds( "bf_mvm_footstep_sounds", "1", FCVAR_REPLICATED, "Replaces the Giants footsteps with Unique unused ones" );
+ConVar cf_mvm_footstep_sounds( "cf_mvm_footstep_sounds", "1", FCVAR_REPLICATED, "Replaces the Giants footsteps with Unique unused ones" );
 
 ConVar tf_always_loser( "tf_always_loser", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "Force loserstate to true." );
 
 ConVar tf_mvm_bot_flag_carrier_movement_penalty( "tf_mvm_bot_flag_carrier_movement_penalty", "0.5", FCVAR_REPLICATED | FCVAR_CHEAT );
 
-ConVar bf_player_parentables( "bf_player_parentables", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Allow Parented entities to players to be visible without VALVe's OBSOLETE patch.");
+ConVar cf_player_parentables( "cf_player_parentables", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Allow Parented entities to players to be visible without VALVe's OBSOLETE patch.");
 
 //ConVar tf_scout_dodge_move_penalty_duration( "tf_scout_dodge_move_penalty_duration", "3.0", FCVAR_DEVELOPMENTONLY | FCVAR_REPLICATED );
 //ConVar tf_scout_dodge_move_penalty( "tf_scout_dodge_move_penalty", "0.5", FCVAR_DEVELOPMENTONLY | FCVAR_REPLICATED );
@@ -12084,7 +12084,7 @@ const char *CTFPlayer::GetOverrideStepSound( const char *pszBaseStepSoundName )
 
 	int iOverrideFootstepSoundSet = kFootstepSoundSet_Default;
 	CALL_ATTRIB_HOOK_INT( iOverrideFootstepSoundSet, override_footstep_sound_set );
-	bool MVMUnusedFootsteps = bf_mvm_footstep_sounds.GetBool();
+	bool MVMUnusedFootsteps = cf_mvm_footstep_sounds.GetBool();
 
 	// we need to do this here or it does not function otherwise.
 	switch( iOverrideFootstepSoundSet )

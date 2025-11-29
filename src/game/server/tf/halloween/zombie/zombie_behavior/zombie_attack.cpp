@@ -17,7 +17,7 @@
 #define ZOMBIE_CHASE_MIN_DURATION 3.0f
 
 ConVar tf_halloween_zombie_damage( "tf_halloween_zombie_damage", "10", FCVAR_REPLICATED, "How much damage a zombie melee hit does." );
-ConVar bf_halloween_zombie_taunt("bf_halloween_zombie_taunt", "1", FCVAR_REPLICATED, "Get boned lmao.");
+ConVar cf_halloween_zombie_taunt("cf_halloween_zombie_taunt", "1", FCVAR_REPLICATED, "Get boned lmao.");
 
 
 //----------------------------------------------------------------------------------
@@ -294,9 +294,9 @@ EventDesiredResult< CZombie > CZombieAttack::OnContact( CZombie *me, CBaseEntity
 //---------------------------------------------------------------------------------------------
 EventDesiredResult< CZombie > CZombieAttack::OnOtherKilled( CZombie *me, CBaseCombatCharacter *victim, const CTakeDamageInfo &info )
 {
-	if ( bf_halloween_zombie_taunt.GetBool() )
+	if ( cf_halloween_zombie_taunt.GetBool() )
 	{
-		bool bDanceAnyone = bf_halloween_zombie_taunt.GetInt() == 2;
+		bool bDanceAnyone = cf_halloween_zombie_taunt.GetInt() == 2;
 		if (victim && victim->IsPlayer() && me->GetLocomotionInterface()->IsOnGround() )
 		{
 			if ( info.GetInflictor() == me || bDanceAnyone )

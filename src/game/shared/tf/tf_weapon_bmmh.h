@@ -40,7 +40,26 @@ public:
 
 	virtual int		GetWeaponID( void ) const			{ return TF_WEAPON_DISPENSER_GUN; }
 	virtual int		GetAmmoPerShot()					{ return RemapValClamped(gpGlobals->curtime - GetInternalChargeBeginTime(), 0, GetChargeMaxTime(), 0, 100 ); }
+	
+	// Override SecondaryAttack to cancel charge instead of detonating
+	virtual void	SecondaryAttack();
+	
+	// Override PrimaryAttack to respect charge cancel delay
+	virtual void	PrimaryAttack();
+	
+	// Override ItemPostFrame to prevent firing during cancel delay
+	virtual void	ItemPostFrame();
+	
+	// Override LaunchGrenade to ensure proper charge reset
+	virtual void	LaunchGrenade();
+	
+	// Override to store metal cost in projectile
+	virtual CBaseEntity *FireProjectile( CTFPlayer *pPlayer );
 
+private:
+	float m_flChargeCancelTime;
+
+public:
 	CTFBMMH( const CTFBMMH & ) {}
 };
 

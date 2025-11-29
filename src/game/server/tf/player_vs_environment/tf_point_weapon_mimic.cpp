@@ -4,6 +4,9 @@
 #include "tf_projectile_rocket.h"
 #include "tf_projectile_arrow.h"
 #include "tf_weapon_grenade_pipebomb.h"
+#ifdef GAME_DLL
+#include "tf_fx.h"
+#endif
 
 class CTFPointWeaponMimic : public CPointEntity
 {
@@ -43,8 +46,8 @@ private:
 	bool m_bContinousFire;
 
 	// Effects for firing
-	const char* m_pzsFireSound;
-	const char* m_pzsFireParticles;
+	string_t m_pzsFireSound;
+	string_t m_pzsFireParticles;
 
 	// Override/defaults for the projectile/bullets
 	const char* m_pzsModelOverride;
@@ -105,6 +108,16 @@ void CTFPointWeaponMimic::Spawn()
 		PrecacheModel( m_pzsModelOverride );
 	}
 
+	if ( m_pzsFireSound != NULL_STRING )
+	{
+		PrecacheScriptSound( STRING(m_pzsFireSound ) );
+	}
+
+	if ( STRING( m_pzsFireParticles ) && STRING( m_pzsFireParticles )[0] )
+	{
+		PrecacheParticleSystem( STRING( m_pzsFireParticles ) );
+	}
+
 	ChangeTeam( TF_TEAM_BLUE );
 }
 
@@ -163,6 +176,19 @@ void CTFPointWeaponMimic::Fire()
 	case WEAPON_STICKY_GRENADE:
 		FireStickyGrenade();
 		break;
+	}
+
+	if ( m_pzsFireSound != NULL_STRING )
+	{
+		EmitSound( STRING(m_pzsFireSound) );
+	}
+
+	if ( STRING( m_pzsFireParticles ) && STRING( m_pzsFireParticles )[0] )
+	{
+		Vector vecOrigin = GetAbsOrigin();
+		QAngle vecAngles = GetAbsAngles();
+		CPVSFilter pvsFilter( vecOrigin );
+		TE_TFParticleEffect( pvsFilter, 0.0f, STRING( m_pzsFireParticles ), vecOrigin, vecAngles );
 	}
 }
 

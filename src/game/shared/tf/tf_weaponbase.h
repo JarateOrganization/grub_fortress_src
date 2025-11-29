@@ -358,6 +358,7 @@ class CTFWeaponBase : public CBaseCombatWeapon, public IHasOwner, public IHasGen
 	virtual void FireFullClipAtOnce( void );
 	virtual void PrimaryAttack();
 	virtual void SecondaryAttack();
+	void PerformGhostlyDash( CTFPlayer *pOwner, loadout_positions_t eLoadoutPosition );
 	void CalcIsAttackCritical( void );
 	virtual bool CalcIsAttackCriticalHelper();
 	virtual bool CalcIsAttackCriticalHelperNoCrits();

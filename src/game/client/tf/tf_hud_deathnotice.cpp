@@ -53,7 +53,7 @@ const char *szLocalizedObjectNames[OBJ_LAST] =
 ConVar cl_hud_killstreak_display_time( "cl_hud_killstreak_display_time", "3", FCVAR_ARCHIVE, "How long a killstreak notice stays on the screen (in seconds).  Range is from 0 to 100."  );
 ConVar cl_hud_killstreak_display_fontsize( "cl_hud_killstreak_display_fontsize", "0", FCVAR_ARCHIVE, "Adjusts font size of killstreak notices.  Range is from 0 to 2 (default is 1)." );
 ConVar cl_hud_killstreak_display_alpha( "cl_hud_killstreak_display_alpha", "120", FCVAR_ARCHIVE, "Adjusts font alpha value of killstreak notices.  Range is from 0 to 255 (default is 200)." );
-ConVar bf_snd_penetrationkill("bf_snd_penetrationkill", "1", FCVAR_NOTIFY, "OHHHHHHH PENETRATED! - Disables the Machina penetration sound");
+ConVar cf_snd_penetrationkill("cf_snd_penetrationkill", "1", FCVAR_NOTIFY, "OHHHHHHH PENETRATED! - Disables the Machina penetration sound");
 
 
 const int STREAK_MIN = 5;
@@ -654,6 +654,7 @@ void CTFHudDeathNotice::Init()
 	ListenForGameEvent( "fish_notice__arm" );
 	ListenForGameEvent( "duck_xp_level_up" );
 	ListenForGameEvent( "slap_notice" );
+	ListenForGameEvent( "marlin_notice" );
 	ListenForGameEvent( "throwable_hit" );
 
 	m_bShowItemOnKill = true;
@@ -778,6 +779,7 @@ bool CTFHudDeathNotice::EventIsPlayerDeath( const char* eventName )
 	return FStrEq( eventName, "fish_notice" )
 		|| FStrEq( eventName, "fish_notice__arm" )
 		|| FStrEq( eventName, "slap_notice" )
+		|| FStrEq( eventName, "marlin_notice" )
 		|| FStrEq( eventName, "throwable_hit" )
 		|| BaseClass::EventIsPlayerDeath( eventName );
 }
@@ -897,7 +899,7 @@ void CTFHudDeathNotice::OnGameEvent( IGameEvent *event, int iDeathNoticeMsg )
 
 		if ( bPenetrateSound )
 		{
-			if ( bf_snd_penetrationkill.GetBool() )
+			if ( cf_snd_penetrationkill.GetBool() )
 			{
 				CLocalPlayerFilter filter;
 				C_BaseEntity::EmitSound(filter, SOUND_FROM_LOCAL_PLAYER, "Game.PenetrationKill");
@@ -1285,13 +1287,13 @@ void CTFHudDeathNotice::OnGameEvent( IGameEvent *event, int iDeathNoticeMsg )
 
 		Q_strncpy( msg.szIcon, bDefense ? szDefenseIcons[iIndex] : szCaptureIcons[iIndex], ARRAYSIZE( msg.szIcon ) );
 	}
-	else if ( FStrEq( "fish_notice", pszEventName ) || FStrEq( "fish_notice__arm", pszEventName ) || FStrEq( "slap_notice", pszEventName ) )
+	else if ( FStrEq( "fish_notice", pszEventName ) || FStrEq( "fish_notice__arm", pszEventName ) || FStrEq( "slap_notice", pszEventName ) || FStrEq( "marlin_notice", pszEventName ) )
 	{
 		DeathNoticeItem &msg = m_DeathNotices[ iDeathNoticeMsg ];
 		int deathFlags = event->GetInt( "death_flags" );
 		int iCustomDamage = event->GetInt( "customkill" );
 
-		if ( ( iCustomDamage == TF_DMG_CUSTOM_FISH_KILL ) || ( deathFlags & TF_DEATH_FEIGN_DEATH ) || ( iCustomDamage == TF_DMG_CUSTOM_SLAP_KILL ) )
+		if ( ( iCustomDamage == TF_DMG_CUSTOM_FISH_KILL ) || ( deathFlags & TF_DEATH_FEIGN_DEATH ) || ( iCustomDamage == TF_DMG_CUSTOM_SLAP_KILL ) || ( iCustomDamage == TF_DMG_CUSTOM_MARLIN_KILL ) )
 		{
 			const wchar_t *wpszFormat = g_pVGuiLocalize->Find( "#Humiliation_Kill" );
 			if ( FStrEq( "fish_notice__arm", pszEventName ) )
@@ -1301,6 +1303,10 @@ void CTFHudDeathNotice::OnGameEvent( IGameEvent *event, int iDeathNoticeMsg )
 			else if ( FStrEq( "slap_notice", pszEventName ) )
 			{
 				wpszFormat = g_pVGuiLocalize->Find( "#Humiliation_Kill_Slap" );
+			}
+			else if ( FStrEq( "marlin_notice", pszEventName ) )
+			{
+				wpszFormat = g_pVGuiLocalize->Find( "#Humiliation_Kill_Marlin" );
 			}
 			g_pVGuiLocalize->ConstructString_safe( msg.wzInfoText, wpszFormat, 0 );
 		}

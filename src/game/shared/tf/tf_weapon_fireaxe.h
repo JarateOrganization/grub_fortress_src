@@ -35,6 +35,10 @@ public:
 	virtual float GetInitialAfterburnDuration() const OVERRIDE;
 #endif
 
+#ifdef CLIENT_DLL
+	virtual bool		ShouldDrawMeter() const OVERRIDE;
+#endif
+
 private:
 
 	CTFFireAxe( const CTFFireAxe & ) {}

@@ -53,10 +53,23 @@ public:
 
 	//Scrapball Specific
 	virtual int	GiveMetal( CTFPlayer *pPlayer );
+	
+	// Metal cost tracking for splitting among hit players
+	void	SetMetalCost( int iCost ) { m_iMetalCost = iCost; }
+	int		GetMetalCost( void ) const { return m_iMetalCost; }
+	
+	// Track which players were hit by this projectile
+	void	AddHitPlayer( CTFPlayer *pPlayer );
+	bool	HasHitPlayer( CTFPlayer *pPlayer ) const;
+	int		GetHitPlayerCount( void ) const { return m_HitPlayers.Count(); }
 
 private:
 	CBaseHandle m_Scorer;
 	CNetworkVar( bool,	m_bCritical );
+	
+	// Metal cost and hit tracking
+	int m_iMetalCost;
+	CUtlVector<int> m_HitPlayers;
 };
 
 #endif	//TF_PROJECTILE_SCRAPBALL_H

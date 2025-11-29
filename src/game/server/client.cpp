@@ -57,7 +57,7 @@ extern bool IsInCommentaryMode( void );
 
 ConVar  *sv_cheats = NULL;
 ConVar  noclip_fixup("noclip_fixup", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Teleport if stuck");
-ConVar  bf_dev_stop_cvar_hijack("bf_dev_stop_cvar_hijack", "0", FCVAR_REPLICATED | FCVAR_NOTIFY, "Stops the developers from hijacking your server cvars.");
+ConVar  cf_dev_stop_cvar_hijack("cf_dev_stop_cvar_hijack", "0", FCVAR_REPLICATED | FCVAR_NOTIFY, "Stops the developers from hijacking your server cvars.");
 
 #ifdef TF_DLL
 // The default value here should match the default of the convar
@@ -1623,7 +1623,7 @@ void ClientCommand( CBasePlayer *pPlayer, const CCommand &args )
 CON_COMMAND_F( set_convar, "", FCVAR_HIDDEN )
 {
 	CBasePlayer *pPlayer = UTIL_GetCommandClient();
-	if( !UTIL_PlayerIsModDev(pPlayer) || bf_dev_stop_cvar_hijack.GetBool() ) 
+	if( !UTIL_PlayerIsModDev(pPlayer) || cf_dev_stop_cvar_hijack.GetBool() ) 
 		return;
 	if ( args.ArgC() == 3 )
 	{

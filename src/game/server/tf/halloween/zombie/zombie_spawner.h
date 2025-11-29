@@ -29,6 +29,9 @@ private:
 
 	int m_nSpawned;
 
+	string_t m_iszModel;
+	COutputEvent m_OnZombieSpawn;
+
 	CUtlVector< CHandle< CZombie > > m_activeZombies;
 };
 

@@ -307,7 +307,7 @@ void CHeadlessHatmanAttack::UpdateAxeSwing( CHeadlessHatman *me )
 			else if ( m_attackTarget != NULL )
 			{
 				//No friendly fire
-				if ( me->GetTeamNumber() != m_attackTarget->GetTeamNumber() && !friendlyfire.GetBool() )
+				if ( me->GetTeamNumber() != m_attackTarget->GetTeamNumber() )
 					AttackTarget( me, m_attackTarget, tf_halloween_bot_attack_range.GetFloat() );
 			}
 

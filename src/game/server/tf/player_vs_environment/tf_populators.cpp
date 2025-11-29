@@ -601,10 +601,10 @@ bool CMissionPopulator::UpdateMissionDestroySentries( void )
 		}
 
 		// Check if human Sentry Busters are enabled for MvM Versus
-		extern ConVar bf_mvmvs_enable_human_busters;
-		extern ConVar bf_gamemode_mvmvs;
+		extern ConVar cf_mvmvs_enable_human_busters;
+		extern ConVar cf_gamemode_mvmvs;
 		
-		bool bUseHumanBusters = (bf_gamemode_mvmvs.GetBool() && bf_mvmvs_enable_human_busters.GetBool());
+		bool bUseHumanBusters = (cf_gamemode_mvmvs.GetBool() && cf_mvmvs_enable_human_busters.GetBool());
 		
 		if ( bUseHumanBusters )
 		{

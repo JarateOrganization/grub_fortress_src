@@ -26,6 +26,7 @@ ActionResult< CMerasmus >	CMerasmusAOEAttack::OnStart( CMerasmus *me, Action< CM
 	m_state = AOE_BEGIN;
 
  	me->StartFlying();
+	me->m_OnStartFlying.FireOutput( me , me );
 
 	CTFNavArea *pointArea = TheTFNavMesh()->GetControlPointCenterArea( 0 );
 
@@ -239,6 +240,7 @@ ActionResult< CMerasmus >	CMerasmusAOEAttack::Update( CMerasmus *me, float inter
 void CMerasmusAOEAttack::OnEnd( CMerasmus *me, Action< CMerasmus > *nextAction )
 {
  	me->StopFlying();
+	me->m_OnStopFlying.FireOutput( me , me );
 
 	// The animation sometime doesn't turn off the bodygroup correctly. Slam it in code.
 	int staffBodyGroup = me->FindBodygroupByName( "staff" );

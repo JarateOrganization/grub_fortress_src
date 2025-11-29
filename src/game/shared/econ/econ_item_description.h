@@ -184,6 +184,7 @@ public:
 		{
 			const CEconItemAttributeDefinition *m_pAttrDef;
 			attrib_value_t m_value;
+			int m_iIterationOrder;
 		};
 
 		CUtlVector<attrib_iterator_value_t> m_vecAttributes;
