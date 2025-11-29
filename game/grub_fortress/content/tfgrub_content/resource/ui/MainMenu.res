@@ -1,4 +1,4 @@
-"Resource/UI/MainMenuOverride.res"
+"Resource/UI/MainMenu.res"
 {
 	MainMenuOverride
 	{
@@ -299,10 +299,10 @@
 		}
 	}	
 	
-	"CreateServerButton"
+	"AdvOptionsButton"
 	{
 		"ControlName"	"EditablePanel"
-		"fieldname"		"CreateServerButton"
+		"fieldname"		"AdvOptionsButton"
 		"xpos"			"c-60"
 		"ypos"			"203"
 		"zpos"			"12"
@@ -310,9 +310,9 @@
 		"tall"			"20"
 		"visible"		"1"
 
-		"navUp"			"PlayPVEButton"
+		"navUp"			"CreateServerButton"
 		"navDown"		"CharacterSetupButton"
-		"navLeft"		"ServerBrowserButton"
+		"navLeft"		"OptionsButton"
 		"navRight"		"TrainingButton"
 		"navToRelay"	"SubButton"
 		
@@ -378,9 +378,9 @@
 		"tall"			"20"
 		"visible"		"1"
 
-		"navUp"			"PlayPVEButton"
+		"navUp"			"CreateServerButton"
 		"navDown"		"CharacterSetupButton"
-		"navLeft"		"ServerBrowserButton"
+		"navLeft"		"OptionsButton"
 		"navRight"		"TrainingButton"
 		"navToRelay"	"SubButton"
 		
@@ -478,7 +478,7 @@
 			"default"		"1"
 
 			"Command"		"motd_show"
-			"navActivate"	"<QuickplayButton"		// after selecting this, nav to this sibling
+			"navActivate"	"<ServerBrowserButton"		// after selecting this, nav to this sibling
 
 			"sound_depressed"	"UI/buttonclick.wav"
 			"sound_released"	"UI/buttonclickrelease.wav"
@@ -575,7 +575,7 @@
 			"default"		"0"
 
 			"navDown"			"MOTD_URLButton"
-			"navActivate"		"<QuickplayButton"
+			"navActivate"		"<ServerBrowserButton"
 
 			"sound_depressed"	"UI/buttonclick.wav"
 			"sound_released"	"UI/buttonclickrelease.wav"
@@ -891,7 +891,7 @@
 
 		"navUp"			"MOTD_ShowButtonPanel"
 		"navDown"		"SettingsButton"
-		"navLeft"		"QuickplayButton"
+		"navLeft"		"ServerBrowserButton"
 		"navRight"		"Notifications_Panel"
 		"navToRelay"	"Notifications_ShowButtonPanel_SB"
 		
@@ -952,7 +952,7 @@
 			"default"		"1"
 
 			"Command"		"noti_show"
-			"navActivate"	"<QuickplayButton"
+			"navActivate"	"<ServerBrowserButton"
 
 			"sound_depressed"	"UI/buttonclick.wav"
 			"sound_released"	"UI/buttonclickrelease.wav"
@@ -1019,7 +1019,7 @@
 			"default"		"0"
 
 			"Command"		"noti_hide"
-			"navActivate"	"<QuickplayButton"
+			"navActivate"	"<ServerBrowserButton"
 
 			"sound_depressed"	"UI/buttonclick.wav"
 			"sound_released"	"UI/buttonclickrelease.wav"
@@ -1153,7 +1153,7 @@
 
 		"navUp"			"CharacterSetupButton"
 		"navDown"		"QuitButton"
-		"navRight"		"SteamWorkshopButton"
+		"navRight"		"CreditsButton"
 		"navToRelay"	"SubButton"
 
 		"SubButton"
@@ -1205,10 +1205,10 @@
 		}
 	}
 
-	"SteamWorkshopButton"
+	"CreditsButton"
 	{
 		"ControlName"	"EditablePanel"
-		"fieldname"		"SteamWorkshopButton"
+		"fieldname"		"CreditsButton"
 		"xpos"			"c-160"
 		"ypos"			"346"
 		"zpos"			"11"
@@ -1217,7 +1217,7 @@
 		"visible"		"1"
 		"PaintBackgroundType"	"2"
 
-		"navUp"			"GeneralStoreButton"
+		"navUp"			"AchievementsButton"
 		"navDown"		"QuitButton"
 		"navLeft"		"ReplayBrowserButton"
 		"navRight"		"Notifications_ShowButtonPanel"
@@ -1272,10 +1272,10 @@
 		}
 	}
 
-	"GeneralStoreButton"
+	"AchievementsButton"
 	{
 		"ControlName"	"EditablePanel"
-		"fieldname"		"GeneralStoreButton"
+		"fieldname"		"AchievementsButton"
 		"xpos"			"c-160"
 		"ypos"			"273"
 		"zpos"			"11"
@@ -1285,7 +1285,7 @@
 		"PaintBackgroundType"	"2"
 
 		"navUp"			"ChangeServerButton"
-		"navDown"		"SteamWorkshopButton"
+		"navDown"		"CreditsButton"
 		"navLeft"		"CharacterSetupButton"
 		"navRight"		"Notifications_ShowButtonPanel"
 		"navToRelay"	"SubButton"
@@ -1367,7 +1367,7 @@
 
 		"navUp"			"ChangeServerButton"
 		"navDown"		"ReplayBrowserButton"
-		"navRight"		"GeneralStoreButton"
+		"navRight"		"AchievementsButton"
 		"navToRelay"	"SubButton"
 
 		"SubButton"
@@ -1593,10 +1593,10 @@
 		}
 	}
 
-	"QuickplayButton"
+	"ServerBrowserButton"
 	{
 		"ControlName"	"EditablePanel"
-		"fieldname"		"QuickplayButton"
+		"fieldname"		"ServerBrowserButton"
 		"xpos"			"c-285"
 		"ypos"			"140"
 		"zpos"			"11"
@@ -1605,7 +1605,7 @@
 		"visible"		"1"
 		"PaintBackgroundType"	"0"
 
-		"navDown"		"PlayPVEButton"
+		"navDown"		"CreateServerButton"
 		"navRight"		"Notifications_ShowButtonPanel"
 		"navToRelay"	"SubButton"
 
@@ -1671,8 +1671,8 @@
 		"visible"		"1"
 		"PaintBackgroundType"	"0"
 
-		"navUp"			"ServerBrowserButton"
-		"navDown"		"QuickplayChangeButton"
+		"navUp"			"OptionsButton"
+		"navDown"		"ServerBrowserIngameButton"
 		"navRight"		"CallVoteButton"
 		"navToRelay"	"SubButton"
 
@@ -1726,10 +1726,10 @@
 		}
 	}
 		
-	"QuickplayChangeButton"
+	"ServerBrowserIngameButton"
 	{
 		"ControlName"	"EditablePanel"
-		"fieldname"		"QuickplayChangeButton"
+		"fieldname"		"ServerBrowserIngameButton"
 		"xpos"			"c-285"
 		"ypos"			"170"
 		"zpos"			"11"
@@ -1793,10 +1793,10 @@
 		}
 	}
 
-	"PlayPVEButton"
+	"CreateServerButton"
 	{
 		"ControlName"	"EditablePanel"
-		"fieldname"		"PlayPVEButton"
+		"fieldname"		"CreateServerButton"
 		"xpos"			"c-285"
 		"ypos"			"170"
 		"zpos"			"11"
@@ -1805,8 +1805,8 @@
 		"visible"		"1"
 		"PaintBackgroundType"	"0"
 
-		"navUp"			"QuickplayButton"
-		"navDown"		"ServerBrowserButton"
+		"navUp"			"ServerBrowserButton"
+		"navDown"		"OptionsButton"
 		"navRight"		"Notifications_ShowButtonPanel"
 		"navToRelay"	"SubButton"
 
@@ -1860,10 +1860,10 @@
 		}
 	}
 		
-	"ServerBrowserButton"
+	"OptionsButton"
 	{
 		"ControlName"	"EditablePanel"
-		"fieldname"		"ServerBrowserButton"
+		"fieldname"		"OptionsButton"
 		"xpos"			"c-285"
 		"ypos"			"200"
 		"zpos"			"11"
@@ -1872,7 +1872,7 @@
 		"visible"		"1"
 		"PaintBackgroundType"	"0"
 
-		"navUp"			"QuickplayChangeButton"
+		"navUp"			"ServerBrowserIngameButton"
 		"navDown"		"CharacterSetupButton"
 		"navRight"		"Notifications_ShowButtonPanel"
 		"navToRelay"	"SubButton"
@@ -1939,7 +1939,7 @@
 		"visible"		"1"
 
 		"navLeft"		"ResumeGameButton"
-		"navDown"		"QuickplayChangeButton"
+		"navDown"		"ServerBrowserIngameButton"
 		"navRight"		"MutePlayersButton"
 		"navToRelay"	"SubButton"
 
@@ -2005,7 +2005,7 @@
 		"visible"		"1"
 
 		"navLeft"		"CallVoteButton"
-		"navDown"		"QuickplayChangeButton"
+		"navDown"		"ServerBrowserIngameButton"
 		"navRight"		"RequestCoachButton"
 		"navToRelay"	"SubButton"
 
@@ -2073,7 +2073,7 @@
 
 		"navLeft"		"MutePlayersButton"
 		"navRight"		"Notifications_ShowButtonPanel"
-		"navDown"		"QuickplayChangeButton"
+		"navDown"		"ServerBrowserIngameButton"
 		"navToRelay"	"SubButton"
 
 		"SubButton"
@@ -2178,9 +2178,9 @@
 		"default"		"1"
 		"Command"		"view_newuser_forums"
 
-		"navUp"			"SteamWorkshopButton"
+		"navUp"			"CreditsButton"
 		"navLeft"		"QuitButton"
-		"navRight"		"AchievementsButton"
+		"navRight"		"NewUserForumsButton"
 
 		"sound_depressed"	"UI/buttonclick.wav"
 		"sound_released"	"UI/buttonclickrelease.wav"
@@ -2203,10 +2203,10 @@
 		}				
 	}		
 	
-	"AchievementsButton"
+	"AchievementsButton_OLD"
 	{
 		"ControlName"	"CExImageButton"
-		"fieldName"		"AchievementsButton"
+		"fieldName"		"AchievementsButton_OLD"
 		"xpos"			"c-106"
 		"ypos"			"437"
 		"zpos"			"3"
@@ -2225,7 +2225,7 @@
 		"default"		"1"
 		"Command"		"OpenAchievementsDialog"
 
-		"navUp"			"SteamWorkshopButton"
+		"navUp"			"CreditsButton"
 		"navLeft"		"NewUserForumsButton"
 		"navRight"		"CommentaryButton"
 
@@ -2272,7 +2272,7 @@
 		"default"		"1"
 		"Command"		"OpenLoadSingleplayerCommentaryDialog"
 
-		"navUp"			"SteamWorkshopButton"
+		"navUp"			"CreditsButton"
 		"navLeft"		"AchievementsButton"
 		"navRight"		"CoachPlayersButton"
 
@@ -2319,7 +2319,7 @@
 		"default"		"1"
 		"Command"		"engine cl_coach_toggle"
 
-		"navUp"			"SteamWorkshopButton"
+		"navUp"			"CreditsButton"
 		"navLeft"		"CommentaryButton"
 		"navRight"		"ReportBugButton"
 
@@ -2366,7 +2366,7 @@
 		"default"		"1"
 		"Command"		"engine bug"
 
-		"navUp"			"SteamWorkshopButton"
+		"navUp"			"CreditsButton"
 		"navLeft"		"CoachPlayersButton"
 		"navRight"		"SettingsButton"
 
@@ -2485,10 +2485,10 @@
 		}			
 	}
 	
-	"CreditsButton"
+	"CreditsButton_OLD"
 	{
 		"ControlName"	"CExImageButton"
-		"fieldName"		"SettingsButton"
+		"fieldName"		"CreditsButton_OLD"
 		"xpos"			"c170"
 		"ypos"			"437"
 		"zpos"			"1"

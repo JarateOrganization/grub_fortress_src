@@ -7,28 +7,28 @@
 		"OnlyInGame"	"1"
 		"subimage" "icon_resume"
 	}
-	"QuickplayButton"
+	"ServerBrowserButton"
 	{
 		"label" "#MMenu_BrowseServers" 
 		"command" "OpenServerBrowser"
 		"subimage" "glyph_multiplayer"
 		"OnlyAtMenu" "1"
 	}
-	"QuickplayChangeButton"
+	"ServerBrowserIngameButton"
 	{
 		"label" "#MMenu_BrowseServers" 
 		"command" "OpenServerBrowser"
 		"subimage" "glyph_multiplayer"
 		"OnlyInGame" "1"
 	}
-	"PlayPVEButton"
+	"CreateServerButton"
 	{
 		"label" "#GameUI_GameMenu_CreateServer"
 		"command" "modcreateserver"
 		"subimage" "glyph_create"
 		"OnlyAtMenu" "1"
 	}
-	"ServerBrowserButton"
+	"OptionsButton"
 	{
 		"label" "#GameUI_GameMenu_Options" 
 		"command" "OpenOptionsDialog"
@@ -40,7 +40,7 @@
 		"command" "engine replay_reloadbrowser"
 		"subimage" "glyph_tv"
 	}
-	"SteamWorkshopButton"
+	"CreditsButton"
 	{
 		"label" "#Gameui_Gamemenu_Credits"
 		"command" "openmodcredits"
@@ -48,13 +48,13 @@
 	}
 	
 	// These buttons get positioned by the MainMenu.res	
-	"CreateServerButton"
+	"AdvOptionsButton"
 	{
 		"label" "#MMenu_AdvOptions"
 		"command" "opentf2options"
 		"tooltip" "#MMenu_AdvOptions"
 	}
-	"GeneralStoreButton"
+	"AchievementsButton"
 	{
 		"label" "#TFGRUB_MMenu_Achievements"
 		"command" "OpenAchievementsDialog"
