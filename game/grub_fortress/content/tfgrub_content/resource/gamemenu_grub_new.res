@@ -36,15 +36,17 @@
 	} 
 	"ReplayBrowserButton"
 	{
-		"label" "#GameUI_GameMenu_ReplayDemos"
+		"label" ""
 		"command" "engine replay_reloadbrowser"
 		"subimage" "glyph_tv"
+		"tooltip" "#GameUI_GameMenu_ReplayDemos"
 	}
 	"CreditsButton"
 	{
-		"label" "#Gameui_Gamemenu_Credits"
+		"label" ""
 		"command" "openmodcredits"
 		"subimage" "glyph_steamworkshop"
+		"tooltip" "#Gameui_Gamemenu_Credits"
 	}
 	
 	// These buttons get positioned by the MainMenu.res	
@@ -56,9 +58,10 @@
 	}
 	"AchievementsButton"
 	{
-		"label" "#TFGRUB_MMenu_Achievements"
+		"label" ""
 		"command" "OpenAchievementsDialog"
 		"subimage" "glyph_achievements"
+		"tooltip" "#TFGRUB_MMenu_Achievements"
 	}	
 	"CharacterSetupButton"
 	{
@@ -95,10 +98,24 @@
 	}
 	"LegacyCreateServer"
 	{
-		"label" "#GameUI_GameMenu_CreateServer"
+		"label" ""
 		"command" "OpenCreateMultiplayerGameDialog"
 		"subimage" "glyph_create"
 		"tooltip"	"Legacy Create Server Menu"
 		"OnlyAtMenu" "1"
+	}
+	"QuitButton_New"
+	{
+		"label" "#TF_Quit_Title"
+		"command" "engine quit prompt"
+		"subimage" "glyph_quit"
+		"OnlyAtMenu" "1"
+	}
+	"DisconnectButton_New"
+	{
+		"label" "#GameUI_GameMenu_Disconnect"
+		"command" "engine disconnect"
+		"subimage" "glyph_quit"
+		"OnlyInGame" "1"
 	}
 }

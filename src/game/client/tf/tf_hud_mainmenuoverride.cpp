@@ -1186,7 +1186,7 @@ void CHudMainMenuOverride::LoadMenuEntries(void)
 	datafile->UsesEscapeSequences(true);	// VGUI uses escape sequences
 	const char* pszMenuFile = "Resource/GameMenu_Grub.res";
 
-	if ( CommandLine()->FindParm( "-newmenu " ) != 0 )
+	if ( CommandLine()->FindParm( "-newmenu" ) != 0 )
 	{
 		pszMenuFile = "Resource/GameMenu_Grub_New.res";
 	}
