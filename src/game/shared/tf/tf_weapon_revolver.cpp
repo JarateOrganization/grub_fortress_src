@@ -43,7 +43,7 @@ END_DATADESC()
 
 CREATE_SIMPLE_WEAPON_TABLE(TFRevolver_Secondary, tf_weapon_revolver_secondary)
 
-extern ConVar tf_infinite_knockback;
+extern ConVar cf_infinite_shotgun_knockback;
 
 //=============================================================================
 //
@@ -397,7 +397,7 @@ void CTFRevolver::FireBullet(CTFPlayer* pPlayer)
 		// Knock the firer back!
 		if (!(pOwner->GetFlags() & FL_ONGROUND) && !pPlayer->m_Shared.m_bScattergunJump)
 		{
-			if (!tf_infinite_knockback.GetBool())
+			if (!cf_infinite_shotgun_knockback.GetBool())
 				pPlayer->m_Shared.m_bScattergunJump = true;
 
 			pOwner->m_Shared.StunPlayer(0.3f, 1.f, TF_STUN_MOVEMENT | TF_STUN_MOVEMENT_FORWARD_ONLY);
