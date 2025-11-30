@@ -599,6 +599,7 @@ public:
 	// Game Modes
 	virtual bool IsInArenaMode( void ) const OVERRIDE;
 	virtual bool IsInKothMode( void ) const OVERRIDE { return m_bPlayingKoth; }
+	virtual bool IsInBdMode( void ) const { return m_bPlayingBd; }
 	bool IsInMedievalMode( void ) const { return m_bPlayingMedieval; }
 	bool IsHolidayMap( int nHoliday ) const { return m_nMapHolidayType == nHoliday; }
 	
@@ -1186,6 +1187,7 @@ private:
 	CNetworkHandle( CBonusRoundLogic, m_hBonusLogic );
 
 	CNetworkVar( bool, m_bPlayingKoth );
+	CNetworkVar( bool, m_bPlayingBd );
 	CNetworkVar( bool, m_bPowerupMode );
 	CNetworkVar( bool, m_bPlayingRobotDestructionMode );
 	CNetworkVar( bool, m_bPlayingMedieval );
@@ -1804,6 +1806,13 @@ private:
 
 	CHandle< CTeamRoundTimer > m_hRedTimer;
 	CHandle< CTeamRoundTimer > m_hBlueTimer;
+};
+
+class CBdLogic : public CPointEntity
+{
+	DECLARE_CLASS(CBdLogic, CPointEntity);
+public:
+	DECLARE_DATADESC();
 };
 
 #define CP_TIMER_THINK "CCPTimerLogicThink"

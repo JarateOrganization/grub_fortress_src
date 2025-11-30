@@ -3412,6 +3412,7 @@ CTFGameRules::CTFGameRules()
 	m_bBountyModeEnabled.Set( false );
 
 	m_bPlayingKoth.Set( false );
+	m_bPlayingBd.Set( false );
 	m_bPlayingMedieval.Set( false );
 	m_bPlayingHybrid_CTF_CP.Set( false );
 	m_bPlayingSpecialDeliveryMode.Set( false );
@@ -4415,6 +4416,12 @@ void CTFGameRules::Activate()
 	if ( pKoth )
 	{
 		m_bPlayingKoth.Set( true );
+	}
+
+	CBdLogic* pBd = dynamic_cast<CBdLogic*> ( gEntList.FindEntityByClassname(NULL, "tf_logic_bd" ) );
+	if (pBd)
+	{
+		m_bPlayingBd.Set( true );
 	}
 
 	CMedievalLogic *pMedieval = dynamic_cast<CMedievalLogic*> ( gEntList.FindEntityByClassname( NULL, "tf_logic_medieval" ) );
@@ -19267,9 +19274,9 @@ const char *GetMapType( const char *mapName )
 		{
 			return "#Gametype_Koth";
 		}
-		else if ( !Q_strnicmp( mapName, "btb_", 5 ) )
+		else if ( !Q_strnicmp( mapName, "bd_", 5 ) )
 		{
-			return "#Gametype_BtB";
+			return "#Gametype_Bd";
 		}
 		else if ( !Q_strnicmp( mapName, "arena_", 6 ) )
 		{
@@ -19967,6 +19974,11 @@ void CTFHolidayEntity::FireGameEvent( IGameEvent *event )
 	}
 #endif
 }
+
+BEGIN_DATADESC( CBdLogic )
+END_DATADESC();
+
+LINK_ENTITY_TO_CLASS( tf_logic_bd, CBdLogic );
 
 BEGIN_DATADESC(CKothLogic)
 	DEFINE_KEYFIELD( m_nTimerInitialLength,		FIELD_INTEGER,	"timer_length" ),

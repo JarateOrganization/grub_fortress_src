@@ -311,6 +311,11 @@ void CTFDiscordRPC::UpdateServerInfo()
 			pszGameType = "King of the Hill";
 			pszGameTypeShort = "koth";
 		}
+		else if (TFGameRules()->IsInBdMode())
+		{
+			pszGameType = "Bomb Delivery";
+			pszGameTypeShort = "bd";
+		}
 	}
 
 	char szState[256];

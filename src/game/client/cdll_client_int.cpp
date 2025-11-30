@@ -1733,9 +1733,9 @@ void CHLClient::LevelInitPreEntity( char const* pMapName )
 		{
 			discordPresence.state = "King of the Hill";
 		}
-		else if ( !Q_strnicmp(pMapName, "btb_", 5 ) )
+		else if ( !Q_strnicmp(pMapName, "bd_", 5 ) )
 		{
-			discordPresence.state = "Bring the Bomb";
+			discordPresence.state = "Bomb Delivery";
 		}
 		else
 			discordPresence.state = "In-Game";
