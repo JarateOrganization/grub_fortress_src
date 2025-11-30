@@ -542,11 +542,12 @@ bool CTFPipebombLauncher::DetonateRemotePipebombs( bool bFizzle )
 	for ( int i = 0; i < count; i++ )
 	{
 		CTFGrenadePipebombProjectile *pTemp = m_Pipebombs[i];
-		if ( pTemp )
-		{
-			//This guy will die soon enough.
-			if ( pTemp->IsEffectActive( EF_NODRAW ) )
-				continue;
+		if ( !pTemp || !pTemp->IsAlive() )
+			continue;
+			
+		//This guy will die soon enough.
+		if ( pTemp->IsEffectActive( EF_NODRAW ) )
+			continue;
 #ifdef GAME_DLL
 			if ( bFizzle )
 			{
