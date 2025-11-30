@@ -60,6 +60,42 @@
 				"width"		"128"
 				"height"	"32"
 		}
+		"bab_revolver"
+		{
+				"dfile"	"HUD/d_images_mod"
+				"dnegfile"	"HUD/dneg_images_mod"
+				"x"		"4"
+				"y"		"37"
+				"width"		"42"
+				"height"	"28"
+		}
+		"bab_bmmh"
+		{
+				"dfile"	"HUD/d_images_mod"
+				"dnegfile"	"HUD/dneg_images_mod"
+				"x"		"436"
+				"y"		"3"
+				"width"		"76"
+				"height"	"30"
+		}
+		"bab_hammer"
+		{
+				"dfile"	"HUD/d_images_mod"
+				"dnegfile"	"HUD/dneg_images_mod"
+				"x"		"49"
+				"y"		"39"
+				"width"		"46"
+				"height"	"24"
+		}
+		"swordfish"
+		{
+				"dfile"	"HUD/d_images_mod"
+				"dnegfile"	"HUD/dneg_images_mod"
+				"x"		"96"
+				"y"		"36"
+				"width"		"49"
+				"height"	"32"
+		}
 		
 		//STEAM FRIEND ICON - DO NOT TOUCH
 		"ico_friend_indicator"

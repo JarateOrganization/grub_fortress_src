@@ -1,0 +1,6 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "backpack/weapons/custommade/c_pilotflamer_large"
+	"$translucent" 1
+	"$vertexcolor" 1
+}

@@ -40,7 +40,7 @@ CTFWeaponInfo *GetTFWeaponInfo( int iWeapon )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void TFExplosionCallback( const Vector &vecOrigin, const Vector &vecNormal, int iWeaponID, ClientEntityHandle_t hEntity, int nDefID, int nSound, int iCustomParticleIndex )
+void TFExplosionCallback( const Vector &vecOrigin, const Vector &vecNormal, int iWeaponID, ClientEntityHandle_t hEntity, int nDefID, int nSound, int iCustomParticleIndex, int iTeamNum )
 {
 	// Get the weapon information.
 	CTFWeaponInfo *pWeaponInfo = NULL;
@@ -139,7 +139,7 @@ void TFExplosionCallback( const Vector &vecOrigin, const Vector &vecNormal, int 
 					CEconItemDefinition *pItemDef = ItemSystem()->GetStaticDataForItemByDefIndex( nDefID );
 					if ( pItemDef )
 					{
-						pszSound = (char *)pItemDef->GetWeaponReplacementSound( pLocalPlayer->GetTeamNumber(), (WeaponSound_t)nSound );
+						pszSound = (char *)pItemDef->GetWeaponReplacementSound( iTeamNum ? iTeamNum : pLocalPlayer->GetTeamNumber(), (WeaponSound_t)nSound );
 						if ( !pszSound || !pszSound[0] )
 						{
 							pszSound = pWeaponInfo->m_szExplosionSound;
@@ -193,6 +193,7 @@ public:
 	int			m_nDefID;
 	int			m_nSound;
 	int			m_iCustomParticleIndex;
+	int			m_iTeamNum;
 };
 
 //-----------------------------------------------------------------------------
@@ -207,6 +208,7 @@ C_TETFExplosion::C_TETFExplosion( void )
 	m_nDefID = -1;
 	m_nSound = SPECIAL1;
 	m_iCustomParticleIndex = INVALID_STRING_INDEX;
+	m_iTeamNum = -1;
 }
 
 //-----------------------------------------------------------------------------
@@ -216,7 +218,7 @@ void C_TETFExplosion::PostDataUpdate( DataUpdateType_t updateType )
 {
 	VPROF( "C_TETFExplosion::PostDataUpdate" );
 
-	TFExplosionCallback( m_vecOrigin, m_vecNormal, m_iWeaponID, m_hEntity, m_nDefID, m_nSound, m_iCustomParticleIndex );
+	TFExplosionCallback( m_vecOrigin, m_vecNormal, m_iWeaponID, m_hEntity, m_nDefID, m_nSound, m_iCustomParticleIndex, m_iTeamNum );
 }
 
 static void RecvProxy_ExplosionEntIndex( const CRecvProxyData *pData, void *pStruct, void *pOut )
@@ -238,5 +240,6 @@ IMPLEMENT_CLIENTCLASS_EVENT_DT( C_TETFExplosion, DT_TETFExplosion, CTETFExplosio
 	RecvPropInt( RECVINFO( m_nDefID ) ),
 	RecvPropInt( RECVINFO( m_nSound ) ),
 	RecvPropInt( RECVINFO( m_iCustomParticleIndex ) ),
+	RecvPropInt( RECVINFO( m_iTeamNum) )
 END_RECV_TABLE()
 

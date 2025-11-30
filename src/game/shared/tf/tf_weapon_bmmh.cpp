@@ -21,7 +21,7 @@
 #endif
 
 #define TF_WEAPON_BMMH_MODEL		"models/weapons/w_models/w_stickybomb_d.mdl"
-
+#define POSEPARAM_METER "weapon_meter"
 #define TF_WEAPON_BMMH_CHARGE_SOUND	"Weapon_StickyBombLauncher.ChargeUp"
 
 //=============================================================================
@@ -105,6 +105,9 @@ void CTFBMMH::PrimaryAttack( void )
 	}
 	
 	// Call base class implementation
+	float flSteer = GetPoseParameter( LookupPoseParameter( POSEPARAM_METER ) );
+	float MeterProgress = RemapValClamped(gpGlobals->curtime - GetInternalChargeBeginTime(), 0, GetChargeMaxTime(), 0, 1 );
+	SetPoseParameter( LookupPoseParameter( POSEPARAM_METER ), MeterProgress );
 	BaseClass::PrimaryAttack();
 }
 

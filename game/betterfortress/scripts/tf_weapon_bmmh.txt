@@ -22,7 +22,7 @@
 	"default_clip"		"1"
 	"bucket"		"0"
 	"bucket_position"		"0"
-	"ExplosionSound"		"Weapon_Grenade_Pipebomb.Explode"
+	"ExplosionSound"		"MVM.RobotImpactHard"
 	"ExplosionEffect"		"ExplosionCore_wall"
 	"ExplosionPlayerEffect"		"ExplosionCore_MidAir"
 	"ExplosionWaterEffect"		"ExplosionCore_MidAir_underwater"
@@ -32,6 +32,7 @@
 	{
 		"single_shot"		"Weapon_StickyBombLauncher.Single"
 		"reload"		"Weapon_StickyBombLauncher.WorldReload"
+		"special1" 		"MVM.RobotImpactHard"
 		"special2"		"Player.UseDeny"
 		"special3"		"Weapon_StickyBombLauncher.ModeSwitch"
 		"burst"		"Weapon_StickyBombLauncher.SingleCrit"

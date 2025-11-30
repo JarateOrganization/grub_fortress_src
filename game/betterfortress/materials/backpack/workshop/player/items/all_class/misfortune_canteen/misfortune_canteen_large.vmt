@@ -1,0 +1,5 @@
+"UnlitGeneric"
+{
+	"$basetexture"		"backpack/workshop/player/items/all_class/misfortune_canteen/misfortune_canteen_large"
+	"$translucent"		"1"
+}
