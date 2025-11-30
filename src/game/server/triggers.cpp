@@ -1373,6 +1373,7 @@ private:
 	char m_szMapName[cchMapNameMost];		// trigger_changelevel only:  next map
 	char m_szLandmarkName[cchMapNameMost];		// trigger_changelevel only:  landmark on next map
 	bool m_bTouched;
+	bool m_bNewMap;
 
 	// Outputs
 	COutputEvent m_OnChangeLevel;
@@ -1386,6 +1387,7 @@ BEGIN_DATADESC( CChangeLevel )
 
 	DEFINE_AUTO_ARRAY( m_szMapName, FIELD_CHARACTER ),
 	DEFINE_AUTO_ARRAY( m_szLandmarkName, FIELD_CHARACTER ),
+	DEFINE_KEYFIELD( m_bNewMap, FIELD_BOOLEAN, "notransition" ),
 //	DEFINE_FIELD( m_touchTime, FIELD_TIME ),	// don't save
 //	DEFINE_FIELD( m_bTouched, FIELD_BOOLEAN ),
 
@@ -1437,12 +1439,12 @@ void CChangeLevel::Spawn( void )
 {
 	if ( FStrEq( m_szMapName, "" ) )
 	{
-		Msg( "a trigger_changelevel doesn't have a map" );
+		Msg( "a trigger_changelevel doesn't have a map\n" );
 	}
 
 	if ( FStrEq( m_szLandmarkName, "" ) )
 	{
-		Msg( "trigger_changelevel to %s doesn't have a landmark", m_szMapName );
+		Msg( "trigger_changelevel to %s doesn't have a landmark\n", m_szMapName );
 	}
 
 	InitTrigger();
@@ -1617,9 +1619,17 @@ void CChangeLevel::ChangeLevelNow( CBaseEntity *pActivator )
 
 	Assert(!FStrEq(m_szMapName, ""));
 
-	// Don't work in deathmatch
-	if ( g_pGameRules->IsDeathmatch() )
+	//TF2 - Instant switch to a new level, no transitions
+	if ( m_bNewMap )
+	{
+		Q_strncpy(st_szNextMap, m_szMapName, sizeof(st_szNextMap));
+		engine->ChangeLevel( st_szNextMap, NULL );
 		return;
+	}
+
+	// Don't work in deathmatch
+	//if ( g_pGameRules->IsDeathmatch() )
+	//	return;
 
 	// Some people are firing these multiple times in a frame, disable
 	if ( m_bTouched )

@@ -410,6 +410,7 @@
 			"show_in_armory"	"1"
 			"item_type_name"	"#TF_Weapon_Shotgun"
 			"item_name"	"#TFCW_Bmmh"
+			"item_description"		"#TFCW_Bmmh_Desc"
 			"item_slot"	"primary"
 			"item_quality"	"community"
 			"moditem" "1"
@@ -634,15 +635,6 @@
 	}
 	"item_sets"
 	{
-		"testing_sets"
-		{
-			"name"	"#TF_Set_Desert_Sniper"
-			"items"
-			{
-				"The Hell Beneath"		"1"
-				"The Holy Marlin"		"1"
-			}
-		}
 		"pyro_pilotburner"
 		{
 			"name"	"#TFCSet_PyroPilot"
@@ -651,6 +643,17 @@
 				"The Afterburner"		"1"
 				"The Bone Dome"		"1"
 				"The Air Raider"		"1"	
+			}
+		}
+		"engineer_bab"
+		{
+			"name"	"#TFCSet_BiggerIsBetter"
+			"items"
+			{
+				"Texas Ten Gallon"				"1"
+				"The Big Mean Mother Hubbard"	"1"
+				"The Big Tex"					"1"
+				"The Big Bang"					"1"	
 			}
 		}
 	}
