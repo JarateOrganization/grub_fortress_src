@@ -549,32 +549,31 @@ bool CTFPipebombLauncher::DetonateRemotePipebombs( bool bFizzle )
 		if ( pTemp->IsEffectActive( EF_NODRAW ) )
 			continue;
 #ifdef GAME_DLL
-			if ( bFizzle )
-			{
-				pTemp->Fizzle();
-			}
+		if ( bFizzle )
+		{
+			pTemp->Fizzle();
+		}
 #endif
 
-			if ( bFizzle == false )
+		if ( bFizzle == false )
+		{
+			if ( ( gpGlobals->curtime - pTemp->m_flCreationTime ) < pTemp->GetLiveTime() )
 			{
-				if ( ( gpGlobals->curtime - pTemp->m_flCreationTime ) < pTemp->GetLiveTime() )
+				if ( pTemp->GetLiveTime() <= 0.5f )
 				{
-					if ( pTemp->GetLiveTime() <= 0.5f )
-					{
-						pTemp->SetDetonateOnPulse( true );
-					}
-					bFailedToDetonate = true;
-					continue;
+					pTemp->SetDetonateOnPulse( true );
 				}
+				bFailedToDetonate = true;
+				continue;
 			}
-#ifdef GAME_DLL
-			if ( CanDestroyStickies() )
-			{
-				pTemp->DetonateStickies();
-			}
-			pTemp->Detonate();
-#endif
 		}
+#ifdef GAME_DLL
+		if ( CanDestroyStickies() )
+		{
+			pTemp->DetonateStickies();
+		}
+		pTemp->Detonate();
+#endif
 	}
 
 	return bFailedToDetonate;
