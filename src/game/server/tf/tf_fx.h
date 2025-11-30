@@ -22,7 +22,7 @@ void TE_FireBullets( int iPlayerIndex, const Vector &vOrigin, const QAngle &vAng
 // of the valid nEntIndex values for a special purpose.
 const int kInvalidEHandleExplosion = MAX_EDICTS - 1;
 const int kInvalidEHandleParticleEffect = MAX_EDICTS - 1;
-void TE_TFExplosion( IRecipientFilter &filter, float flDelay, const Vector &vecOrigin, const Vector &vecNormal, int iWeaponID, int nEntIndex, int nDefID = -1, int nSound = SPECIAL1, int iCustomParticle = INVALID_STRING_INDEX );
+void TE_TFExplosion( IRecipientFilter &filter, float flDelay, const Vector &vecOrigin, const Vector &vecNormal, int iWeaponID, int nEntIndex, int nDefID = -1, int nSound = SPECIAL1, int iCustomParticle = INVALID_STRING_INDEX, int iTeamnum = -1 );
 void TE_TFParticleEffect( IRecipientFilter &filter, float flDelay, const char *pszParticleName, ParticleAttachment_t iAttachType, CBaseEntity *pEntity, const char *pszAttachmentName, bool bResetAllParticlesOnEntity = false );
 void TE_TFParticleEffect( IRecipientFilter &filter, float flDelay, const char *pszParticleName, ParticleAttachment_t iAttachType, CBaseEntity *pEntity = NULL, int iAttachmentPoint = -1, bool bResetAllParticlesOnEntity = false );
 void TE_TFParticleEffect( IRecipientFilter &filter, float flDelay, const char *pszParticleName, Vector vecOrigin, QAngle vecAngles, CBaseEntity *pEntity = NULL, ParticleAttachment_t iAttachType = PATTACH_CUSTOMORIGIN );

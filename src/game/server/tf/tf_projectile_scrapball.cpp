@@ -16,7 +16,8 @@
 //
 // TF Scrapball functions (Server specific).
 //
-#define SCRAPBALL_MODEL "models/weapons/w_models/w_rocket.mdl"
+#define SCRAPBALL_MODEL "models/weapons/w_models/w_bmmh_scrapball.mdl"
+#define SCRAPBALL_EXP_PARTICLE "rd_robot_explosion"
 
 LINK_ENTITY_TO_CLASS( tf_projectile_scrapball, CTFProjectile_ScrapBall );
 PRECACHE_REGISTER( tf_projectile_scrapball );
@@ -201,7 +202,7 @@ void CTFProjectile_ScrapBall::Explode( trace_t *pTrace, CBaseEntity *pOther )
 	
 	// Halloween Spell Effect Check
 	int iHalloweenSpell = 0;
-	int iCustomParticleIndex = INVALID_STRING_INDEX;
+	int iCustomParticleIndex = GetParticleSystemIndex( SCRAPBALL_EXP_PARTICLE );
 	item_definition_index_t ownerWeaponDefIndex = INVALID_ITEM_DEF_INDEX;
 	// if the owner is a Sentry, Check its owner
 	CBaseEntity *pPlayerOwner = GetOwnerPlayer();
@@ -216,16 +217,11 @@ void CTFProjectile_ScrapBall::Explode( trace_t *pTrace, CBaseEntity *pOther )
 	}
 
 	int iNoSelfBlastDamage = 0;
+	int nDefID = -1;
 	CTFWeaponBase *pWeapon = dynamic_cast< CTFWeaponBase * >( GetOriginalLauncher() );
 	if ( pWeapon )
 	{
 		ownerWeaponDefIndex = pWeapon->GetAttributeContainer()->GetItem()->GetItemDefIndex();
-
-		CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iNoSelfBlastDamage, no_self_blast_dmg );
-		if ( iNoSelfBlastDamage )
-		{
-			iCustomParticleIndex = GetParticleSystemIndex( "ExplosionCore_Wall_Jumper" );
-		}
 	}
 	
 	int iLargeExplosion = 0;
@@ -236,7 +232,7 @@ void CTFProjectile_ScrapBall::Explode( trace_t *pTrace, CBaseEntity *pOther )
 		DispatchParticleEffect( "fluidSmokeExpl_ring_mvm", GetAbsOrigin(), GetAbsAngles() );
 	}
 
-	TE_TFExplosion( filter, 0.0f, vecOrigin, pTrace->plane.normal, GetWeaponID(), pOther->entindex(), ownerWeaponDefIndex, SPECIAL1, iCustomParticleIndex );
+	TE_TFExplosion( filter, 0.0f, vecOrigin, pTrace->plane.normal, TF_WEAPON_BMMH, pOther->entindex(), ownerWeaponDefIndex, SPECIAL1, iCustomParticleIndex );
 
 	CSoundEnt::InsertSound ( SOUND_COMBAT, vecOrigin, 1024, 3.0 );
 
@@ -292,12 +288,6 @@ void CTFProjectile_ScrapBall::Explode( trace_t *pTrace, CBaseEntity *pOther )
 				}
 			}
 		}
-	}
-
-	// Don't decal players with scorch.
-	if ( ( iNoSelfBlastDamage == 0 ) )
-	{
-		UTIL_DecalTrace( pTrace, "Scorch" );
 	}
 
 	// Get the Engineer who fired this projectile

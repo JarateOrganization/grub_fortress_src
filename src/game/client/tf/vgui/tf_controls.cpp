@@ -31,6 +31,7 @@
 #include <../common/GameUI/cvarslider.h>
 #include "filesystem.h"
 #include "hud_controlpointicons.h"
+#include "tf_statsummary.h"
 
 ConVar cl_map("cl_map", "-1");
 
@@ -3178,7 +3179,17 @@ void CTFCreateServerDialog::OnCommand(const char* command)
 
 						pItem = pItem->pNext;
 					}
-					engine->ClientCmd_Unrestricted(CFmtStr("map %s", pItem->szItemText));
+					// Show the stats summary panel as a loading screen before changing level
+					CTFStatsSummaryPanel *pStatsPanel = GStatsSummaryPanel();
+					if ( pStatsPanel )
+					{
+						pStatsPanel->OnMapLoad( pItem->szItemText );
+						pStatsPanel->SetVisible( true );
+						pStatsPanel->MoveToFront();
+					}
+					
+					// Change the level with loading bar enabled
+					engine->ClientCmd_Unrestricted(CFmtStr("progress_enable; map %s", pItem->szItemText));
 				}
 			}
 		}

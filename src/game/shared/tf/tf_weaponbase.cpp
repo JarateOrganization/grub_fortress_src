@@ -532,6 +532,9 @@ void CTFWeaponBase::Precache()
 
 	//MVM Versus - Legacy viewmodels
 	PrecacheModel("models/mvm/weapons/c_models/c_engineer_bot_gunslinger.mdl");
+
+	// Ghostly dash particle
+	PrecacheParticleSystem( "ghost_smoke" );
 }
 
 // -----------------------------------------------------------------------------
@@ -1639,6 +1642,11 @@ dash_complete:
 	
 	// Play a sound effect
 	pOwner->EmitSound( "Halloween.EyeballBossTeleport" );
+	
+	// Create particle effect at teleport destination
+	Vector vecParticleOrigin = vecFinalPos + Vector( 0, 0, 32 );
+	CPVSFilter filter( vecParticleOrigin );
+	TE_TFParticleEffect( filter, 0.0f, "ghost_smoke", vecParticleOrigin, vec3_angle );
 	
 	// Reset the charge meter
 	pOwner->m_Shared.SetItemChargeMeter( eLoadoutPosition, 0.0f );

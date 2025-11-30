@@ -457,6 +457,7 @@ void CTFBaseRocket::Explode( trace_t *pTrace, CBaseEntity *pOther )
 	}
 
 	int iNoSelfBlastDamage = 0;
+	int iVisualOverride = 0;
 	CTFWeaponBase *pWeapon = dynamic_cast< CTFWeaponBase * >( GetOriginalLauncher() );
 	if ( pWeapon )
 	{
@@ -467,6 +468,9 @@ void CTFBaseRocket::Explode( trace_t *pTrace, CBaseEntity *pOther )
 		{
 			iCustomParticleIndex = GetParticleSystemIndex( "ExplosionCore_Wall_Jumper" );
 		}
+
+		//Override player rockets
+		CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iVisualOverride, visuals_sound_override );
 	}
 	
 	int iLargeExplosion = 0;
@@ -477,7 +481,13 @@ void CTFBaseRocket::Explode( trace_t *pTrace, CBaseEntity *pOther )
 		DispatchParticleEffect( "fluidSmokeExpl_ring_mvm", GetAbsOrigin(), GetAbsAngles() );
 	}
 
-	TE_TFExplosion( filter, 0.0f, vecOrigin, pTrace->plane.normal, GetWeaponID(), pOther->entindex(), ownerWeaponDefIndex, SPECIAL1, iCustomParticleIndex );
+	int nTeam = iVisualOverride ? iVisualOverride : GetTeamNumber();
+	if ( TFGameRules() && TFGameRules()->IsMannVsMachineMode() && nTeam == TF_TEAM_PVE_INVADERS && !iVisualOverride )
+	{
+		nTeam = TF_TEAM_PVE_INVADERS_GIANTS;
+	}
+
+	TE_TFExplosion( filter, 0.0f, vecOrigin, pTrace->plane.normal, GetWeaponID(), pOther->entindex(), ownerWeaponDefIndex, SPECIAL1, iCustomParticleIndex, nTeam );
 
 	CSoundEnt::InsertSound ( SOUND_COMBAT, vecOrigin, 1024, 3.0 );
 

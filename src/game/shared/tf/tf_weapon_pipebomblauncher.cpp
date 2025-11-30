@@ -385,7 +385,12 @@ CBaseEntity *CTFPipebombLauncher::FireProjectile( CTFPlayer *pPlayer )
 			CTFGrenadePipebombProjectile *pTemp = m_Pipebombs[0];
 			if ( pTemp )
 			{
-				pTemp->SetTimer( gpGlobals->curtime ); // explode NOW
+				// Validate that this is actually a pipebomb projectile
+				if ( FClassnameIs( pTemp, "tf_projectile_pipe" ) || 
+					 FClassnameIs( pTemp, "tf_projectile_pipe_remote" ) )
+				{
+					pTemp->SetTimer( gpGlobals->curtime ); // explode NOW
+				}
 			}
 
 			m_Pipebombs.Remove(0);
@@ -507,7 +512,12 @@ void CTFPipebombLauncher::ApplyPostHitEffects( const CTakeDamageInfo &inputInfo,
 //-----------------------------------------------------------------------------
 void CTFPipebombLauncher::DeathNotice( CBaseEntity *pVictim )
 {
-	Assert( dynamic_cast<CTFGrenadePipebombProjectile*>(pVictim) );
+	// Validate that this is actually a pipebomb projectile (could be other projectiles like reflected Scrap Balls)
+	if ( !FClassnameIs( pVictim, "tf_projectile_pipe" ) && 
+		 !FClassnameIs( pVictim, "tf_projectile_pipe_remote" ) )
+	{
+		return;
+	}
 
 	PipebombHandle hHandle;
 	hHandle = (CTFGrenadePipebombProjectile*)pVictim;
@@ -542,38 +552,53 @@ bool CTFPipebombLauncher::DetonateRemotePipebombs( bool bFizzle )
 	for ( int i = 0; i < count; i++ )
 	{
 		CTFGrenadePipebombProjectile *pTemp = m_Pipebombs[i];
-		if ( pTemp )
-		{
-			//This guy will die soon enough.
-			if ( pTemp->IsEffectActive( EF_NODRAW ) )
-				continue;
+		if ( !pTemp )
+			continue;
+
+		//This guy will die soon enough.
+		if ( pTemp->IsEffectActive( EF_NODRAW ) )
+			continue;
+
 #ifdef GAME_DLL
-			if ( bFizzle )
-			{
-				pTemp->Fizzle();
-			}
+		// Validate that this is actually a pipebomb projectile before calling pipebomb-specific methods
+		// This prevents crashes when non-pipebomb projectiles (like reflected Scrap Balls) end up in the list
+		// Use FClassnameIs to safely check the actual entity type without dereferencing invalid pointers
+		if ( !FClassnameIs( pTemp, "tf_projectile_pipe" ) && 
+			 !FClassnameIs( pTemp, "tf_projectile_pipe_remote" ) )
+		{
+			// Not a pipebomb (could be a reflected rocket/scrapball), skip pipebomb-specific operations
+			continue;
+		}
 #endif
 
-			if ( bFizzle == false )
-			{
-				if ( ( gpGlobals->curtime - pTemp->m_flCreationTime ) < pTemp->GetLiveTime() )
-				{
-					if ( pTemp->GetLiveTime() <= 0.5f )
-					{
-						pTemp->SetDetonateOnPulse( true );
-					}
-					bFailedToDetonate = true;
-					continue;
-				}
-			}
+		CTFGrenadePipebombProjectile *pPipebomb = pTemp;
+
 #ifdef GAME_DLL
-			if ( CanDestroyStickies() )
-			{
-				pTemp->DetonateStickies();
-			}
-			pTemp->Detonate();
-#endif
+		if ( bFizzle )
+		{
+			pPipebomb->Fizzle();
 		}
+#endif
+
+		if ( bFizzle == false )
+		{
+			if ( ( gpGlobals->curtime - pPipebomb->m_flCreationTime ) < pPipebomb->GetLiveTime() )
+			{
+				if ( pPipebomb->GetLiveTime() <= 0.5f )
+				{
+					pPipebomb->SetDetonateOnPulse( true );
+				}
+				bFailedToDetonate = true;
+				continue;
+			}
+		}
+#ifdef GAME_DLL
+		if ( CanDestroyStickies() )
+		{
+			pPipebomb->DetonateStickies();
+		}
+		pPipebomb->Detonate();
+#endif
 	}
 
 	return bFailedToDetonate;
@@ -597,26 +622,37 @@ bool CTFPipebombLauncher::ModifyPipebombsInView( int iEffect )
 		if ( !pTemp || pTemp->IsEffectActive( EF_NODRAW ) )
 			continue;
 
+#ifdef GAME_DLL
+		// Validate that this is actually a pipebomb projectile before calling pipebomb-specific methods
+		if ( !FClassnameIs( pTemp, "tf_projectile_pipe" ) && 
+			 !FClassnameIs( pTemp, "tf_projectile_pipe_remote" ) )
+		{
+			continue;
+		}
+#endif
+
+		CTFGrenadePipebombProjectile *pPipebomb = pTemp;
+
 		Vector vecToTarget;
-		vecToTarget = pTemp->WorldSpaceCenter() - pPlayer->EyePosition();
+		vecToTarget = pPipebomb->WorldSpaceCenter() - pPlayer->EyePosition();
 		vecToTarget.NormalizeInPlace();
 
 		Vector vecPlayerForward;
 		AngleVectors( pPlayer->EyeAngles(), &vecPlayerForward, NULL, NULL );
 		vecPlayerForward.NormalizeInPlace();
 
-		bool bArmed = ( ( gpGlobals->curtime - pTemp->m_flCreationTime ) > pTemp->GetLiveTime() );
-		float flDist = pPlayer->GetAbsOrigin().DistTo( pTemp->GetAbsOrigin() );
+		bool bArmed = ( ( gpGlobals->curtime - pPipebomb->m_flCreationTime ) > pPipebomb->GetLiveTime() );
+		float flDist = pPlayer->GetAbsOrigin().DistTo( pPipebomb->GetAbsOrigin() );
 		float flDot = DotProduct( vecToTarget, vecPlayerForward );
 
 		// Detonate sticky bombs directly under the crosshair or under our feet (to allow sticky jumping)
-		if ( flDot > 0.975f || flDist < pTemp->GetDamageRadius() )
+		if ( flDot > 0.975f || flDist < pPipebomb->GetDamageRadius() )
 		{
 			switch ( iEffect )
 			{
 			case TF_PIPEBOMB_HIGHLIGHT:
 #ifdef CLIENT_DLL
-				pTemp->SetHighlight( true );
+				pPipebomb->SetHighlight( true );
 #endif
 				break;
 			case TF_PIPEBOMB_DETONATE:
@@ -626,10 +662,10 @@ bool CTFPipebombLauncher::ModifyPipebombsInView( int iEffect )
 #ifdef GAME_DLL
 					if ( CanDestroyStickies() )
 					{
-						pTemp->DetonateStickies();
+						pPipebomb->DetonateStickies();
 					}
 #endif
-					pTemp->Detonate();
+					pPipebomb->Detonate();
 				}
 				break;
 			}
@@ -637,7 +673,7 @@ bool CTFPipebombLauncher::ModifyPipebombsInView( int iEffect )
 		else if ( iEffect == TF_PIPEBOMB_HIGHLIGHT )
 		{
 #ifdef CLIENT_DLL
-			pTemp->SetHighlight( false );
+			pPipebomb->SetHighlight( false );
 #endif
 		}
 	}

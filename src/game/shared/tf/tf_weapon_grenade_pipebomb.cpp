@@ -1249,30 +1249,29 @@ void CTFGrenadePipebombProjectile::ArmThink( void )
 	CALL_ATTRIB_HOOK_INT_ON_OTHER( GetLauncher(), iProximityStickies, mod_proximity_stickies );
 	if ( iProximityStickies && HasStickyEffects() && m_bTouched )
 	{
-		// Check if armed
-		if ( ( gpGlobals->curtime - m_flCreationTime ) >= GetLiveTime() )
+		// Check for nearby enemies
+		CTFPlayer *pOwner = ToTFPlayer( GetThrower() );
+		if ( pOwner )
 		{
-			// Check for nearby enemies
-			CTFPlayer *pOwner = ToTFPlayer( GetThrower() );
-			if ( pOwner )
+			const float flProximityRadius = 150.0f; // Proximity detection radius
+			CBaseEntity *pEntity = NULL;
+			for ( CEntitySphereQuery sphere( GetAbsOrigin(), flProximityRadius ); ( pEntity = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
 			{
-				const float flProximityRadius = 150.0f; // Proximity detection radius
-				CBaseEntity *pEntity = NULL;
-				for ( CEntitySphereQuery sphere( GetAbsOrigin(), flProximityRadius ); ( pEntity = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
-				{
-					if ( !pEntity || !pEntity->IsPlayer() || !pEntity->IsAlive() )
-						continue;
+				if ( !pEntity || !pEntity->IsPlayer() || !pEntity->IsAlive() )
+					continue;
 
-					CTFPlayer *pPlayer = ToTFPlayer( pEntity );
-					if ( !pPlayer || pPlayer == pOwner || pPlayer->GetTeamNumber() == pOwner->GetTeamNumber() )
-						continue;
+				CTFPlayer *pPlayer = ToTFPlayer( pEntity );
+				if ( !pPlayer || pPlayer == pOwner || pPlayer->GetTeamNumber() == pOwner->GetTeamNumber() )
+					continue;
 
-					// Enemy is in range, detonate!
-					Detonate();
-					return;
-				}
+				// Enemy is in range, detonate!
+				Detonate();
+				return;
 			}
 		}
+
+		// Continue checking for proximity on next frame
+		SetContextThink( &CTFGrenadePipebombProjectile::ArmThink, gpGlobals->curtime + 0.1f, "ARM_THINK" );
 	}
 
 	if ( m_bDetonateOnPulse )
