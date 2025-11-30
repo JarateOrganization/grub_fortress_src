@@ -1,6 +1,6 @@
 "UnlitGeneric"
 {
-	"$basetexture" "vgui\maps\menu_thumb_btb_bombyard"
+	"$basetexture" "vgui\maps\menu_thumb_bd_bombyard"
 	"$translucent" 1
 	"$ignorez" 1
 	"$vertexcolor" 1

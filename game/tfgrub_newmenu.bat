@@ -1,1 +1,0 @@
-grub_fortress_win64.exe -newmenu
