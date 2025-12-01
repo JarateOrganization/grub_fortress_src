@@ -619,3 +619,10 @@ game/customfortress/cfg/server_blacklist.txt
 game/customfortress/cfg/local_loadout.txt
 game/customfortress/cfg/cf_devtest.cfg
 game/customfortress/cfg/airblast.cfg
+game/customfortress/gamestate.txt
+game/customfortress/media/viewed.res
+game/customfortress/serverconfig.vdf
+game/customfortress/stats.txt
+game/customfortress/tf2_playerstats.dmx
+game/customfortress/trainingprogress.txt
+game/customfortress/voice_ban.dt
