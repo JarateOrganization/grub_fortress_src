@@ -978,6 +978,15 @@
 			"hidden"	"0"
 			"effect_type"	"negative"
 		}
+		"4030"
+		{
+			"name"	"keep disguise on attack"
+			"attribute_class"	"keep_disguise_on_attack"
+			"description_string"	"#Attrib_KeepDisguiseOnAttack"
+			"description_format"	"value_is_additive"
+			"hidden"	"0"
+			"effect_type"	"positive"
+		}
 	}
 	"items"
 	{
