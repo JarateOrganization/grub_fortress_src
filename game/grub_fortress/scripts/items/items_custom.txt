@@ -1,7 +1,7 @@
 //Ty BetaM!
 //econ_item_schema.cpp - line 4421
 #base items_rebalance.txt
-#base items_experimental.txt
+//#base items_experimental.txt
 //#base items_dev.txt
 
 "items_game"
@@ -753,7 +753,7 @@ not sure if it should be used as a weapon"
 				"heal teammate on hit"
 				{
 					"attribute_class"	"heal_teammate_on_hit"
-					"value"				"75"
+					"value"				"50"
 				}
 				"single wep deploy time decreased"
 				{
@@ -764,6 +764,11 @@ not sure if it should be used as a weapon"
 				{
 					"attribute_class"	"mult_dmg"
 					"value"				"0.25"
+				}
+				"mark for death"
+				{
+					"attribute_class"	"mark_for_death"
+					"value"				"1"
 				}
 			}
 		}
