@@ -276,7 +276,11 @@ void CCrashHandler::CollectMetadata()
 	time_t rawtime;
 	time( &rawtime );
 	struct tm timeinfo;
+#ifdef _WIN32
 	gmtime_s( &timeinfo, &rawtime );
+#else
+	gmtime_r( &rawtime, &timeinfo );
+#endif
 	strftime( s_Metadata.szTimestamp, sizeof( s_Metadata.szTimestamp ), 
 		"%Y-%m-%d %H:%M:%S UTC", &timeinfo );
 	
@@ -449,6 +453,7 @@ void CCrashHandler::QueueForUpload( const char *pszMinidumpPath, const char *psz
 //-----------------------------------------------------------------------------
 // Purpose: Custom exception filter
 //-----------------------------------------------------------------------------
+#ifdef _WIN32
 long __stdcall CCrashHandler::CustomExceptionFilter( struct _EXCEPTION_POINTERS *pExceptionInfo )
 {
 	Msg( "[CrashHandler] Exception filter called!\n" );
@@ -518,6 +523,7 @@ long __stdcall CCrashHandler::CustomExceptionFilter( struct _EXCEPTION_POINTERS 
 	// Continue with default crash handling
 	return EXCEPTION_CONTINUE_SEARCH;
 }
+#endif // _WIN32
 
 //-----------------------------------------------------------------------------
 // Purpose: Get metadata
@@ -532,5 +538,10 @@ const CrashMetadata_t& CCrashHandler::GetMetadata()
 //-----------------------------------------------------------------------------
 void CCrashHandler::HandleCrash( unsigned int uStructuredExceptionCode, void *pExceptionInfo )
 {
+#ifdef _WIN32
 	CustomExceptionFilter( (struct _EXCEPTION_POINTERS *)pExceptionInfo );
+#else
+	// Linux crash handling - just collect metadata for now
+	CollectMetadata();
+#endif
 }
