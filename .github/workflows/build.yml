@@ -55,16 +55,16 @@ jobs:
 
       - name: Restore ccache cache (Linux)
         if: runner.os == 'Linux'
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: ~/.ccache
-          key: ${{ runner.os }}-ccache-${{ hashFiles('src/**/*.cpp', 'src/**/*.h') }}
+          key: ${{ runner.os }}-ccache-${{ github.run_id }}
           restore-keys: |
             ${{ runner.os }}-ccache-
 
       - name: Restore VPC/Ninja cache (Linux)
         if: runner.os == 'Linux'
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: src/_vpc_
           key: ${{ runner.os }}-vpc-v2-${{ hashFiles('src/**/*.vpc', 'src/**/vpc_scripts/**') }}
@@ -106,6 +106,15 @@ jobs:
           echo "CXXFLAGS=-m64" >> $GITHUB_ENV
           echo "LDFLAGS=-m64" >> $GITHUB_ENV
           echo "CCACHE_DIR=$HOME/.ccache" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Show ccache stats before build (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          echo "=== ccache statistics before build ==="
+          ccache -s || true
+          echo "=== ccache config ==="
+          cat ~/.ccache/ccache.conf || true
         shell: bash
 
       - name: Build (Linux)
@@ -180,12 +189,19 @@ jobs:
         working-directory: src
         run: ${{ matrix.build_cmd }}
 
+      - name: Show ccache stats (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          echo "=== ccache statistics ==="
+          ccache -s
+        shell: bash
+
       - name: Save ccache (Linux)
         if: runner.os == 'Linux'
         uses: actions/cache/save@v4
         with:
           path: ~/.ccache
-          key: ${{ runner.os }}-ccache-${{ hashFiles('src/**/*.cpp', 'src/**/*.h') }}
+          key: ${{ runner.os }}-ccache-${{ github.run_id }}
 
       - name: Save VPC/Ninja cache (Linux)
         if: runner.os == 'Linux'
