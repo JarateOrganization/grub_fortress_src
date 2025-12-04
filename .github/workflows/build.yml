@@ -50,8 +50,13 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           mkdir -p ~/.ccache
-          echo "max_size = 2G" > ~/.ccache/ccache.conf
-          echo "compression = true" >> ~/.ccache/ccache.conf
+          cat > ~/.ccache/ccache.conf << 'EOF'
+          max_size = 2G
+          compression = true
+          hash_dir = false
+          base_dir = /my_mod
+          sloppiness = include_file_mtime,include_file_ctime,time_macros,pch_defines,file_stat_matches
+          EOF
 
       - name: Restore ccache cache (Linux)
         if: runner.os == 'Linux'
@@ -115,11 +120,19 @@ jobs:
           ccache -s || true
           echo "=== ccache config ==="
           cat ~/.ccache/ccache.conf || true
+          echo "=== Check if ninja uses ccache ==="
+          if [ -f src/_vpc_/ninja/sdk_everything_release.ninja ]; then
+            head -50 src/_vpc_/ninja/sdk_everything_release.ninja | grep -E "(cc|cxx|CC|CXX|g\+\+|gcc)" || echo "No compiler refs in first 50 lines"
+          fi
         shell: bash
 
       - name: Build (Linux)
         run: |
           chmod +x ${{ matrix.build_script }}
+          # Debug: check if ccache exists in container
+          echo "=== Checking ccache in container ==="
+          podman run --rm registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest which ccache || echo "ccache not found in container"
+          podman run --rm registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest ls -la /usr/lib/ccache/ || echo "No /usr/lib/ccache in container"
           ${{ matrix.build_script }}
         working-directory: src
         shell: bash
