@@ -51,14 +51,12 @@ jobs:
         run: |
           mkdir -p ~/.ccache
           # Config must be inside CCACHE_DIR for container to find it
-          cat > ~/.ccache/ccache.conf << 'EOF'
-max_size = 2G
-compression = true
-hash_dir = false
-base_dir = /my_mod
-sloppiness = include_file_mtime,include_file_ctime,time_macros,pch_defines,file_stat_matches,locale,system_headers
-log_file = /ccache/ccache.log
-EOF
+          echo "max_size = 2G" > ~/.ccache/ccache.conf
+          echo "compression = true" >> ~/.ccache/ccache.conf
+          echo "hash_dir = false" >> ~/.ccache/ccache.conf
+          echo "base_dir = /my_mod" >> ~/.ccache/ccache.conf
+          echo "sloppiness = include_file_mtime,include_file_ctime,time_macros,pch_defines,file_stat_matches,locale,system_headers" >> ~/.ccache/ccache.conf
+          echo "log_file = /ccache/ccache.log" >> ~/.ccache/ccache.conf
           echo "Created ccache.conf:"
           cat ~/.ccache/ccache.conf
 
