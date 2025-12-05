@@ -521,7 +521,8 @@ static const char *s_aGameTypeNames[] =
 	"#Gametype_RobotDestruction",
 	"#GameType_Passtime",
 	"#GameType_PlayerDestruction",
-	"#GameType_RaidMode"
+	"#GameType_RaidMode",
+	"#GameType_BringTheBomb"
 };
 COMPILE_TIME_ASSERT( TF_GAMETYPE_COUNT == ARRAYSIZE( s_aGameTypeNames ) );
 
@@ -541,7 +542,8 @@ static const char *s_aEnumGameTypeName[] =
 	"TF_GAMETYPE_RD",
 	"TF_GAMETYPE_PASSTIME",
 	"TF_GAMETYPE_PD",
-	"TF_GAMETYPE_RAID"
+	"TF_GAMETYPE_RAID",
+	"TF_GAMETYPE_BRING_THE_BOMB"
 };
 COMPILE_TIME_ASSERT( TF_GAMETYPE_COUNT == ARRAYSIZE( s_aEnumGameTypeName ) );
 
@@ -760,7 +762,6 @@ const char *g_aWeaponNames[] =
 	"TF_WEAPON_GRENADE_JAR_GAS",
 	"TF_WEPON_FLAME_BALL",
 	"TF_WEAPON_BMMH",
-
 };
 COMPILE_TIME_ASSERT( ARRAYSIZE( g_aWeaponNames ) == TF_WEAPON_COUNT );
 
@@ -962,7 +963,6 @@ const char *g_szSpecialDamageNames[] =
 	"TF_DMG_CUSTOM_DRAGONS_FURY_IGNITE",
 	"TF_DMG_CUSTOM_DRAGONS_FURY_BONUS_BURNING",
 	"TF_DMG_CUSTOM_SLAP_KILL",
-	"TF_DMG_CUSTOM_MARLIN_KILL",
 	"TF_DMG_CUSTOM_CROC",
 	"TF_DMG_CUSTOM_TAUNTATK_GASBLAST",
 	"TF_DMG_CUSTOM_AXTINGUISHER_BOOSTED",

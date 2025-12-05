@@ -11205,10 +11205,6 @@ int CTFPlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 			{
 				info.SetDamageCustom( TF_DMG_CUSTOM_FISH_KILL );
 			}
-			else if ( iShowHitsInKillfeed )
-			{
-				info.SetDamageCustom( TF_DMG_CUSTOM_MARLIN_KILL );
-			}
 			else
 			{
 				info.SetDamageCustom( TF_DMG_CUSTOM_SLAP_KILL );

@@ -1293,7 +1293,7 @@ void CTFHudDeathNotice::OnGameEvent( IGameEvent *event, int iDeathNoticeMsg )
 		int deathFlags = event->GetInt( "death_flags" );
 		int iCustomDamage = event->GetInt( "customkill" );
 
-		if ( ( iCustomDamage == TF_DMG_CUSTOM_FISH_KILL ) || ( deathFlags & TF_DEATH_FEIGN_DEATH ) || ( iCustomDamage == TF_DMG_CUSTOM_SLAP_KILL ) || ( iCustomDamage == TF_DMG_CUSTOM_MARLIN_KILL ) )
+		if ( ( iCustomDamage == TF_DMG_CUSTOM_FISH_KILL ) || ( deathFlags & TF_DEATH_FEIGN_DEATH ) || ( iCustomDamage == TF_DMG_CUSTOM_SLAP_KILL ) )
 		{
 			const wchar_t *wpszFormat = g_pVGuiLocalize->Find( "#Humiliation_Kill" );
 			if ( FStrEq( "fish_notice__arm", pszEventName ) )
