@@ -336,7 +336,7 @@ DESCRIPTION INFO_OPTIONS
 		{ "75" }
 	}
 	
-	"bf_medic_show_crit_heal_indicator"
+	"cf_medic_show_crit_heal_indicator"
 	{
 		"#TF_MedicShowCritHealIndicator"
 		"#Tooltip_MedicShowCritHealIndicator"
@@ -534,7 +534,7 @@ DESCRIPTION INFO_OPTIONS
 		{ "0" }
 	}
 	
-	"bf_clean_spectator_hud"
+	"cf_clean_spectator_hud"
 	{
 		"#BF_CleanSpectatorHUD"
 		"#Tooltip_CleanSpectatorHUD"
