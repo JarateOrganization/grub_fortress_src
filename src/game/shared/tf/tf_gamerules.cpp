@@ -12278,6 +12278,10 @@ const char *CTFGameRules::GetKillingWeaponName( const CTakeDamageInfo &info, CTF
 	{
 		killer_weapon_name = "tf_weapon_taunt_heavy";
 	}
+	else if ( info.GetDamageCustom() == TF_DMG_CUSTOM_TAUNTATK_TRUSTFALL )
+	{
+		killer_weapon_name = "tauntkill_trustfall";
+	}
 	else if ( info.GetDamageCustom() == TF_DMG_CUSTOM_TAUNTATK_GRAND_SLAM )
 	{
 		killer_weapon_name = "tf_weapon_taunt_scout";

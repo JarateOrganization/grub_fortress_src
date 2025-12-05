@@ -105,6 +105,15 @@
 				"width"		"49"
 				"height"	"32"
 		}
+		"tauntkill_trustfall"
+		{
+				"dfile"	"HUD/d_images_mod"
+				"dnegfile"	"HUD/dneg_images_mod"
+				"x"		"58"
+				"y"		"993"
+				"width"		"74"
+				"height"	"30"
+		}
 		
 		//STEAM FRIEND ICON - DO NOT TOUCH
 		"ico_friend_indicator"

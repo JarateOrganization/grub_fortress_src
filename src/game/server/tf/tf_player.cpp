@@ -20264,7 +20264,7 @@ void CTFPlayer::DoTauntAttack( void )
 				}
 				else if (iTauntAttack == TAUNTATK_HEAVY_FALLCRUSH)
 				{
-					pList[i]->TakeDamage (CTakeDamageInfo (this, this, GetActiveTFWeapon (), vecForward * 20000, vecPos, 500.0f, DMG_BLAST | DMG_PREVENT_PHYSICS_FORCE, TF_DMG_CUSTOM_TAUNTATK_HIGH_NOON));
+					pList[i]->TakeDamage (CTakeDamageInfo (this, this, GetActiveTFWeapon (), vecForward * 20000, vecPos, 500.0f, DMG_BLAST | DMG_PREVENT_PHYSICS_FORCE, TF_DMG_CUSTOM_TAUNTATK_TRUSTFALL ) );
 				} 
 				else if (iTauntAttack == TAUNTATK_HEAVY_PUNCHOUT_A || iTauntAttack == TAUNTATK_HEAVY_PUNCHOUT_B || iTauntAttack == TAUNTATK_HEAVY_PUNCHOUT_C)
 				{
