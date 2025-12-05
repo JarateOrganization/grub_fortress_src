@@ -32,6 +32,28 @@
 			"hidden"	"0"
 			"effect_type"	"positive"
 		}
+		"853"
+		{
+			"name"	"mult_patient_overheal_penalty_active"
+			"attribute_class"	"mult_patient_overheal_penalty_active"
+			"description_string"	"#Attrib_PatientOverheal_Penalty_Active"
+			"description_format"	"value_is_percentage"
+			"hidden"	"0"
+			"effect_type"	"negative"
+			"armory_desc"	"on_active"
+			"stored_as_integer"	"0"
+		}
+		"854"
+		{
+			"name"	"mult_health_fromhealers_penalty_active"
+			"attribute_class"	"mult_health_fromhealers_penalty_active"
+			"description_string"	"#Attrib_HealthFromHealers_Reduced_Active"
+			"description_format"	"value_is_percentage"
+			"hidden"	"0"
+			"effect_type"	"negative"
+			"armory_desc"	"on_wearer"
+			"stored_as_integer"	"0"
+		}
     }
 	"prefabs"
 	{
@@ -434,7 +456,7 @@
 		{
 			"attributes"
 			{
-				"provide on active"
+				"provide on active hidden"
 				{
 					"attribute_class"	"provide_on_active"
 					"value"				"1"
@@ -444,12 +466,12 @@
 					"attribute_class"	"dmg_from_ranged"
 					"value"				"delete"
 				}
-				"dmg taken from blast reduced"
+				"dmg taken from blast reduced active"
 				{
 					"attribute_class"	"mult_dmgtaken_from_explosions"
 					"value"				"0.8"
 				}
-				"dmg taken from bullets reduced"
+				"dmg taken from bullets reduced active"
 				{
 					"attribute_class"	"mult_dmgtaken_from_bullets"
 					"value"				"0.6"

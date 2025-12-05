@@ -314,6 +314,39 @@ not sure if it should be used as a weapon"
 			"effect_type"	"positive"
 			"stored_as_integer"	"0"
 		}
+		"5013"
+		{
+			"name"	"provide on active hidden"
+			"attribute_class"	"provide_on_active"
+			"description_string"	"#Attrib_ProvideOnActive"
+			"description_format"	"value_is_additive"
+			"hidden"	"1"
+			"effect_type"	"neutral"
+			"armory_desc"	"on_active"
+			"stored_as_integer"	"0"
+		}
+		"5014"
+		{
+			"name"	"dmg taken from blast reduced active"
+			"attribute_class"	"mult_dmgtaken_from_explosions"
+			"description_string"	"#Attrib_DmgTaken_From_Blast_Reduced_Active"
+			"description_format"	"value_is_inverted_percentage"
+			"hidden"	"0"
+			"effect_type"	"positive"
+			"armory_desc"	"on_wearer"
+			"stored_as_integer"	"0"
+		}
+		"5015"
+		{
+			"name"	"dmg taken from bullets reduced active"
+			"attribute_class"	"mult_dmgtaken_from_bullets"
+			"description_string"	"#Attrib_DmgTaken_From_Bullets_Reduced_Active"
+			"description_format"	"value_is_inverted_percentage"
+			"hidden"	"0"
+			"effect_type"	"positive"
+			"armory_desc"	"on_wearer"
+			"stored_as_integer"	"0"
+		}
 	}
 	"items"
 	{
@@ -542,7 +575,7 @@ not sure if it should be used as a weapon"
 				"Reload time decreased"
 				{
 					"attribute_class"	"mult_reload_time"
-					"value"	"0.65"
+					"value"				"0.65"
 				}
 				"clip size penalty"
 				{
@@ -553,7 +586,12 @@ not sure if it should be used as a weapon"
 				{
 					"attribute_class"	"mult_dmg"
 					"value"				"0.85"			
-				}					
+				}
+				"single wep deploy time decreased"
+				{
+					"attribute_class"	"mult_single_wep_deploy_time"
+					"value"				"0.65"
+				}		
 			}
 			"visuals"
 			{

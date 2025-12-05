@@ -310,10 +310,10 @@
 		"tall"			"20"
 		"visible"		"1"
 
-		"navUp"			"CreateServerButton"
+		"navUp"			"LegacyCreateServer"
 		"navDown"		"CharacterSetupButton"
 		"navLeft"		"OptionsButton"
-		"navRight"		"TrainingButton"
+		"navRight"		"MOTD_ShowButtonPanel"
 		"navToRelay"	"SubButton"
 		
 		"SubButton"
@@ -378,10 +378,10 @@
 		"tall"			"20"
 		"visible"		"1"
 
-		"navUp"			"CreateServerButton"
-		"navDown"		"CharacterSetupButton"
-		"navLeft"		"OptionsButton"
-		"navRight"		"TrainingButton"
+		"navUp"			"ServerBrowserButton"
+		"navDown"		"AdvOptionsButton"
+		"navLeft"		"CreateServerButton"
+		"navRight"		"Notifications_ShowButtonPanel"
 		"navToRelay"	"SubButton"
 		
 		"SubButton"
@@ -1152,8 +1152,7 @@
 		"PaintBackgroundType"	"2"
 
 		"navUp"			"CharacterSetupButton"
-		"navDown"		"QuitButton"
-		"navRight"		"CreditsButton"
+		"navRight"		"AchievementsButton"
 		"navToRelay"	"SubButton"
 
 		"SubButton"
@@ -1217,10 +1216,9 @@
 		"visible"		"1"
 		"PaintBackgroundType"	"2"
 
-		"navUp"			"AchievementsButton"
-		"navDown"		"QuitButton"
-		"navLeft"		"ReplayBrowserButton"
-		"navRight"		"Notifications_ShowButtonPanel"
+		"navUp"			"CharacterSetupButton"
+		"navLeft"		"AchievementsButton"
+		"navRight"		"QuitButton_New"
 		"navToRelay"	"SubButton"
 
 		"SubButton"
@@ -1284,10 +1282,9 @@
 		"visible"		"1"
 		"PaintBackgroundType"	"2"
 
-		"navUp"			"ChangeServerButton"
-		"navDown"		"CreditsButton"
-		"navLeft"		"CharacterSetupButton"
-		"navRight"		"Notifications_ShowButtonPanel"
+		"navUp"			"CharacterSetupButton"
+		"navRight"		"CreditsButton"
+		"navLeft"		"ReplayBrowserButton"
 		"navToRelay"	"SubButton"
 
 		"SubButton"
@@ -1365,9 +1362,9 @@
 		"visible"		"1"
 		"PaintBackgroundType"	"2"
 
-		"navUp"			"ChangeServerButton"
+		"navUp"			"OptionsButton"
 		"navDown"		"ReplayBrowserButton"
-		"navRight"		"AchievementsButton"
+		"navRight"		"MOTD_ShowButtonPanel"
 		"navToRelay"	"SubButton"
 
 		"SubButton"
@@ -1611,7 +1608,7 @@
 
 		"navUp"			"OptionsButton"
 		"navDown"		"ServerBrowserIngameButton"
-		"navRight"		"CallVoteButton"
+		"navRight"		"MutePlayersButton"
 		"navToRelay"	"SubButton"
 
 		"SubButton"
@@ -1677,7 +1674,7 @@
 		"PaintBackgroundType"	"0"
 
 		"navUp"			"ResumeGameButton"
-		"navDown"		"ChangeServerButton"
+		"navDown"		"OptionsButton"
 		"navRight"		"Notifications_ShowButtonPanel"
 		"navToRelay"	"SubButton"
 
@@ -1745,7 +1742,7 @@
 
 		"navUp"			"ServerBrowserButton"
 		"navDown"		"OptionsButton"
-		"navRight"		"Notifications_ShowButtonPanel"
+		"navRight"		"LegacyCreateServer"
 		"navToRelay"	"SubButton"
 
 		"SubButton"
@@ -1810,9 +1807,9 @@
 		"visible"		"1"
 		"PaintBackgroundType"	"0"
 
-		"navUp"			"ServerBrowserIngameButton"
+		"navUp"			"CreateServerButton"
 		"navDown"		"CharacterSetupButton"
-		"navRight"		"Notifications_ShowButtonPanel"
+		"navRight"		"AdvOptionsButton"
 		"navToRelay"	"SubButton"
 
 		"SubButton"
@@ -1876,9 +1873,9 @@
 		"tall"			"26"
 		"visible"		"1"
 
-		"navLeft"		"ResumeGameButton"
+		"navRight"		"Notifications_ShowButtonPanel"
 		"navDown"		"ServerBrowserIngameButton"
-		"navRight"		"MutePlayersButton"
+		"NavLeft"		"MutePlayersButton"
 		"navToRelay"	"SubButton"
 
 		"SubButton"
@@ -1942,9 +1939,9 @@
 		"tall"			"26"
 		"visible"		"1"
 
-		"navLeft"		"CallVoteButton"
+		"navLeft"		"ResumeGameButton"
 		"navDown"		"ServerBrowserIngameButton"
-		"navRight"		"RequestCoachButton"
+		"navRight"		"CallVoteButton"
 		"navToRelay"	"SubButton"
 
 		"SubButton"
@@ -3295,9 +3292,9 @@
 		"visible"		"1"
 		"PaintBackgroundType"	"2"
 
-		"navUp"			"ChangeServerButton"
-		"navDown"		"ReplayBrowserButton"
-		"navRight"		"AchievementsButton"
+		"navUp"			"CharacterSetupButton"
+		"navRight"		"DisconnectButton_New"
+		"navLeft"		"CreditsButton"
 		"navToRelay"	"SubButton"
 
 		"SubButton"
@@ -3360,9 +3357,9 @@
 		"visible"		"1"
 		"PaintBackgroundType"	"2"
 
-		"navUp"			"ChangeServerButton"
-		"navDown"		"ReplayBrowserButton"
-		"navRight"		"AchievementsButton"
+		"navUp"			"CharacterSetupButton"
+		"navRight"		"MOTD_ShowButtonPanel"
+		"navLeft"		"CreditsButton"
 		"navToRelay"	"SubButton"
 
 		"SubButton"

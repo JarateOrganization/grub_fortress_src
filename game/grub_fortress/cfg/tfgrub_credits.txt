@@ -87,9 +87,9 @@ DESCRIPTION INFO_OPTIONS
 		{ BOOL }
 		{ "1" }
 	}	
-	"bf2"
+	"cf"
 	{
-		"Better Fortress 2 - The mod Grub Fortress is a fork of"
+		"Custom Fortress - The mod Grub Fortress is a fork of"
 		"github.com/ALIEN31ITA/Better-Fortress-2"
 		{ BOOL }
 		{ "1" }
@@ -103,7 +103,7 @@ DESCRIPTION INFO_OPTIONS
 	}
 	"ttrf_old_menu"
 	{
-		"Toru the Red Fox - Old TF2 Main menu"
+		"Toru the Red Fox - Old TF2 Main menu code"
 		"github.com/TorutheRedFox/source-sdk-2013"
 		{ BOOL }
 		{ "1" }

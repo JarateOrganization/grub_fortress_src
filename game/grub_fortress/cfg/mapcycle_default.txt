@@ -60,3 +60,5 @@ pl_swiftwater_final1
 koth_landfall
 koth_lumberyard
 ctf_warehouse
+koth_well
+bd_bombyard
