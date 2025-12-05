@@ -217,7 +217,7 @@ class CAchievementTFGrubPlayGameEveryMap : public CTFAchievementFullRound
 
 		static const char *szComponents[] =
 		{
-			"koth_landfall", "koth_lumberyard", "ctf_warehouse"
+			"koth_landfall", "koth_lumberyard", "ctf_warehouse", "koth_well", "bd_bombyard"
 		};		
 		m_pszComponentNames = szComponents;
 		m_iNumComponents = ARRAYSIZE( szComponents );
