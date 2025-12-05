@@ -1355,7 +1355,7 @@ void CEconItemDescription::Generate_ItemLevelDesc_Default( const CLocalizationPr
 							);
 						return;
 					}
-					pszFormatString = pLocalizationProvider->Find( "ItemTypeDesc" );
+					pszFormatString = pLocalizationProvider->Find( "ItemTypeDesc_NoLevel" );
 				}
 			}
 
