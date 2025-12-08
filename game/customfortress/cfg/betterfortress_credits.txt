@@ -124,6 +124,12 @@ DESCRIPTION INFO_OPTIONS
 		{ BOOL }
 		{ "1" }
 	}
+	"credit5_4"
+	{
+		"Hactica - Community Animation Fixes"
+		{ BOOL }
+		{ "1" }
+	}
 	"category6"
 	{
 		"WARPAINTS"
