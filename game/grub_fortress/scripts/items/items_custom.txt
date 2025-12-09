@@ -836,11 +836,11 @@ not sure if it should be used as a weapon"
 					"attribute_class"	"mod_speed_boost_on_cloak"
 					"value"				"1"
 				}
-				"mult decloak rate percentage"
-				{
-					"attribute_class"	"mult_decloak_rate"
-					"value"				"0.5"
-				}
+//				"mult decloak rate percentage"
+//				{
+//					"attribute_class"	"mult_decloak_rate"
+//					"value"				"0.5"
+//				}
 				"mod_cloak_no_damage_reduction"
 				{
 					"attribute_class"	"mod_cloak_no_damage_reduction"
