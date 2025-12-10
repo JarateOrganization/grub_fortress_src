@@ -574,6 +574,11 @@ CBaseEntity *CTFWeaponBaseGun::FireRocket( CTFPlayer *pPlayer, int iRocketType )
 		{
 			pScrapBall->SetCritical( IsCurrentAttackACrit() );
 			pScrapBall->SetDamage( GetProjectileDamage() );
+			if ( fGravitationalProjectiles )
+			{
+				pScrapBall->SetMoveType( MOVETYPE_FLYGRAVITY, MOVECOLLIDE_FLY_CUSTOM );
+				pScrapBall->SetGravity( fGravitationalProjectiles );
+			}
 		}
 		return pScrapBall;
 		break;
@@ -607,6 +612,9 @@ CBaseEntity *CTFWeaponBaseGun::FireEnergyBall( CTFPlayer *pPlayer, bool bRing )
 	CTraceFilterSimple traceFilter( this, COLLISION_GROUP_NONE );
 	UTIL_TraceLine( vecEye, vecSrc, MASK_SOLID_BRUSHONLY, &traceFilter, &trace );
 
+	float fGravitationalProjectiles = 0;
+	CALL_ATTRIB_HOOK_FLOAT( fGravitationalProjectiles, projectile_has_gravity );
+
 	if ( bRing )
 	{
 		CTFProjectile_EnergyRing* pProjectile = CTFProjectile_EnergyRing::Create( this, trace.endpos, angForward, 
@@ -617,6 +625,11 @@ CBaseEntity *CTFWeaponBaseGun::FireEnergyBall( CTFPlayer *pPlayer, bool bRing )
 			pProjectile->SetCritical( IsCurrentAttackACrit() );
 #ifdef GAME_DLL
 			pProjectile->SetDamage( GetProjectileDamage() );
+			if ( fGravitationalProjectiles )
+			{
+				pProjectile->SetMoveType( MOVETYPE_FLYGRAVITY, MOVECOLLIDE_FLY_CUSTOM );
+				pProjectile->SetGravity( fGravitationalProjectiles );
+			}
 #endif
 		}
 		return pProjectile;
@@ -630,6 +643,11 @@ CBaseEntity *CTFWeaponBaseGun::FireEnergyBall( CTFPlayer *pPlayer, bool bRing )
 			pProjectile->SetLauncher( this );
 			pProjectile->SetCritical( IsCurrentAttackACrit() );
 			pProjectile->SetDamage( GetProjectileDamage() );
+			if ( fGravitationalProjectiles )
+			{
+				pProjectile->SetMoveType( MOVETYPE_FLYGRAVITY, MOVECOLLIDE_FLY_CUSTOM );
+				pProjectile->SetGravity( fGravitationalProjectiles );
+			}
 		}
 		return pProjectile;
 #endif
@@ -791,12 +809,20 @@ CBaseEntity *CTFWeaponBaseGun::FireFlare( CTFPlayer *pPlayer )
 	}
 	GetProjectileFireSetup( pPlayer, vecOffset, &vecSrc, &angForward, false );
 
+	float fGravitationalProjectiles = 0;
+	CALL_ATTRIB_HOOK_FLOAT( fGravitationalProjectiles, projectile_has_gravity );
+
 	CTFProjectile_Flare *pProjectile = CTFProjectile_Flare::Create( this, vecSrc, angForward, pPlayer, pPlayer );
 	if ( pProjectile )
 	{
 		pProjectile->SetLauncher( this );
 		pProjectile->SetCritical( IsCurrentAttackACrit() );
 		pProjectile->SetDamage( GetProjectileDamage() );
+		if ( fGravitationalProjectiles )
+		{
+			pProjectile->SetMoveType( MOVETYPE_FLYGRAVITY, MOVECOLLIDE_FLY_CUSTOM );
+			pProjectile->SetGravity( fGravitationalProjectiles );
+		}
 		CTFFlareGun *pFlareGun = dynamic_cast<CTFFlareGun *>( this );
 		if ( pFlareGun && pFlareGun->GetFlareGunType() == FLAREGUN_DETONATE )
 		{
@@ -826,12 +852,23 @@ CBaseEntity *CTFWeaponBaseGun::FireArrow( CTFPlayer *pPlayer, ProjectileType_t p
 
 	GetProjectileFireSetup( pPlayer, vecOffset, &vecSrc, &angForward, false );
 
+	float fGravitationalProjectiles = 0;
+	CALL_ATTRIB_HOOK_FLOAT( fGravitationalProjectiles, projectile_has_gravity );
+
 	CTFProjectile_Arrow *pProjectile = CTFProjectile_Arrow::Create( vecSrc, angForward, GetProjectileSpeed(), GetProjectileGravity(), projectileType, pPlayer, pPlayer );
 	if ( pProjectile )
 	{
 		pProjectile->SetLauncher( this );
 		pProjectile->SetCritical( IsCurrentAttackACrit() );
 		pProjectile->SetDamage( GetProjectileDamage() );
+		if ( fGravitationalProjectiles )
+		{
+			pProjectile->SetMoveType( MOVETYPE_FLYGRAVITY, MOVECOLLIDE_FLY_CUSTOM );
+			pProjectile->SetGravity( fGravitationalProjectiles );
+			// Start FlyThink now that we've set gravity movetype
+			pProjectile->SetThink( &CTFBaseRocket::FlyThink );
+			pProjectile->SetNextThink( gpGlobals->curtime );
+		}
 
 		int iPenetrate = 0;
 		CALL_ATTRIB_HOOK_INT( iPenetrate, projectile_penetration );

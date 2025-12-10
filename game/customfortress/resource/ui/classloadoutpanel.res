@@ -456,6 +456,8 @@
 		"Command"		"skinred"
 		"sound_depressed"	"UI/buttonclick.wav"
 		"sound_released"	"UI/buttonclickrelease.wav"
+		"paintbackground"	"0"
+		"paintborder"	"0"
 
 		"SubImage"
 		{
@@ -479,10 +481,10 @@
 		"fieldName"		"BluSkinButton"
 		"labelText"		""
 		"xpos"			"c2"
-		"ypos"			"c60"
+		"ypos"			"c67"
 		"zpos"			"2"
 		"wide"			"25"
-		"tall"			"25"
+		"tall"			"19"
 		"autoResize"	"0"
 		"pinCorner"		"3"
 		"visible"		"1"
@@ -494,6 +496,8 @@
 		"Command"		"skinblu"
 		"sound_depressed"	"UI/buttonclick.wav"
 		"sound_released"	"UI/buttonclickrelease.wav"
+		"paintbackground"	"0"
+		"paintborder"	"0"
 
 		"SubImage"
 		{
@@ -503,7 +507,7 @@
 			"ypos"			"0"
 			"zpos"			"1"
 			"wide"			"25"
-			"tall"			"25"
+			"tall"			"19"
 			"visible"		"1"
 			"enabled"		"1"
 			"scaleImage"	"1"

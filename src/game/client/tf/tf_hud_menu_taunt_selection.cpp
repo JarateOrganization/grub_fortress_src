@@ -59,6 +59,7 @@ CHudMenuTauntSelection::CHudMenuTauntSelection( const char *pElementName ) : CHu
 	}			  
 
 	ListenForGameEvent( "gameui_hidden" );
+	ListenForGameEvent( "inventory_updated" );
 
 	m_iSelectedItem = -1;
 
@@ -319,7 +320,7 @@ void CHudMenuTauntSelection::UpdateItemModelPanels()
 
 		CItemModelPanel *pItemModelPanel = m_pItemModelPanels[i];
 
-		CEconItemView *pOwnedItemInSlot = pPlayer->Inventory()->GetCacheServerItemInLoadout( iClass, iTauntSlot );
+		CEconItemView *pOwnedItemInSlot = TFInventoryManager()->GetItemInLoadoutForClass( iClass, iTauntSlot );
 		pItemModelPanel->SetItem( pOwnedItemInSlot );
 		pItemModelPanel->SetNoItemText( "#Hud_Menu_Taunt_NoItem" );
 
@@ -335,6 +336,9 @@ void CHudMenuTauntSelection::UpdateItemModelPanels()
 
 		pItemModelPanel->UpdatePanels();
 	}
+
+	// Update the player's taunt item to ensure it's parsed correctly
+	pPlayer->UpdateTauntItem();
 }
 
 
@@ -384,6 +388,11 @@ void CHudMenuTauntSelection::FireGameEvent( IGameEvent *event )
 	if ( Q_strcmp(type, "gameui_hidden") == 0 )
 	{
 		FindTauntKeyBinding();
+	}
+	else if ( Q_strcmp(type, "inventory_updated") == 0 )
+	{
+		// Refresh the taunt panels when inventory is updated (e.g., after resupply)
+		UpdateItemModelPanels();
 	}
 	else
 	{
@@ -440,17 +449,14 @@ static void OpenTauntSelectionUI()
 
 	int iClass = pPlayer->GetPlayerClass()->GetClassIndex();
 	bool bHasAnyTauntEquipped = false;
-	CTFPlayerInventory *pInv = pPlayer->Inventory();
-	if ( pInv )
+	
+	for ( int iTauntSlot = LOADOUT_POSITION_TAUNT; iTauntSlot <= LOADOUT_POSITION_TAUNT8; ++iTauntSlot )
 	{
-		for ( int iTauntSlot = LOADOUT_POSITION_TAUNT; iTauntSlot <= LOADOUT_POSITION_TAUNT8; ++iTauntSlot )
+		CEconItemView *pItem = TFInventoryManager()->GetItemInLoadoutForClass( iClass, iTauntSlot );
+		if ( pItem && pItem->IsValid() )
 		{
-			CEconItemView *pItem = pInv->GetCacheServerItemInLoadout( iClass, iTauntSlot );
-			if ( pItem && pItem->IsValid() )
-			{
-				bHasAnyTauntEquipped = true;
-				break;
-			}
+			bHasAnyTauntEquipped = true;
+			break;
 		}
 	}
 

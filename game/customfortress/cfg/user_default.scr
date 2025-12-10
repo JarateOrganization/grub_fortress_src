@@ -795,6 +795,14 @@ DESCRIPTION INFO_OPTIONS
 		{ "0" }
 	}
 
+	"cf_disable_weapon_skins"
+	{
+		"#CF_DisableWeaponSkins"
+		"#Tooltip_DisableWeaponSkins"
+		{ BOOL }
+		{ "0" }
+	}
+
 	"category8"
 	{
 		"#TF_OptionCategory_DemoSupport"

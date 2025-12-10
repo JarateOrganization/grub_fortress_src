@@ -639,3 +639,4 @@ game/srcds_run
 game/srcds_run_64
 game/steamapps/appmanifest_232250.acf
 pterodactyl/egg-custom-fortress-2.json
+/game/customfortress/scripts/CtxConverter

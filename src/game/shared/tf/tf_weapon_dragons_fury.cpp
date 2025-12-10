@@ -181,6 +181,18 @@ CBaseEntity* CTFWeaponFlameBall::FireProjectile( CTFPlayer *pPlayer )
 		pRocket->SetDamage( 20 );
 		pRocket->ChangeTeam( pPlayer->GetTeamNumber() );
 		pRocket->SetCritical( pPlayer->m_Shared.IsCritBoosted() );
+		
+		// Check for gravity attribute
+		float fGravitationalProjectiles = 0;
+		CALL_ATTRIB_HOOK_FLOAT( fGravitationalProjectiles, projectile_has_gravity );
+		if ( fGravitationalProjectiles )
+		{
+			pRocket->SetMoveType( MOVETYPE_FLYGRAVITY, MOVECOLLIDE_FLY_CUSTOM );
+			pRocket->SetGravity( fGravitationalProjectiles );
+			// Start FlyThink now that we've set gravity movetype
+			pRocket->SetThink( &CTFBaseRocket::FlyThink );
+			pRocket->SetNextThink( gpGlobals->curtime );
+		}
 
 		DispatchSpawn( pRocket );
 

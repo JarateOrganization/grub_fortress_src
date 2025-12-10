@@ -801,7 +801,16 @@ void CTFWeaponBaseMelee::Smack( void )
 
 float CTFWeaponBaseMelee::GetSmackTime( int iWeaponMode )
 {
-	return gpGlobals->curtime + m_pWeaponInfo->GetWeaponData( iWeaponMode ).m_flSmackDelay;
+	float flDelay = m_pWeaponInfo->GetWeaponData( iWeaponMode ).m_flSmackDelay;
+	
+	// Pyro's third-person melee animation is slower, so add extra delay to sync the hit with the animation
+	CTFPlayer *pPlayer = GetTFPlayerOwner();
+	if ( pPlayer && pPlayer->IsPlayerClass( TF_CLASS_PYRO ) )
+	{
+		flDelay += 0.1f; // Add 100ms delay for Pyro to match animation timing
+	}
+	
+	return gpGlobals->curtime + flDelay;
 }
 
 void CTFWeaponBaseMelee::DoMeleeDamage( CBaseEntity* ent, trace_t& trace )

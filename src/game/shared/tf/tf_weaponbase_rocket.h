@@ -97,6 +97,7 @@ public:
 
 	virtual void	RocketTouch( CBaseEntity *pOther );
 	virtual void	Explode( trace_t *pTrace, CBaseEntity *pOther );
+	void			FlyThink( void );
 	void			CheckForStunOnImpact( CTFPlayer* pTarget );
 	int				GetStunLevel( void );
 
