@@ -157,6 +157,7 @@ Scheme
 		"QualityColorHaunted"					"56 243 171 255"
 		"QualityColorCollectors"				"170 0 0 255"
 		"QualityColorPaintkitWeapon"			"250 250 250 255"
+		"QualityColorBeta"						"255 140 0 255"
 
 		"ItemRarityDefault"						"131 126 119 255"
 		"ItemRarityCommon"						"176 195 217 255"
@@ -190,6 +191,7 @@ Scheme
 		"QualityColorHaunted_GreyedOut"			"14 61 43 255"
 		"QualityColorCollectors_GreyedOut"		"60 0 0 255"
 		"QualityColorPaintkitWeapon_GreyedOut"	"60 60 60 255"
+		"QualityColorBeta_GreyedOut"			"64 35 0 255"
 		
 		"SaleGreen"								"76 107 34 255"
 

@@ -38,6 +38,7 @@ const char *g_szQualityStrings[] =
 	"mythical",		// AE_RARITY_MYTHICAL,
 	"legendary",	// AE_RARITY_LEGENDARY,
 	"ancient",		// AE_RARITY_ANCIENT,
+	"beta",			// AE_BETA,
 };
 
 COMPILE_TIME_ASSERT( ARRAYSIZE( g_szQualityStrings ) == AE_MAX_TYPES );
@@ -102,6 +103,7 @@ const char *g_szQualityColorStrings[] =
 	"ItemRarityMythical"	, // AE_RARITY_MYTHICAL,
 	"ItemRarityLegendary"	, // AE_RARITY_LEGENDARY,
 	"ItemRarityAncient"		, // AE_RARITY_ANCIENT,
+	"QualityColorBeta"		, // AE_BETA,
 };
 
 COMPILE_TIME_ASSERT( ARRAYSIZE( g_szQualityColorStrings ) == AE_MAX_TYPES );
@@ -142,7 +144,8 @@ const char *g_szQualityLocalizationStrings[] =
 	"#Rarity_Rare",
 	"#Rarity_Mythical",
 	"#Rarity_Legendary",
-	"#Rarity_Ancient"
+	"#Rarity_Ancient",
+	"#beta"
 };
 
 COMPILE_TIME_ASSERT( ARRAYSIZE( g_szQualityLocalizationStrings ) == AE_MAX_TYPES );
@@ -184,6 +187,7 @@ int g_nRarityScores[] =
 	3,		// AE_RARITY_MYTHICAL,
 	2,		// AE_RARITY_LEGENDARY,
 	1,		// AE_RARITY_ANCIENT,
+	-4,		// AE_BETA,
 };
 COMPILE_TIME_ASSERT( ARRAYSIZE( g_nRarityScores ) == AE_MAX_TYPES );
 
@@ -287,7 +291,8 @@ CSchemaColorDefHandle g_AttribColorDefs[] =
 	CSchemaColorDefHandle( "desc_strange" ),			// ATTRIB_COL_STRANGE
 	CSchemaColorDefHandle( "desc_unusual" ),			// ATTRIB_COL_UNUSUAL
 	CSchemaColorDefHandle( "desc_community" ),			// ATTRIB_COL_COMMUNITY
-	CSchemaColorDefHandle( "desc_scrapped" ),			// ATTRIB_COL_COMMUNITY
+	CSchemaColorDefHandle( "desc_scrapped" ),			// ATTRIB_COL_SCRAPPED
+	CSchemaColorDefHandle( "desc_beta" ),				// ATTRIB_COL_BETA
 };
 
 COMPILE_TIME_ASSERT( ARRAYSIZE( g_AttribColorDefs ) == NUM_ATTRIB_COLORS );

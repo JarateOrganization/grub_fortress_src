@@ -4,6 +4,13 @@
 
 "items_game"
 {
+	"qualities"
+	{
+		"beta"
+		{
+			"value"		"23"
+		}
+	}
 
 	"item_collections"
 	{
@@ -2966,6 +2973,10 @@
 		"desc_scrapped"
 		{
 			"color_name"	"QualityColorrarity2"
+		}
+		"desc_beta"
+		{
+			"color_name"	"QualityColorBeta"
 		}
 	}
 	"string_lookups"

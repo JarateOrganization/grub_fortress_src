@@ -224,9 +224,11 @@ ConVar tf_romevision_skip_prompt( "tf_romevision_skip_prompt", "0", FCVAR_ARCHIV
 // Callback functions for cosmetic ConVars to update visibility immediately
 void cf_disable_cosmetics_changed( IConVar *var, const char *pOldValue, float flOldValue );
 void cf_disable_unusual_effects_changed( IConVar *var, const char *pOldValue, float flOldValue );
+void cf_disable_weapon_skins_changed( IConVar *var, const char *pOldValue, float flOldValue );
 
 ConVar cf_disable_cosmetics( "cf_disable_cosmetics", "0", FCVAR_ARCHIVE, "When set to 1, all cosmetic items (hats, misc items) will be hidden.", cf_disable_cosmetics_changed );
 ConVar cf_disable_unusual_effects( "cf_disable_unusual_effects", "0", FCVAR_ARCHIVE, "When set to 1, all unusual particle effects will be hidden.", cf_disable_unusual_effects_changed );
+ConVar cf_disable_weapon_skins( "cf_disable_weapon_skins", "0", FCVAR_ARCHIVE, "When set to 1, all weapon skins and warpaints will be disabled, showing default weapon textures.", cf_disable_weapon_skins_changed );
 
 //-----------------------------------------------------------------------------
 // Purpose: Callback functions to immediately update wearable visibility
@@ -277,6 +279,34 @@ void cf_disable_unusual_effects_changed( IConVar *var, const char *pOldValue, fl
 					if ( pWearable )
 					{
 						pWearable->UpdateVisibility();
+					}
+				}
+			}
+		}
+	}
+}
+
+void cf_disable_weapon_skins_changed( IConVar *var, const char *pOldValue, float flOldValue )
+{
+	// Force all weapons to clear their cached skin composites and refresh materials
+	for ( int i = 1; i <= MAX_PLAYERS; i++ )
+	{
+		C_TFPlayer *pPlayer = ToTFPlayer( UTIL_PlayerByIndex( i ) );
+		if ( pPlayer )
+		{
+			// Iterate through all weapons this player owns
+			int nCount = pPlayer->WeaponCount();
+			for ( int j = 0; j < nCount; ++j )
+			{
+				C_BaseCombatWeapon *pWeapon = pPlayer->GetWeapon( j );
+				if ( pWeapon )
+				{
+					CEconItemView *pItem = pWeapon->GetAttributeContainer()->GetItem();
+					if ( pItem && pItem->IsValid() )
+					{
+						// Clear the cached weapon skin textures and compositors
+						pItem->SetWeaponSkinBase( NULL );
+						pItem->SetWeaponSkinBaseCompositor( NULL );
 					}
 				}
 			}
@@ -3460,6 +3490,13 @@ public:
 		// we could feasibly do in this case to workaround this, we don't have a texture to use yet.
 		if ( !TestAndSetBaseTexture() )
 			return;
+
+		// Check if weapon skins are disabled
+		if ( cf_disable_weapon_skins.GetBool() )
+		{
+			// Use the original base texture when skins are disabled
+			return;
+		}
 
 		Assert( m_pBaseTextureVar );
 
