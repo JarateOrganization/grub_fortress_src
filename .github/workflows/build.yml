@@ -15,11 +15,11 @@ jobs:
           - os: windows-2025
             build_script: createtfgrubprojects-nopause.bat
             build_cmd: msbuild grub_fortress.sln /p:Configuration=Release /p:Platform=win64 /m
-            artifact_name: cf2-windows
+            artifact_name: tfgrub-windows
           - os: ubuntu-latest
             build_script: ./buildtfgrubprojects
             build_cmd: ""
-            artifact_name: cf2-linux
+            artifact_name: tfgrub-linux
 
     steps:
       - name: Checkout repository
@@ -43,27 +43,34 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ccache
+          # ensure ccache wrapper is in PATH
           echo 'export PATH="/usr/lib/ccache:$PATH"' >> $GITHUB_ENV
+          # set CCACHE_DIR to runner home so logs and stats live in a writable place
+          echo "CCACHE_DIR=$HOME/.ccache" >> $GITHUB_ENV
 
       - name: ~/.ccache stuff (Linux)
         if: runner.os == 'Linux'
         run: |
-          mkdir -p ~/.ccache
-          # Create ccache.conf - this will be mounted to /ccache in container
-          cat > ~/.ccache/ccache.conf << 'EOF'
+          mkdir -p "$HOME/.ccache"
+          # Create ccache.conf with a log_file inside the runner's ccache dir (expand $HOME)
+          cat > "$HOME/.ccache/ccache.conf" <<EOF
           max_size = 2G
           compression = true
           hash_dir = false
           base_dir = /my_mod/src
           sloppiness = include_file_mtime,include_file_ctime,time_macros,pch_defines,file_stat_matches,locale,system_headers,clang_index_store
-          log_file = /ccache/ccache.log
+          # Use the runner home ccache dir
+          log_file = $HOME/.ccache/ccache.log
           direct_mode = false
           debug = true
           EOF
-          # Remove leading whitespace from heredoc
-          sed -i 's/^[[:space:]]*//' ~/.ccache/ccache.conf
-          echo "Created ccache.conf:"
-          cat ~/.ccache/ccache.conf
+          # Remove leading whitespace from heredoc lines
+          sed -i 's/^[[:space:]]*//' "$HOME/.ccache/ccache.conf"
+          # Ensure log and stats files exist and are writable
+          touch "$HOME/.ccache/ccache.log" "$HOME/.ccache/stats"
+          chmod 600 "$HOME/.ccache/ccache.conf" "$HOME/.ccache/ccache.log" "$HOME/.ccache/stats"
+          echo "Created ccache.conf and log files at $HOME/.ccache"
+          cat "$HOME/.ccache/ccache.conf"
 
       - name: Restore ccache cache (Linux)
         if: runner.os == 'Linux'
@@ -117,6 +124,7 @@ jobs:
           echo "CFLAGS=-m64" >> $GITHUB_ENV
           echo "CXXFLAGS=-m64" >> $GITHUB_ENV
           echo "LDFLAGS=-m64" >> $GITHUB_ENV
+          # reaffirm CCACHE_DIR in case it's not already set
           echo "CCACHE_DIR=$HOME/.ccache" >> $GITHUB_ENV
         shell: bash
 
@@ -138,7 +146,7 @@ jobs:
           echo ""
           echo "=== Check if ninja uses ccache ==="
           if [ -f src/_vpc_/ninja/sdk_everything_release.ninja ]; then
-            grep -E "^rule (cc|cxx)" src/_vpc_/ninja/sdk_everything_release.ninja -A2 | head -20 || echo "No compiler rules found"
+            grep -E \"^rule (cc|cxx)\" src/_vpc_/ninja/sdk_everything_release.ninja -A2 | head -20 || echo "No compiler rules found"
           fi
         shell: bash
 
