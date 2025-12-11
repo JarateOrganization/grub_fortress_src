@@ -32,17 +32,6 @@
 #include "filesystem.h"
 #include "hud_controlpointicons.h"
 #include "tf_statsummary.h"
-#include "steam/steam_api.h"
-#include "workshop/ugc_utils.h"
-#include "utlbuffer.h"
-#include "imageutils.h"
-
-#ifdef _WIN32
-#include <windows.h>
-// Undefine Windows macros that conflict with VGUI
-#undef PostMessage
-#undef CreateDialog
-#endif
 
 ConVar cl_map("cl_map", "-1");
 
@@ -3935,87 +3924,6 @@ void CTFCreateServerDialog::LoadMapList()
 		return false;
 	};
 
-	// Search for Steam Workshop subscribed maps via UGC API
-	ISteamUGC* pUGC = GetSteamUGC();
-	if ( pUGC )
-	{
-		uint32 numSubscribed = pUGC->GetNumSubscribedItems();
-		if ( numSubscribed > 0 )
-		{
-			CUtlVector<PublishedFileId_t> items;
-			items.SetSize( numSubscribed );
-			pUGC->GetSubscribedItems( items.Base(), numSubscribed );
-
-			FOR_EACH_VEC( items, i )
-			{
-				PublishedFileId_t fileID = items[i];
-				char szInstallPath[MAX_PATH];
-				uint64 sizeOnDisk = 0;
-				uint32 timestamp = 0;
-
-				if ( pUGC->GetItemInstallInfo( fileID, &sizeOnDisk, szInstallPath, sizeof( szInstallPath ), &timestamp ) )
-				{
-					char szSearchPath[MAX_PATH];
-					WIN32_FIND_DATAA findData;
-					
-					// Check maps subfolder
-					V_snprintf( szSearchPath, sizeof( szSearchPath ), "%s\\maps\\*.bsp", szInstallPath );
-					HANDLE hFind = FindFirstFileA( szSearchPath, &findData );
-					if ( hFind != INVALID_HANDLE_VALUE )
-					{
-						do
-						{
-							if ( !( findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) )
-							{
-								char szShortName[MAX_PATH] = { 0 };
-								V_snprintf( szShortName, sizeof( szShortName ), "workshop/%s", findData.cFileName );
-								V_StripExtension( szShortName, szShortName, sizeof( szShortName ) );
-								char szWithID[MAX_PATH];
-								V_snprintf( szWithID, sizeof( szWithID ), "%s.ugc%llu", szShortName, fileID );
-
-								if ( !MapExists( szWithID ) )
-								{
-									m_vecAllMaps.AddToTail( szWithID );
-									m_vecIsWorkshopMap.AddToTail( true );
-									m_vecMapFileIDs.AddToTail( fileID );
-									Warning( "LoadMapList: Added workshop map from UGC: %s\n", szWithID );
-								}
-							}
-						} while ( FindNextFileA( hFind, &findData ) );
-						FindClose( hFind );
-					}
-					
-					// Check root of install folder
-					V_snprintf( szSearchPath, sizeof( szSearchPath ), "%s\\*.bsp", szInstallPath );
-					hFind = FindFirstFileA( szSearchPath, &findData );
-					if ( hFind != INVALID_HANDLE_VALUE )
-					{
-						do
-						{
-							if ( !( findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) )
-							{
-								char szShortName[MAX_PATH] = { 0 };
-								V_snprintf( szShortName, sizeof( szShortName ), "workshop/%s", findData.cFileName );
-								V_StripExtension( szShortName, szShortName, sizeof( szShortName ) );
-								char szWithID[MAX_PATH];
-								V_snprintf( szWithID, sizeof( szWithID ), "%s.ugc%llu", szShortName, fileID );
-
-								if ( !MapExists( szWithID ) )
-								{
-									m_vecAllMaps.AddToTail( szWithID );
-									m_vecIsWorkshopMap.AddToTail( true );
-									m_vecMapFileIDs.AddToTail( fileID );
-									Warning( "LoadMapList: Added workshop map from UGC root: %s\n", szWithID );
-								}
-							}
-						} while ( FindNextFileA( hFind, &findData ) );
-						FindClose( hFind );
-					}
-				}
-			}
-		}
-	}
-
 	// =====================================================
 	// SECOND: Scan regular map folders (skip workshop maps already found)
 	// =====================================================
@@ -4289,104 +4197,24 @@ void CTFCreateServerDialog::OnThink()
 			ImagePanel *pImagePanel = (ImagePanel*) FindChildByName( "map_preview_img", true );
 			if (pImagePanel)
 			{
-				const char *szMapName = NULL;
-				int nMapIndex = -1;
-				
-				// Find the current selection and its index
+				const char *szMapName;
 				CScriptListItem *pItem = pMapInfoObj->pListItems;
-				int idx = 0;
-				while ( pItem )
+				if ( pItem )
 				{
-					if (!Q_stricmp(pItem->szValue, pMapInfoObj->curValue))
+					while ( pItem )
 					{
-						szMapName = pItem->szItemText;
-						// The value is "-1" for random or the index as string
-						nMapIndex = atoi(pItem->szValue);
-						break;
-					}
-					pItem = pItem->pNext;
-					idx++;
-				}
-				
-				//Msg("Current Selection: %s, index=%d\n", szMapName, nMapIndex);
-				if( szMapName && nMapIndex >= 0 && nMapIndex < m_vecAllMaps.Count() )
-				{
-					bool bIsWorkshop = m_vecIsWorkshopMap[nMapIndex];
-					PublishedFileId_t fileID = m_vecMapFileIDs[nMapIndex];
-					
-					if ( bIsWorkshop && fileID != 0 )
-					{
-						// Workshop map - check if we need to request preview
-						if ( fileID != m_nLastDisplayedMapFileID )
+						if (!Q_stricmp(pItem->szValue, pMapInfoObj->curValue))
 						{
-							m_nLastDisplayedMapFileID = fileID;
-							Warning( "OnThink: Workshop map changed to fileID=%llu\n", fileID );
-							
-							// Check if we have a cached preview image (try both jpg and png)
-							char szCachedJpg[MAX_PATH];
-							char szCachedPng[MAX_PATH];
-							char szCachedFullPath[MAX_PATH];
-							V_snprintf( szCachedJpg, sizeof( szCachedJpg ), "%s/download/previews/workshop_preview_%llu.jpg", engine->GetGameDirectory(), fileID );
-							V_snprintf( szCachedPng, sizeof( szCachedPng ), "%s/download/previews/workshop_preview_%llu.png", engine->GetGameDirectory(), fileID );
-							
-							const char* pCachedPath = NULL;
-							if ( g_pFullFileSystem->FileExists( szCachedJpg ) )
-							{
-								pCachedPath = szCachedJpg;
-							}
-							else if ( g_pFullFileSystem->FileExists( szCachedPng ) )
-							{
-								pCachedPath = szCachedPng;
-							}
-							
-							if ( pCachedPath )
-							{
-								// Load cached image as RGBA and create texture
-								int nWidth = 0, nHeight = 0;
-								ConversionErrorType result;
-								unsigned char* pRGBA = ImgUtl_ReadImageAsRGBA( pCachedPath, nWidth, nHeight, result );
-								
-								if ( result == CE_SUCCESS && pRGBA && nWidth > 0 && nHeight > 0 )
-								{
-									// Set texture on our preview image wrapper
-									m_pWorkshopPreviewImage->SetTextureRGBA( pRGBA, nWidth, nHeight );
-									
-									// Enable scaling and set our IImage on the panel
-									pImagePanel->SetShouldScaleImage( true );
-									pImagePanel->SetImage( m_pWorkshopPreviewImage );
-									free( pRGBA );
-								}
-								else
-								{
-									// Failed to load cached image
-									pImagePanel->SetImage( "maps/menu_thumb_default" );
-								}
-							}
+							szMapName = pItem->szItemText;
+							break;
 						}
-					}
-					else
-					{
-						// Regular map - use standard thumbnail
-						m_nLastDisplayedMapFileID = 0;
-						pImagePanel->SetShouldScaleImage( false );
-						const char* szMapImage = CFmtStr("vgui/maps/menu_thumb_%s", szMapName);
 
-						IMaterial *pMapMaterial = materials->FindMaterial( szMapImage, TEXTURE_GROUP_VGUI, false );
-						if( pMapMaterial && !IsErrorMaterial( pMapMaterial ) )
-						{
-							pImagePanel->SetImage(CFmtStr("maps/menu_thumb_%s", szMapName));
-						}
-						else
-						{ 
-							pImagePanel->SetImage("maps/menu_thumb_default");
-						}
+						pItem = pItem->pNext;
 					}
 				}
-				else if ( szMapName )
+				//Msg("Current Selection: %s\n", name);
+				if( szMapName )
 				{
-					// Random map or invalid index - use default
-					m_nLastDisplayedMapFileID = 0;
-					pImagePanel->SetShouldScaleImage( false );
 					const char* szMapImage = CFmtStr("vgui/maps/menu_thumb_%s", szMapName);
 
 					IMaterial *pMapMaterial = materials->FindMaterial( szMapImage, TEXTURE_GROUP_VGUI, false );
@@ -4405,121 +4233,3 @@ void CTFCreateServerDialog::OnThink()
 	//Msg("Think Exit\n");
 	BaseClass::OnThink();
 }
-
-//-----------------------------------------------------------------------------
-// Purpose: Callback when workshop preview image is downloaded
-//-----------------------------------------------------------------------------
-void CTFCreateServerDialog::Steam_OnPreviewImageReceived( HTTPRequestCompleted_t* pResult, bool bError )
-{
-	ISteamHTTP* pHTTP = SteamHTTP();
-	if ( !pHTTP )
-		return;
-	
-	Warning( "Steam_OnPreviewImageReceived: request=%u, error=%d, success=%d, status=%d\n",
-		pResult->m_hRequest, bError ? 1 : 0, pResult->m_bRequestSuccessful ? 1 : 0, pResult->m_eStatusCode );
-	
-	// Check if this request is still valid
-	if ( pResult->m_hRequest != m_hPendingPreviewRequest )
-	{
-		pHTTP->ReleaseHTTPRequest( pResult->m_hRequest );
-		return;
-	}
-	
-	m_hPendingPreviewRequest = INVALID_HTTPREQUEST_HANDLE;
-	
-	if ( bError || !pResult->m_bRequestSuccessful || pResult->m_eStatusCode != k_EHTTPStatusCode200OK )
-	{
-		Warning( "Steam_OnPreviewImageReceived: Request failed with status %d\n", pResult->m_eStatusCode );
-		pHTTP->ReleaseHTTPRequest( pResult->m_hRequest );
-		return;
-	}
-	
-	// Get the body size
-	uint32 unBodySize = 0;
-	if ( !pHTTP->GetHTTPResponseBodySize( pResult->m_hRequest, &unBodySize ) || unBodySize == 0 )
-	{
-		Warning( "Steam_OnPreviewImageReceived: No response body\n" );
-		pHTTP->ReleaseHTTPRequest( pResult->m_hRequest );
-		return;
-	}
-	
-	// Allocate buffer for the image data
-	CUtlBuffer imageBuffer( 0, unBodySize, CUtlBuffer::READ_ONLY );
-	imageBuffer.EnsureCapacity( unBodySize );
-	
-	if ( !pHTTP->GetHTTPResponseBodyData( pResult->m_hRequest, (uint8*)imageBuffer.Base(), unBodySize ) )
-	{
-		Warning( "Steam_OnPreviewImageReceived: Failed to get response body\n" );
-		pHTTP->ReleaseHTTPRequest( pResult->m_hRequest );
-		return;
-	}
-	
-	imageBuffer.SeekPut( CUtlBuffer::SEEK_HEAD, unBodySize );
-	pHTTP->ReleaseHTTPRequest( pResult->m_hRequest );
-	
-	// Determine image format from header bytes
-	byte* pData = (byte*)imageBuffer.Base();
-	const char* pszExt = ".jpg";
-	
-	// Look for PNG signature (89 50 4E 47)
-	if ( unBodySize >= 8 && pData[0] == 0x89 && pData[1] == 'P' && pData[2] == 'N' && pData[3] == 'G' )
-	{
-		pszExt = ".png";
-	}
-	
-	// Save to cache file
-	char szCachePath[MAX_PATH];
-	V_snprintf( szCachePath, sizeof( szCachePath ), "%s/download/previews", engine->GetGameDirectory() );
-	g_pFullFileSystem->CreateDirHierarchy( szCachePath, "GAME" );
-	
-	char szFilePath[MAX_PATH];
-	V_snprintf( szFilePath, sizeof( szFilePath ), "%s/download/previews/workshop_preview_%llu%s", 
-		engine->GetGameDirectory(), m_nCurrentPreviewFileID, pszExt );
-	
-	FileHandle_t hFile = g_pFullFileSystem->Open( szFilePath, "wb", "GAME" );
-	if ( hFile )
-	{
-		g_pFullFileSystem->Write( pData, unBodySize, hFile );
-		g_pFullFileSystem->Close( hFile );
-		
-		Warning( "Steam_OnPreviewImageReceived: Saved preview to %s\n", szFilePath );
-		
-		// Update the image panel if this is still the selected map
-		if ( m_nCurrentPreviewFileID == m_nLastDisplayedMapFileID )
-		{
-			// Load the image as RGBA
-			int nWidth = 0, nHeight = 0;
-			ConversionErrorType result;
-			unsigned char* pRGBA = ImgUtl_ReadImageAsRGBA( szFilePath, nWidth, nHeight, result );
-			
-			if ( result == CE_SUCCESS && pRGBA && nWidth > 0 && nHeight > 0 )
-			{
-				Warning( "Steam_OnPreviewImageReceived: Loaded image %dx%d\n", nWidth, nHeight );
-				
-				// Set texture on our preview image wrapper
-				m_pWorkshopPreviewImage->SetTextureRGBA( pRGBA, nWidth, nHeight );
-				
-				// Set the texture on the image panel
-				ImagePanel *pImagePanel = (ImagePanel*) FindChildByName( "map_preview_img", true );
-				if ( pImagePanel )
-				{
-					// Enable scaling and set our IImage on the panel
-					pImagePanel->SetShouldScaleImage( true );
-					pImagePanel->SetImage( m_pWorkshopPreviewImage );
-				}
-				
-				// Free the RGBA data
-				free( pRGBA );
-			}
-			else
-			{
-				Warning( "Steam_OnPreviewImageReceived: Failed to decode image (error %d)\n", result );
-			}
-		}
-	}
-	else
-	{
-		Warning( "Steam_OnPreviewImageReceived: Failed to save preview file\n" );
-	}
-}
-
