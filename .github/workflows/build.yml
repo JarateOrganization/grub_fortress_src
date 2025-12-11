@@ -13,11 +13,11 @@ jobs:
       matrix:
         include:
           - os: windows-2025
-            build_script: createcf2projects-nopause.bat
-            build_cmd: msbuild grub_fortress2.sln /p:Configuration=Release /p:Platform=win64 /m
+            build_script: createtfgrubprojects-nopause.bat
+            build_cmd: msbuild grub_fortress.sln /p:Configuration=Release /p:Platform=win64 /m
             artifact_name: cf2-windows
           - os: ubuntu-latest
-            build_script: ./buildcf2projects
+            build_script: ./buildtfgrubprojects
             build_cmd: ""
             artifact_name: cf2-linux
 
