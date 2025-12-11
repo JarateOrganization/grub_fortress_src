@@ -280,9 +280,22 @@ void FX_FireBullets( CTFWeaponBase *pWpn, int iPlayer, const Vector &vecOrigin, 
 		nCustomDamageType = pWeapon->GetCustomDamageType();
 	}
 
+	// Set tracer frequency based on weapon type
+	// Pistols, revolvers, and SMGs should have tracers on every shot
+	// Other weapons (except minigun which defaults to 0) show tracers every 2 shots
 	if ( iWeapon != TF_WEAPON_MINIGUN )
 	{
-		fireInfo.m_iTracerFreq = 2;
+		if ( iWeapon == TF_WEAPON_PISTOL || 
+			 iWeapon == TF_WEAPON_PISTOL_SCOUT ||
+			 iWeapon == TF_WEAPON_REVOLVER ||
+			 iWeapon == TF_WEAPON_SMG )
+		{
+			fireInfo.m_iTracerFreq = 1;
+		}
+		else
+		{
+			fireInfo.m_iTracerFreq = 2;
+		}
 	}
 
 	// Reset multi-damage structures.

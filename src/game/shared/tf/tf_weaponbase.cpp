@@ -1634,6 +1634,49 @@ void CTFWeaponBase::PerformGhostlyDash( CTFPlayer *pOwner, loadout_positions_t e
 	}
 	
 dash_complete:
+
+	// Telefrag anyone in the way
+	CBaseEntity *pEnts[256];
+	Vector mins, maxs;
+	Vector expand( 4, 4, 4 );
+
+	mins = vecFinalPos + VEC_HULL_MIN - expand;
+	maxs = vecFinalPos + VEC_HULL_MAX + expand;
+
+	CUtlVector<CBaseEntity*> hPlayersToKill;
+	bool bClear = true;
+
+	// Telefrag any players in the way
+	int numEnts = UTIL_EntitiesInBox( pEnts, 256, mins,	maxs, 0 );
+	if ( numEnts )
+	{
+		//Iterate through the list and check the results
+		for ( int i = 0; i < numEnts && bClear; i++ )
+		{
+			if ( pEnts[i] == NULL )
+				continue;
+
+			if ( pEnts[i] == this )
+				continue;
+
+			// kill players
+			if ( pEnts[i]->IsPlayer() && ( pEnts[i]->GetTeamNumber() >= FIRST_GAME_TEAM ) )
+			{
+				if ( !pOwner->InSameTeam( pEnts[i] ) && ( pOwner->GetTeamNumber() >= FIRST_GAME_TEAM ) )
+				{
+					hPlayersToKill.AddToTail( pEnts[i] );
+				}
+				continue;
+			}
+		}
+	}
+
+	// Telefrag all enemy players we've found
+	for ( int player = 0; player < hPlayersToKill.Count(); player++ )
+	{
+		hPlayersToKill[player]->TakeDamage( CTakeDamageInfo( pOwner, pOwner, 1000, DMG_CRUSH, TF_DMG_CUSTOM_TELEFRAG ) );
+	}
+
 	// Teleport to the final position
 	pOwner->SetAbsOrigin( vecFinalPos );
 	

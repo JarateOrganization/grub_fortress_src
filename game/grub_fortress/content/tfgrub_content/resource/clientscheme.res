@@ -157,6 +157,7 @@ Scheme
 		"QualityColorHaunted"					"56 243 171 255"
 		"QualityColorCollectors"				"170 0 0 255"
 		"QualityColorPaintkitWeapon"			"250 250 250 255"
+		"QualityColorBeta"						"255 140 0 255"
 
 		"ItemRarityDefault"						"131 126 119 255"
 		"ItemRarityCommon"						"176 195 217 255"
@@ -190,6 +191,7 @@ Scheme
 		"QualityColorHaunted_GreyedOut"			"14 61 43 255"
 		"QualityColorCollectors_GreyedOut"		"60 0 0 255"
 		"QualityColorPaintkitWeapon_GreyedOut"	"60 60 60 255"
+		"QualityColorBeta_GreyedOut"			"64 35 0 255"
 		
 		"SaleGreen"								"76 107 34 255"
 
@@ -215,6 +217,18 @@ Scheme
 	// controls use these to determine their settings
 	BaseSettings
 	{
+		// Radial menu changes 
+		////// Fortress connected custom colors //////////
+		"Rosetta.DefaultFgColor"		"White"
+		"Rosetta.DefaultBgColor"			"Blank"
+		"Rosetta.ArmedBgColor"			"Blank"
+		"Rosetta.DisabledBgColor"			"Blank"
+		"Rosetta.DisabledBorderColor"		"Blank"
+		"Rosetta.LineColor"			"192 192 192 128"
+		"Rosetta.DrawBorder"				"0"
+		"Rosetta.DefaultFont"				RosettaSmall
+		"Rosetta.ArmedFont"				RosettaLarge
+		
 		// vgui_controls color specifications
 		ReplayBrowser.BgColor								"DarkBrown"
 		ReplayBrowser.Details.TitleEdit.Carat.FgColor		"LightRed"
@@ -1139,6 +1153,30 @@ Scheme
 				"weight"	"500"
 				"additive"	"0"
 				"antialias" "1"
+			}
+		}
+		//RADIAL MENU CHANGES
+		// Uses TF2 fonts. use your own if you'd like
+		"RosettaSmall"
+		{
+			"1"
+			{
+				"Name"			"TF2 Secondary"
+				"tall"			"14"
+				"weight"	"100"
+				"antialias" "1"
+				//"dropshadow"	"1"
+			}
+		}
+		"RosettaLarge"
+		{
+			"1"
+			{
+				"Name"			"TF2 Secondary"
+				"tall"			"18"
+				"weight"	"100"
+				"antialias" "1"
+				//"dropshadow"	"1"
 			}
 		}
 		GameUIButtons

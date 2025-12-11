@@ -10533,8 +10533,7 @@ void CTFPlayer::FireBullet( CTFWeaponBase *pWpn, const FireBulletsInfo_t &info, 
 				MaybeDrawRailgunBeam( NULL, pWpn, vStartPos, trace.endpos );
 			}
 
-			static int	tracerCount;
-			if ( ( ( info.m_iTracerFreq != 0 ) && ( tracerCount++ % info.m_iTracerFreq ) == 0 ) || (ePenetrateType == TF_DMG_CUSTOM_PENETRATE_ALL_PLAYERS) )
+			if ( ( ( info.m_iTracerFreq != 0 ) && ( m_iTracerCount++ % info.m_iTracerFreq ) == 0 ) || (ePenetrateType == TF_DMG_CUSTOM_PENETRATE_ALL_PLAYERS) )
 			{
 				// if this is a local player, start at attachment on view model
 				// else start on attachment on weapon model

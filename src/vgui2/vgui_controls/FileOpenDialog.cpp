@@ -1472,9 +1472,9 @@ void FileOpenDialog::OnSelectFolder()
 		Q_strncpy( pFullPath, pFileName, sizeof(pFullPath) );
 	}
 
-	if ( g_pFullFileSystem->FileExists( pFullPath ) )
+	if ( g_pFullFileSystem->IsDirectory( pFullPath, NULL ) )
 	{
-		// open the file!
+		// Directory selected - post the message
 		SaveFileToStartDirContext( pFullPath );
 		PostFileSelectedMessage( pFullPath );
 		return;

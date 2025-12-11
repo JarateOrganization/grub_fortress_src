@@ -258,13 +258,6 @@ void CTFClientScoreBoardDialog::UpdatePlayerModel()
 	int nClass = pPlayer->GetPlayerClass()->GetClassIndex();
 	int nTeam = pPlayer->GetTeamNumber();
 	int nItemSlot = ( pPlayer->IsAlive() && pPlayer->GetActiveTFWeapon() ) ? pPlayer->GetActiveTFWeapon()->GetAttributeContainer()->GetItem()->GetStaticData()->GetLoadoutSlot( nClass ) : LOADOUT_POSITION_PRIMARY;
-	CEconItemView *pWeapon = NULL;
-
-	CTFWeaponBase *pEnt = dynamic_cast<CTFWeaponBase*>( pPlayer->GetEntityForLoadoutSlot( nItemSlot ) );
-	if ( pEnt )
-	{
-		pWeapon = pEnt->GetAttributeContainer()->GetItem();
-	}
 
 	m_pPlayerModelPanel->ClearCarriedItems();
 	if ( pPlayer->GetPlayerClass()->HasCustomModel() )
@@ -278,9 +271,19 @@ void CTFClientScoreBoardDialog::UpdatePlayerModel()
 	}
 	m_pPlayerModelPanel->SetTeam( nTeam );
 
-	if ( pWeapon )
+	for ( int wpn = 0; wpn < pPlayer->WeaponCount(); wpn++ )
 	{
-		m_pPlayerModelPanel->AddCarriedItem( pWeapon );
+		C_TFWeaponBase *pWpn = dynamic_cast<C_TFWeaponBase *>( pPlayer->GetWeapon( wpn ) );
+		if ( !pWpn )
+			continue;
+
+		CAttributeContainer *pCont = pWpn->GetAttributeContainer();
+		CEconItemView *pEconItemView = pCont ? pCont->GetItem() : NULL;
+
+		if ( pEconItemView && pEconItemView->IsValid() )
+		{
+			m_pPlayerModelPanel->AddCarriedItem( pEconItemView );
+		}
 	}
 
 	for ( int wbl = pPlayer->GetNumWearables() - 1; wbl >= 0; wbl-- )
@@ -355,10 +358,6 @@ void CTFClientScoreBoardDialog::ApplySchemeSettings( vgui::IScheme *pScheme )
 			m_iImagePing[i] = m_pImageList->AddImage( scheme()->GetImage( pszPingIcons[i], true ) );
 			m_iImagePingDead[i] = m_pImageList->AddImage( scheme()->GetImage( pszPingIconsDead[i], true ) );
 		}
-
-		// Add server host images
-		m_iImageServerHost = m_pImageList->AddImage( scheme()->GetImage( "../hud/scoreboard_serverhost", true ) );
-		m_iImageServerHostDead = m_pImageList->AddImage( scheme()->GetImage( "../hud/scoreboard_serverhost_d", true ) );
 
 		// resize the images to our resolution
 		for (int i = 1 ; i < m_pImageList->GetImageCount(); i++ )

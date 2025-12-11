@@ -2124,6 +2124,11 @@ static void Script_ScreenFade( HSCRIPT hEntity, int r, int g, int b, int a, floa
 	}
 }
 
+static void Script_ChangeLevel( const char* iszMapName, int r, int g, int b, int a, float fadeTime, float fadeHold, int flags )
+{
+	engine->ChangeLevel( iszMapName, NULL );
+}
+
 int Script_PrecacheModel( const char *modelname )
 {
 	if ( !modelname || !*modelname )
@@ -2818,7 +2823,7 @@ bool VScriptServerInit()
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_SetFakeClientConVarValue, "SetFakeClientConVarValue", "Sets a USERINFO client ConVar for a fakeclient" );
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_ScreenShake, "ScreenShake", "Start a screenshake with the following parameters. vecCenter, flAmplitude, flFrequency, flDuration, flRadius, eCommand( SHAKE_START = 0, SHAKE_STOP = 1 ), bAirShake" );
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_ScreenFade, "ScreenFade", "Start a screenfade with the following parameters. player, red, green, blue, alpha, flFadeTime, flFadeHold, flags" );
-//				ScriptRegisterFunctionNamed( g_pScriptVM, Script_ChangeLevel, "ChangeLevel", "Tell engine to change level." );
+				ScriptRegisterFunctionNamed( g_pScriptVM, Script_ChangeLevel, "ChangeLevel", "Tell engine to change level." );
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_PrecacheModel, "PrecacheModel", "Precache a model. Returns the modelindex." );
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_PrecacheSound, "PrecacheSound", "Precache a sound." );
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_PrecacheScriptSound, "PrecacheScriptSound", "Precache a sound." );
@@ -3070,6 +3075,7 @@ DECLARE_SCRIPT_CONST_NAMED( FTFBotAttributeType, "BLAST_IMMUNE", CTFBot::Attribu
 DECLARE_SCRIPT_CONST_NAMED( FTFBotAttributeType, "FIRE_IMMUNE", CTFBot::AttributeType::FIRE_IMMUNE )
 DECLARE_SCRIPT_CONST_NAMED( FTFBotAttributeType, "PARACHUTE", CTFBot::AttributeType::PARACHUTE )
 DECLARE_SCRIPT_CONST_NAMED( FTFBotAttributeType, "PROJECTILE_SHIELD", CTFBot::AttributeType::PROJECTILE_SHIELD )
+DECLARE_SCRIPT_CONST_NAMED( FTFBotAttributeType, "USE_DIFFICULTY_BASED_AIM", CTFBot::AttributeType::USE_DIFFICULTY_BASED_AIM )
 REGISTER_SCRIPT_CONST_TABLE( FTFBotAttributeType )
 
 DECLARE_SCRIPT_CONST_TABLE( ETFBotDifficultyType )

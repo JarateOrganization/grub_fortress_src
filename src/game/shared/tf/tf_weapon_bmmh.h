@@ -15,7 +15,6 @@
 // Client specific.
 #ifdef CLIENT_DLL
 #define CTFBMMH C_TFBMMH
-#else
 #endif
 
 //=============================================================================
@@ -36,31 +35,30 @@ public:
 #endif
 
 	CTFBMMH();
-	~CTFBMMH() {}
+	virtual ~CTFBMMH() {}
 
 	virtual int		GetWeaponID( void ) const			{ return TF_WEAPON_DISPENSER_GUN; }
-	virtual int		GetAmmoPerShot()					{ return RemapValClamped(gpGlobals->curtime - GetInternalChargeBeginTime(), 0, GetChargeMaxTime(), 0, 100 ); }
+	virtual int		GetAmmoPerShot( void );
 	
 	// Override SecondaryAttack to cancel charge instead of detonating
-	virtual void	SecondaryAttack();
+	virtual void	SecondaryAttack( void );
 	
 	// Override PrimaryAttack to respect charge cancel delay
-	virtual void	PrimaryAttack();
+	virtual void	PrimaryAttack( void );
 	
 	// Override ItemPostFrame to prevent firing during cancel delay
-	virtual void	ItemPostFrame();
+	virtual void	ItemPostFrame( void );
 	
 	// Override LaunchGrenade to ensure proper charge reset
-	virtual void	LaunchGrenade();
+	virtual void	LaunchGrenade( void );
 	
 	// Override to store metal cost in projectile
 	virtual CBaseEntity *FireProjectile( CTFPlayer *pPlayer );
 
 private:
-	float m_flChargeCancelTime;
+	CNetworkVar( float, m_flChargeCancelTime );
 
-public:
-	CTFBMMH( const CTFBMMH & ) {}
+	CTFBMMH( const CTFBMMH & );
 };
 
 #endif // TF_WEAPON_COMPOUND_BOW_H

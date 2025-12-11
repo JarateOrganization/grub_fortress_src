@@ -1,7 +1,7 @@
 //Ty BetaM!
 //econ_item_schema.cpp - line 4421
 #base items_rebalance.txt
-//#base items_experimental.txt
+#base items_experimental.txt
 //#base items_dev.txt
 
 "items_game"
@@ -363,7 +363,7 @@ not sure if it should be used as a weapon"
 		{
 			"name"						"RPG"
 			"item_quality"				"unique"
-			"item_name"					"RPG"
+			"item_name"					"#TFGRUB_Weapon_RPG"
 			"prefab"					"weapon_rocketlauncher"
 			"model_player"				"models/weapons/c_models/c_rpg/c_rpg.mdl"
 			"show_in_armory"			"1"

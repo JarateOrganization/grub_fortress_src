@@ -24,6 +24,9 @@ public:
 	DECLARE_CLASS( CTFProjectile_ScrapBall, CTFBaseRocket );
 	DECLARE_NETWORKCLASS();
 
+	CTFProjectile_ScrapBall();
+	~CTFProjectile_ScrapBall();
+
 	// Creation.
 	static CTFProjectile_ScrapBall *Create( CBaseEntity *pLauncher, const Vector &vecOrigin, const QAngle &vecAngles, CBaseEntity *pOwner = NULL, CBaseEntity *pScorer = NULL );	
 	virtual void Spawn();
@@ -32,6 +35,7 @@ public:
 	// OVERRIDES.
 	virtual void RocketTouch( CBaseEntity *pOther ) OVERRIDE;
 	virtual void Explode( trace_t *pTrace, CBaseEntity *pOther ) OVERRIDE;
+	void FlyThink( void );
 
 	// IScorer interface
 	virtual CBasePlayer *GetScorer( void );
@@ -40,7 +44,7 @@ public:
 	void	SetScorer( CBaseEntity *pScorer );
 
 	void	SetCritical( bool bCritical ) { m_bCritical = bCritical; }
-	bool	IsCritical() { return m_bCritical; }
+	bool	IsCritical() const { return m_bCritical; }
 
 	virtual float	GetDamage()	{ return m_flDamage; }
 	virtual int		GetDamageType();
@@ -50,26 +54,19 @@ public:
 
 	virtual int		GetWeaponID( void ) const { return TF_WEAPON_DISPENSER_GUN; }
 
-
-	//Scrapball Specific
-	virtual int	GiveMetal( CTFPlayer *pPlayer );
-	
-	// Metal cost tracking for splitting among hit players
+	// Metal cost tracking
 	void	SetMetalCost( int iCost ) { m_iMetalCost = iCost; }
 	int		GetMetalCost( void ) const { return m_iMetalCost; }
-	
-	// Track which players were hit by this projectile
-	void	AddHitPlayer( CTFPlayer *pPlayer );
-	bool	HasHitPlayer( CTFPlayer *pPlayer ) const;
-	int		GetHitPlayerCount( void ) const { return m_HitPlayers.Count(); }
 
 private:
 	CBaseHandle m_Scorer;
 	CNetworkVar( bool,	m_bCritical );
 	
-	// Metal cost and hit tracking
+	// Metal cost tracking
 	int m_iMetalCost;
-	CUtlVector<int> m_HitPlayers;
+	
+	// Prevent double-explosion
+	bool m_bExploded;
 };
 
 #endif	//TF_PROJECTILE_SCRAPBALL_H

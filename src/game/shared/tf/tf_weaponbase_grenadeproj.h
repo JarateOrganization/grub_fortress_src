@@ -104,6 +104,7 @@ public:
 	int						OnTakeDamage( const CTakeDamageInfo &info );
 
 	virtual void			DetonateThink( void );
+	void					FlyThink( void );
 	void					Detonate( void );
 
 	void					SetupInitialTransmittedGrenadeVelocity( const Vector &velocity )	{ m_vInitialVelocity = velocity; }

@@ -2,6 +2,10 @@
 {
 	"$basetexture" "vgui\glyph_blue"
 	"$translucent" 1
+<<<<<<<< HEAD:game/grub_fortress/content/tfgrub_content/materials/vgui/glyph_blue.vmt
 	"$ignorez" 1
 	"$vertexcolor" 1
 }
+========
+}
+>>>>>>>> bf2:game/customfortress/materials/hud/hud_sel_red.vmt

@@ -72,6 +72,14 @@ DESCRIPTION INFO_OPTIONS
 		{ "open_chat_filter_settings" }
 	}
 
+	"cf_use_radial_voice_menu"
+	{
+		"#TF_UseRadialVoiceMenu"
+		"#Tooltip_UseRadialVoiceMenu"
+		{ BOOL }
+		{ "0" }
+	}
+
 	"category2"
 	{
 		"#TF_OptionCategory_Combat"
@@ -781,6 +789,14 @@ DESCRIPTION INFO_OPTIONS
 		"#Tooltip_TFGrub_DiscordRPC_UpdateRate"
 		{ NUMBER 5 15}
 		{ "5" }
+	}
+
+	"cf_disable_weapon_skins"
+	{
+		"#CF_DisableWeaponSkins"
+		"#Tooltip_DisableWeaponSkins"
+		{ BOOL }
+		{ "0" }
 	}
 
 	"category8"

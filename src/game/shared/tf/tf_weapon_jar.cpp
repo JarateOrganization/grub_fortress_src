@@ -202,6 +202,15 @@ void CTFJar::TossJarThink( void )
 	{
 		pProjectile->SetCritical( IsCurrentAttackACrit() );
 		pProjectile->SetLauncher( this );
+		
+		// Check for gravity attribute
+		float fGravitationalProjectiles = 0;
+		CALL_ATTRIB_HOOK_FLOAT( fGravitationalProjectiles, projectile_has_gravity );
+		if ( fGravitationalProjectiles )
+		{
+			pProjectile->SetMoveType( MOVETYPE_FLYGRAVITY, MOVECOLLIDE_FLY_CUSTOM );
+			pProjectile->SetGravity( fGravitationalProjectiles );
+		}
 	}
 
 	if ( ShouldSpeakWhenFiring() )

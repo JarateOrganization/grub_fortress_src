@@ -33,6 +33,13 @@ if [[ ! -e "$solution_out.ninja" ]]; then
     sed -i 's|/tfgrub/src|.|g' compile_commands.json
 fi
 
+# Patch ninja file to use ccache if available
+if command -v ccache &> /dev/null; then
+    echo "Patching ninja file to use ccache..."
+    sed -i 's|command = x86_64-linux-gnu-gcc |command = ccache x86_64-linux-gnu-gcc |g' "$solution_out.ninja"
+    sed -i 's|command = x86_64-linux-gnu-g++ |command = ccache x86_64-linux-gnu-g++ |g' "$solution_out.ninja"
+fi
+
 ninja -f "$solution_out.ninja" -j$(nproc)
 
 popd

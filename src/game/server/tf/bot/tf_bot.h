@@ -268,6 +268,7 @@ public:
 		FIRE_IMMUNE					= 1<<25,				// "" fire
 		PARACHUTE					= 1<<26,				// demo/soldier parachute when falling
 		PROJECTILE_SHIELD			= 1<<27,				// medic projectile shield
+		USE_DIFFICULTY_BASED_AIM	= 1<<28,				// in MvM, let Spy bots use skill-based aim instead of forced 0.25f
 	};
 	void SetAttribute( int attributeFlag );
 	void ClearAttribute( int attributeFlag );

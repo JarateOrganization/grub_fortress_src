@@ -1838,7 +1838,11 @@ bool CTFFlameThrower::DeflectPlayer( CTFPlayer *pTarget, CTFPlayer *pOwner, Vect
 
 
 		// Make sure we get credit for the airblast if the target falls to its death
-		pTarget->m_AchievementData.AddDamagerToHistory( pOwner );
+		// Don't add self to damage history to prevent self-assists
+		if ( pTarget != pOwner )
+		{
+			pTarget->m_AchievementData.AddDamagerToHistory( pOwner );
+		}
 
 		SendObjectDeflectedEvent( pOwner, pTarget, TF_WEAPON_NONE, pTarget ); // TF_WEAPON_NONE means the player got pushed
 

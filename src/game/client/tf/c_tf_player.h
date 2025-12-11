@@ -675,6 +675,8 @@ public:
 	int				m_iSpawnCounter;
 	bool			m_bArenaSpectator;
 
+	int				m_iTracerCount;			// Per-player tracer count for consistent tracer frequency
+
 	bool			m_bFlipViewModels;
 
 	bool			m_bIsMiniBoss;
@@ -685,9 +687,10 @@ public:
 	bool			m_bOldSaveMeParity;
 	bool			m_bIsCoaching;
 
-private:
 	void			UpdateTauntItem();
 	void			ParseSharedTauntDataFromEconItemView( const CEconItemView *pEconItemView );
+
+private:
 
 	QAngle			m_angEyeAngles;
 

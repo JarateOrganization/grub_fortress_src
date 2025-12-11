@@ -35,6 +35,7 @@
 #ifdef GAME_DLL
 BEGIN_DATADESC( CTFWeaponBaseGrenadeProj )
 DEFINE_THINKFUNC( DetonateThink ),
+DEFINE_THINKFUNC( FlyThink ),
 END_DATADESC()
 
 
@@ -292,6 +293,28 @@ void CTFWeaponBaseGrenadeProj::Spawn( void )
 	// Setup the think and touch functions (see CBaseEntity).
 	SetThink( &CTFWeaponBaseGrenadeProj::DetonateThink );
 	SetNextThink( gpGlobals->curtime + 0.2 );
+	
+	// Also set up FlyThink to update angles when moving with gravity
+	SetContextThink( &CTFWeaponBaseGrenadeProj::FlyThink, gpGlobals->curtime, "FlyThink" );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Update grenade angles to match velocity (for gravity-affected projectiles)
+//-----------------------------------------------------------------------------
+void CTFWeaponBaseGrenadeProj::FlyThink( void )
+{
+	// Update angles to face the direction we're moving
+	Vector vecVelocity = GetAbsVelocity();
+	
+	// Only update angles if we have significant velocity and we're not on the ground
+	if ( vecVelocity.LengthSqr() > 1.0f && GetMoveType() == MOVETYPE_FLYGRAVITY )
+	{
+		QAngle angles;
+		VectorAngles( vecVelocity, angles );
+		SetAbsAngles( angles );
+	}
+
+	SetNextThink( gpGlobals->curtime + 0.01f, "FlyThink" );
 }
 
 //-----------------------------------------------------------------------------

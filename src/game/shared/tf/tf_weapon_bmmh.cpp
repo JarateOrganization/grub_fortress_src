@@ -32,15 +32,16 @@ IMPLEMENT_NETWORKCLASS_ALIASED( TFBMMH, DT_WeaponBMMH )
 
 BEGIN_NETWORK_TABLE( CTFBMMH, DT_WeaponBMMH )
 #ifdef CLIENT_DLL
-	
+	RecvPropFloat( RECVINFO( m_flChargeCancelTime ) ),
 #else
-	
+	SendPropFloat( SENDINFO( m_flChargeCancelTime ), 0, SPROP_NOSCALE | SPROP_CHANGES_OFTEN ),
 #endif
 END_NETWORK_TABLE()
 
 BEGIN_PREDICTION_DATA( CTFBMMH )
 #ifdef CLIENT_DLL
 	DEFINE_PRED_FIELD( m_flChargeBeginTime, FIELD_FLOAT, FTYPEDESC_INSENDTABLE ),
+	DEFINE_PRED_FIELD( m_flChargeCancelTime, FIELD_FLOAT, FTYPEDESC_INSENDTABLE ),
 #endif
 END_PREDICTION_DATA()
 
@@ -50,6 +51,7 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_bmmh );
 // Server specific.
 #ifndef CLIENT_DLL
 BEGIN_DATADESC( CTFBMMH )
+	DEFINE_FIELD( m_flChargeCancelTime, FIELD_FLOAT ),
 END_DATADESC()
 #endif
 
@@ -92,6 +94,20 @@ void CTFBMMH::SecondaryAttack( void )
 }
 
 //-----------------------------------------------------------------------------
+// Purpose: Calculate ammo per shot based on charge
+//-----------------------------------------------------------------------------
+int CTFBMMH::GetAmmoPerShot( void )
+{
+	float flChargeTime = gpGlobals->curtime - GetInternalChargeBeginTime();
+	float flMaxChargeTime = GetChargeMaxTime();
+	
+	if ( flChargeTime < 0.0f || flMaxChargeTime <= 0.0f )
+		return 0;
+	
+	return (int)RemapValClamped( flChargeTime, 0.0f, flMaxChargeTime, 0.0f, 100.0f );
+}
+
+//-----------------------------------------------------------------------------
 // Purpose: Override PrimaryAttack to respect charge cancel delay
 //-----------------------------------------------------------------------------
 void CTFBMMH::PrimaryAttack( void )
@@ -104,10 +120,6 @@ void CTFBMMH::PrimaryAttack( void )
 		return;
 	}
 	
-	// METER Pose parameter (NOT WORKING, LACK OF KNOWLEDGE)
-	//float flSteer = GetPoseParameter( LookupPoseParameter( POSEPARAM_METER ) );
-	//float MeterProgress = RemapValClamped(gpGlobals->curtime - GetInternalChargeBeginTime(), 0, GetChargeMaxTime(), 0, 1 );
-	//SetPoseParameter( LookupPoseParameter( POSEPARAM_METER ), MeterProgress );
 	BaseClass::PrimaryAttack();
 }
 
@@ -141,20 +153,29 @@ void CTFBMMH::LaunchGrenade( void )
 
 //-----------------------------------------------------------------------------
 // Purpose: Fire projectile and store the metal cost
+// NOTE: We override completely because base class tries to add to pipebomb list
 //-----------------------------------------------------------------------------
 CBaseEntity *CTFBMMH::FireProjectile( CTFPlayer *pPlayer )
 {
+	if ( !pPlayer )
+		return NULL;
+
 	// Calculate and store the metal cost before firing
 	int iMetalCost = GetAmmoPerShot();
 	
-	CBaseEntity *pProjectile = BaseClass::FireProjectile( pPlayer );
+	// Call the gun base class, NOT the pipebomb launcher base class
+	// This avoids the pipebomb tracking code which doesn't apply to scrapballs
+	CBaseEntity *pProjectile = CTFWeaponBaseGun::FireProjectile( pPlayer );
 	
 #ifndef CLIENT_DLL
 	// Store the metal cost in the projectile
-	CTFProjectile_ScrapBall *pScrapBall = dynamic_cast<CTFProjectile_ScrapBall*>( pProjectile );
-	if ( pScrapBall )
+	if ( pProjectile )
 	{
-		pScrapBall->SetMetalCost( iMetalCost );
+		CTFProjectile_ScrapBall *pScrapBall = dynamic_cast<CTFProjectile_ScrapBall*>( pProjectile );
+		if ( pScrapBall )
+		{
+			pScrapBall->SetMetalCost( iMetalCost );
+		}
 	}
 #endif
 	

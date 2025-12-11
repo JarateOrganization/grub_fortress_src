@@ -1,5 +1,13 @@
 "Resource/HudLayout.res"
 {
+	RadialMenu
+	{
+		"fieldName" "RadialMenu"
+		"visible" "1"
+		"enabled" "1"
+		"wide"	 "2450"
+		"tall"	 "480"		
+	}
 	HudPlayerStatus
 	{
 		"fieldName" "HudPlayerStatus"

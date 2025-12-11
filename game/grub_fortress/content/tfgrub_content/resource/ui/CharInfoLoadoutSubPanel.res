@@ -293,10 +293,10 @@
 		"ControlName"	"CExLabel"
 		"fieldName"		"ShowArmoryLabel"
 		"font"			"HudFontSmallestBold"
-		"labelText"		"#Armory"
-		"textAlignment"	"north"
-		"xpos"			"0"
-		"ypos"			"5"
+		"labelText"		"#Catalog"
+		"textAlignment"	"center"
+		"xpos"			"c-60"
+		"ypos"			"300"
 		"zpos"			"7"
 		"wide"			"120"
 		"tall"			"20"
@@ -309,7 +309,6 @@
 		"pin_corner_to_sibling"        "4"          
 		"pin_to_sibling_corner"        "6" 
 	}
-	
 	"ClassLabel"
 	{
 		"ControlName"	"Label"
@@ -863,8 +862,7 @@
 				"scaleImage"	"1"
 			}				
 		}		
-	}	
-	
+	}			
 	"CraftingExplanation"
 	{
 		"ControlName"	"CExplanationPopup"

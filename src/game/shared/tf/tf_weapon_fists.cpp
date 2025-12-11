@@ -46,6 +46,11 @@ void CTFFists::ItemPreFrame( void )
 	return BaseClass::ItemPreFrame();
 }
 
+void CTFFists::Precache( void )
+{
+	BaseClass::Precache();
+	PrecacheScriptSound( "Weapon_BoxingGloves.CritHit" );
+}
 // -----------------------------------------------------------------------------
 // Purpose:
 // -----------------------------------------------------------------------------

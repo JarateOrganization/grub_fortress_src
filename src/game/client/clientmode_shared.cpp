@@ -65,6 +65,7 @@ extern ConVar replay_rendersetting_renderglow;
 #include "c_tf_player.h"
 #include "econ_item_description.h"
 #include "c_tf_team.h"
+#include "tf_hud_mainmenuoverride.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -318,7 +319,22 @@ void ClientModeShared::ReloadScheme( bool flushLowLevel )
 
 	BuildGroup::ClearResFileCache();
 
+	// Reload scheme fonts to pick up any changes
+	vgui::scheme()->ReloadFonts();
+
 	m_pViewport->ReloadScheme( "resource/ClientScheme.res" );
+
+#if defined( TF_CLIENT_DLL )
+	// Reload the main menu by forcing it to re-apply its scheme settings
+	CHudMainMenuOverride *pMMOverride = (CHudMainMenuOverride*)( gViewPortInterface->FindPanelByName( PANEL_MAINMENUOVERRIDE ) );
+	if ( pMMOverride )
+	{
+		vgui::HScheme pScheme = vgui::scheme()->LoadSchemeFromFileEx( enginevgui->GetPanel( PANEL_CLIENTDLL ), "resource/ClientScheme.res", "ClientScheme" );
+		pMMOverride->SetScheme( pScheme );
+		pMMOverride->SetProportional( true );
+		pMMOverride->InvalidateLayout( false, true );
+	}
+#endif
 }
 
 
