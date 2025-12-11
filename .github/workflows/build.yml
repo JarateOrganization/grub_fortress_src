@@ -43,38 +43,18 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ccache
-          # ensure ccache wrapper is in PATH
           echo 'export PATH="/usr/lib/ccache:$PATH"' >> $GITHUB_ENV
-          # set CCACHE_DIR to runner home so logs and stats live in a writable place
-          echo "CCACHE_DIR=$HOME/.ccache" >> $GITHUB_ENV
 
       - name: ~/.ccache stuff (Linux)
         if: runner.os == 'Linux'
         run: |
-          mkdir -p "$HOME/.ccache"
-          # Create ccache.conf with a log_file inside the runner's ccache dir (expand $HOME)
-          cat > "$HOME/.ccache/ccache.conf" <<EOF
-          max_size = 2G
-          compression = true
-          hash_dir = false
-          base_dir = /my_mod/src
-          sloppiness = include_file_mtime,include_file_ctime,time_macros,pch_defines,file_stat_matches,locale,system_headers,clang_index_store
-          # Use the runner home ccache dir
-          log_file = $HOME/.ccache/ccache.log
-          direct_mode = false
-          debug = true
-          EOF
-          # Remove leading whitespace from heredoc lines
-          sed -i 's/^[[:space:]]*//' "$HOME/.ccache/ccache.conf"
-          # Ensure log and stats files exist and are writable
-          touch "$HOME/.ccache/ccache.log" "$HOME/.ccache/stats"
-          chmod 600 "$HOME/.ccache/ccache.conf" "$HOME/.ccache/ccache.log" "$HOME/.ccache/stats"
-          echo "Created ccache.conf and log files at $HOME/.ccache"
-          cat "$HOME/.ccache/ccache.conf"
+          if [ ! -d ~/.ccache ]; then
+            mkdir ~/.ccache
+          fi
 
       - name: Restore ccache cache (Linux)
         if: runner.os == 'Linux'
-        uses: actions/cache/restore@v4
+        uses: actions/cache@v4
         with:
           path: ~/.ccache
           key: ${{ runner.os }}-ccache-${{ github.run_id }}
@@ -97,7 +77,7 @@ jobs:
           path: |
             C:\Users\runneradmin\AppData\Local\Microsoft\MSBuild
             C:\Users\runneradmin\AppData\Local\Temp
-          key: ${{ runner.os }}-msvc-${{ github.sha }}
+          key: ${{ runner.os }}-msvc-${{ github.run_id }}
           restore-keys: |
             ${{ runner.os }}-msvc-
       #-- end caching
@@ -124,7 +104,6 @@ jobs:
           echo "CFLAGS=-m64" >> $GITHUB_ENV
           echo "CXXFLAGS=-m64" >> $GITHUB_ENV
           echo "LDFLAGS=-m64" >> $GITHUB_ENV
-          # reaffirm CCACHE_DIR in case it's not already set
           echo "CCACHE_DIR=$HOME/.ccache" >> $GITHUB_ENV
         shell: bash
 
@@ -146,7 +125,7 @@ jobs:
           echo ""
           echo "=== Check if ninja uses ccache ==="
           if [ -f src/_vpc_/ninja/sdk_everything_release.ninja ]; then
-            grep -E \"^rule (cc|cxx)\" src/_vpc_/ninja/sdk_everything_release.ninja -A2 | head -20 || echo "No compiler rules found"
+            grep -E "^rule (cc|cxx)" src/_vpc_/ninja/sdk_everything_release.ninja -A2 | head -20 || echo "No compiler rules found"
           fi
         shell: bash
 
