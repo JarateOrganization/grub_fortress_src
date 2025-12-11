@@ -57,7 +57,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.ccache
-          key: ${{ runner.os }}-ccache-${{ github.run_id }}
+          key: ${{ runner.os }}-ccache-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-ccache-
 
@@ -68,7 +68,7 @@ jobs:
           path: |
             C:\Users\runneradmin\AppData\Local\Microsoft\MSBuild
             C:\Users\runneradmin\AppData\Local\Temp
-          key: ${{ runner.os }}-msvc-${{ github.run_id }}
+          key: ${{ runner.os }}-msvc-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-msvc-
       #-- end caching
@@ -185,7 +185,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.ccache
-          key: ${{ runner.os }}-ccache-${{ github.run_id }}
+          key: ${{ runner.os }}-ccache-${{ github.sha }}
 
       - name: Save Windows build cache
         if: runner.os == 'Windows'
