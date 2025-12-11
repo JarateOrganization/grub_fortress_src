@@ -667,6 +667,15 @@ CBaseEntity *CTFWeaponBaseGun::FireNail( CTFPlayer *pPlayer, int iSpecificNail )
 			pProjectile = CTFProjectile_Syringe::Create( vecSrc, angForward, this, pPlayer, pPlayer, IsCurrentAttackACrit() );
 		}
 		break;
+	case TF_PROJECTILE_NAIL:
+		{
+			Vector vecOffset( 16, 6, -8 );
+			GetProjectileFireSetup( pPlayer, vecOffset, &vecSrc, &angForward );
+			angForward.x += RandomFloat( -flSpread, flSpread );
+			angForward.y += RandomFloat( -flSpread, flSpread );
+			pProjectile = CTFProjectile_Nail::Create( vecSrc, angForward, this, pPlayer, pPlayer, IsCurrentAttackACrit() );
+		}
+		break;
 	default:
 		Assert(0);
 	}
