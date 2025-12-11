@@ -61,15 +61,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-ccache-
 
-      - name: Restore VPC/Ninja cache (Linux)
-        if: runner.os == 'Linux'
-        uses: actions/cache/restore@v4
-        with:
-          path: src/_vpc_
-          key: ${{ runner.os }}-vpc-v4-${{ hashFiles('src/**/*.vpc', 'src/**/vpc_scripts/**') }}
-          restore-keys: |
-            ${{ runner.os }}-vpc-v4-
-
       - name: Restore Windows build cache
         if: runner.os == 'Windows'
         uses: actions/cache@v4
@@ -81,6 +72,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-msvc-
       #-- end caching
+      
+      - name: Make build script executable (Linux)
+        if: runner.os == 'Linux'
+        run: chmod +x ./buildtfgrubprojects
+        working-directory: src
 
       - name: Install Linux build dependencies
         if: runner.os == 'Linux'
@@ -107,32 +103,15 @@ jobs:
           echo "CCACHE_DIR=$HOME/.ccache" >> $GITHUB_ENV
         shell: bash
 
-      - name: Show ccache stats before build (Linux)
+      - name: Clean previous builds (Linux)
         if: runner.os == 'Linux'
         run: |
-          echo "=== ccache statistics before build ==="
-          ccache -s || true
-          echo ""
-          echo "=== Zero ccache stats for clean measurement ==="
-          ccache -z || true
-          echo ""
-          echo "=== ccache config ==="
-          cat ~/.ccache/ccache.conf || true
-          echo ""
-          echo "=== Verify ccache is accessible ==="
-          which ccache || echo "ccache not found in PATH"
-          ccache --version || echo "ccache version check failed"
-          echo ""
-          echo "=== Check if ninja uses ccache ==="
-          if [ -f src/_vpc_/ninja/sdk_everything_release.ninja ]; then
-            grep -E "^rule (cc|cxx)" src/_vpc_/ninja/sdk_everything_release.ninja -A2 | head -20 || echo "No compiler rules found"
-          fi
+          cd src
+          rm -rf _vpc_/
         shell: bash
 
       - name: Build (Linux)
-        run: |
-          chmod +x ${{ matrix.build_script }}
-          ${{ matrix.build_script }}
+        run: ${{ matrix.build_script }}
         working-directory: src
         shell: bash
         if: runner.os == 'Linux'
@@ -201,41 +180,12 @@ jobs:
         working-directory: src
         run: ${{ matrix.build_cmd }}
 
-      - name: Show ccache stats (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          echo "=== ccache directory contents ==="
-          ls -la ~/.ccache/ || echo "~/.ccache not found"
-          echo ""
-          echo "=== ccache statistics (from host) ==="
-          CCACHE_DIR=~/.ccache ccache -s || echo "ccache -s failed"
-          echo ""
-          echo "=== ccache configuration ==="
-          cat ~/.ccache/ccache.conf || echo "No config file"
-          echo ""
-          echo "=== ccache stats file ==="
-          cat ~/.ccache/stats 2>/dev/null || echo "No stats file found"
-          echo ""
-          echo "=== ccache log (last 200 lines) ==="
-          tail -200 ~/.ccache/ccache.log 2>/dev/null || echo "No log file found"
-          echo ""
-          echo "=== Uncacheable reasons (from log) ==="
-          grep -oE "Result: [a-z_]+" ~/.ccache/ccache.log 2>/dev/null | sort | uniq -c | sort -rn | head -20 || echo "No results found in log"
-        shell: bash
-
       - name: Save ccache (Linux)
         if: runner.os == 'Linux'
-        uses: actions/cache/save@v4
+        uses: actions/cache@v4
         with:
           path: ~/.ccache
           key: ${{ runner.os }}-ccache-${{ github.run_id }}
-
-      - name: Save VPC/Ninja cache (Linux)
-        if: runner.os == 'Linux'
-        uses: actions/cache/save@v4
-        with:
-          path: src/_vpc_
-          key: ${{ runner.os }}-vpc-v4-${{ hashFiles('src/**/*.vpc', 'src/**/vpc_scripts/**') }}
 
       - name: Save Windows build cache
         if: runner.os == 'Windows'
