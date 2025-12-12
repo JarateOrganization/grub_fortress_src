@@ -31,7 +31,7 @@ using namespace vgui;
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
 
-#define RANDOM_MAP "#GameUI_RandomMap"
+#define RANDOM_MAP "#Serverfinder_AnyMap"
 #define SERVERFINDER_CONFIG "ServerFinderConfig.vdf"
 
 extern const char* COM_GetModDirectory();
@@ -118,8 +118,8 @@ CServerFinderDialog::CServerFinderDialog(vgui::Panel *parent) : BaseClass(NULL, 
 	m_pStatus = new Label(this, "StatusLabel", "#Serverfinder_Status_Idle");
 #if defined(TF_CLIENT_DLL)
 	m_pRandCrits = new ComboBox(this, "RandCrits", 12, false);
-	m_pRandCrits->AddItem("#Serverfinder_RandomCrits_Default", NULL);
 	m_pRandCrits->AddItem("#Serverfinder_RandomCrits_Enabled", NULL);
+	m_pRandCrits->AddItem("#Serverfinder_RandomCrits_Default", NULL);
 	m_pRandCrits->AddItem("#TF_Quickplay_RandomCrits_DontCare", NULL);
 
 	m_pDmgSpread = new ComboBox(this, "DmgSpread", 12, false);
@@ -890,7 +890,7 @@ void CServerFinderDialog::GetOptions()
 	int maxPlayers = clampToPlayerCount(m_pOptions->m_iMaxPlayers);
 	if (maxPlayers > 0)
 	{
-		char szCount[24];
+		char szCount[16];
 		Q_snprintf(szCount, sizeof(szCount), "%i", maxPlayers);
 		m_pMaxPlayers->SetText(szCount);
 	}
