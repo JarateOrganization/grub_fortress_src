@@ -69,6 +69,22 @@ enum EGenericInvertedOption
 	eInvertedDontCare
 };
 
+enum EGamemodes
+{
+	eGamemodeAny,
+	eGamemodeCTF,
+	eGamemodeCP,
+	eGamemodeArena,
+	eGamemodeSD,
+	eGamemodeMVM,
+	eGamemodePayload,
+	eGamemodeRD,
+	eGamemodePD,
+	eGamemodeTC,
+	eGamemodePasstime,
+	eGamemodeMisc
+};
+
 enum ERespawnTimes
 {
 	eRespawnTimesDefault,
@@ -81,14 +97,10 @@ class ServerFinderOptions_t
 public:
 	ServerFinderOptions_t()
 	{
-#if defined(QUIVER_DLL)
 		m_eRandomCrits = eGenericNo;
-#elif defined(TF_CLIENT_DLL)
-		m_eRandomCrits = eGenericYes;
-#endif
-
 #if defined(TF_CLIENT_DLL)
 		m_eDamageSpread = eInvertedNo;
+		m_eGamemode = eGamemodeAny;
 #endif
 
 		m_eRespawnTimes = eRespawnTimesDefault;
@@ -99,6 +111,7 @@ public:
 #if defined(TF_CLIENT_DLL)
 	EGenericOption m_eRandomCrits;
 	EGenericInvertedOption m_eDamageSpread;
+	EGamemodes m_eGamemode;
 #endif
 
 	ERespawnTimes m_eRespawnTimes;
@@ -183,6 +196,7 @@ private:
 #if defined(TF_CLIENT_DLL)
 	vgui::ComboBox *m_pRandCrits;
 	vgui::ComboBox* m_pDmgSpread;
+	vgui::ComboBox* m_pGamemode;
 #endif
 	vgui::ComboBox* m_pRespawnTimes;
 	vgui::Label* m_pStatus;

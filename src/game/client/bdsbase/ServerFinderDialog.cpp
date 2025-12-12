@@ -126,6 +126,20 @@ CServerFinderDialog::CServerFinderDialog(vgui::Panel *parent) : BaseClass(NULL, 
 	m_pDmgSpread->AddItem("#TF_Quickplay_DamageSpread_Default", NULL);
 	m_pDmgSpread->AddItem("#TF_Quickplay_DamageSpread_Enabled", NULL);
 	m_pDmgSpread->AddItem("#TF_Quickplay_DamageSpread_DontCare", NULL);
+
+	m_pGamemode = new ComboBox(this, "Gamemode", 12, false);
+	m_pGamemode->AddItem("Any", NULL);
+	m_pGamemode->AddItem("Capture The Flag", NULL);
+	m_pGamemode->AddItem("Capture Points", NULL);
+	m_pGamemode->AddItem("Arena", NULL);
+	m_pGamemode->AddItem("SD", NULL);
+	m_pGamemode->AddItem("Mann VS Machine", NULL);
+	m_pGamemode->AddItem("Payload", NULL);
+	m_pGamemode->AddItem("RD", NULL);
+	m_pGamemode->AddItem("PD", NULL);
+	m_pGamemode->AddItem("TC", NULL);
+	m_pGamemode->AddItem("Pass", NULL);
+	m_pGamemode->AddItem("Misc", NULL);
 #endif
 
 	m_pRespawnTimes = new ComboBox(this, "RespawnTimes", 12, false);
@@ -189,6 +203,7 @@ void CServerFinderDialog::SaveOptionSelection(bool reload)
 #if defined(TF_CLIENT_DLL)
 		m_pSavedData->SetInt("RandomCrits", (EGenericOption)m_pRandCrits->GetItemIDFromRow(m_pRandCrits->GetActiveItem()));
 		m_pSavedData->SetInt("DamageSpread", (EGenericInvertedOption)m_pDmgSpread->GetItemIDFromRow(m_pDmgSpread->GetActiveItem()));
+		m_pSavedData->SetInt("Gamemode", (EGenericOption)m_pGamemode->GetItemIDFromRow(m_pGamemode->GetActiveItem()));
 #endif
 		m_pSavedData->SetInt("RespawnTimes", (ERespawnTimes)m_pRespawnTimes->GetItemIDFromRow(m_pRespawnTimes->GetActiveItem()));
 
@@ -509,12 +524,12 @@ void CServerFinderDialog::ServerResponded(gameserveritem_ex_t serverex)
 #if defined(TF_CLIENT_DLL)
 	switch (m_pOptions->m_eRandomCrits)
 	{
-		case eGenericYes:
-			requiredTags.CopyAndAddToTail("nocrits");
-			break;
-
 		case eGenericNo:
 			illegalTags.CopyAndAddToTail("nocrits");
+			break;
+
+		case eGenericYes:
+			requiredTags.CopyAndAddToTail("nocrits");
 			break;
 
 		default:
@@ -537,6 +552,47 @@ void CServerFinderDialog::ServerResponded(gameserveritem_ex_t serverex)
 			Assert(false);
 		case eInvertedDontCare:
 			break;
+	}
+	switch (m_pOptions->m_eGamemode)
+	{
+		case eGamemodeAny:
+			break;
+		case eGamemodeCTF:
+			requiredTags.CopyAndAddToTail("ctf");
+			break;
+		case eGamemodeCP:
+			requiredTags.CopyAndAddToTail("cp");
+			break;
+		case eGamemodeArena:
+			requiredTags.CopyAndAddToTail("arena");
+			break;
+		case eGamemodeSD:
+			requiredTags.CopyAndAddToTail("sd");
+			break;
+		case eGamemodeMVM:
+			requiredTags.CopyAndAddToTail("mvm");
+			break;
+		case eGamemodePayload:
+			requiredTags.CopyAndAddToTail("payload");
+			break;
+		case eGamemodeRD:
+			requiredTags.CopyAndAddToTail("rd");
+			break;
+		case eGamemodePD:
+			requiredTags.CopyAndAddToTail("pd");
+			break;
+		case eGamemodeTC:
+			requiredTags.CopyAndAddToTail("tc");
+			break;
+		case eGamemodePasstime:
+			requiredTags.CopyAndAddToTail("passtime");
+			break;
+		case eGamemodeMisc:
+			requiredTags.CopyAndAddToTail("misc");
+			break;
+
+		default:
+			Assert(false);
 	}
 #endif
 
@@ -816,6 +872,12 @@ void CServerFinderDialog::SetParams()
 		m_pOptions->m_eDamageSpread = (EGenericInvertedOption)atoi(startDamageSpread);
 	}
 
+	const char* startGamemode = m_pSavedData->GetString("Gamemode", "");
+	if (startGamemode[0])
+	{
+		m_pOptions->m_eGamemode = (EGamemodes)atoi(startGamemode);
+	}
+
 	const char* startRespawnTimes = m_pSavedData->GetString("RespawnTimes", "");
 	if (startRespawnTimes[0])
 	{
@@ -842,5 +904,6 @@ void CServerFinderDialog::GetOptions()
 
 	m_pRandCrits->ActivateItem((int)m_pOptions->m_eRandomCrits);
 	m_pDmgSpread->ActivateItem((int)m_pOptions->m_eDamageSpread);
+	m_pGamemode->ActivateItem((int)m_pOptions->m_eGamemode);
 	m_pRespawnTimes->ActivateItem((int)m_pOptions->m_eRespawnTimes);
 }
