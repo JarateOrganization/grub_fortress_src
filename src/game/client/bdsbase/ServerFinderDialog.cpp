@@ -714,6 +714,9 @@ void CServerFinderDialog::LoadMaps(const char *pszPathID)
 	{
 		char mapname[256];
 
+		const char *str = nullptr;
+		char *ext = nullptr;
+
 		// FindFirst ignores the pszPathID, so check it here
 		// TODO: this doesn't find maps in fallback dirs
 		Q_snprintf( mapname, sizeof(mapname), "maps/%s", pszFilename );
