@@ -104,6 +104,14 @@
 		"tooltip"	"Legacy Create Server Menu"
 		"OnlyAtMenu" "1"
 	}
+	"ServerFinderButton"
+	{
+		"label"	""
+		"command" 	"engine serverfinderdialog"
+		"subimage" "glyph_server"
+		"tooltip"	"#Serverfinder_Title"
+		"OnlyAtMenu" "1"
+	}
 	"QuitButton_New"
 	{
 		"label" "#TF_Quit_Title"

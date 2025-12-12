@@ -364,243 +364,243 @@
 			}	
 		}
 		// Heal Saw Beta 1
-		"35000"
-		{
-			"name"						"Heal Saw Beta 1"
-			"item_name"					"Der Erwecker Beta 1"
-			"prefab"					"weapon_bonesaw"
-			"item_quality"				"unique"
-			"item_logname"				"needlesaw"
-			"item_iconname"				"needlesaw"
-			"item_description"			"(Credits : Haau, Tabby)"
-			"image_inventory"			"backpack/workshop/weapons/c_models/c_needlesaw/c_needlesaw"
-			"image_inventory_size_w"	"128"
-			"image_inventory_size_h"	"82"
-			"model_player"				"models/weapons/c_models/c_needlesaw/c_needlesaw.mdl"
-			"moditem" 					"1"
-			"attributes"
-			{
-				"heal teammate on hit"
-				{
-					"attribute_class"	"heal_teammate_on_hit"
-					"value"				"75"
-				}
-				"single wep deploy time decreased"
-				{
-					"attribute_class"	"mult_single_wep_deploy_time"
-					"value"				"0.5"
-				}
-				"damage penalty"
-				{
-					"attribute_class"	"mult_dmg"
-					"value"				"0.25"
-				}
-				"bleeding duration"
-				{
-					"attribute_class"	"bleeding_duration"
-					"value"				"4"
-				}
-			}
-		}
-		// Heal Saw Beta 2
-		"35001"
-		{
-			"name"						"Heal Saw Beta 2"
-			"item_name"					"Der Erwecker Beta 2"
-			"prefab"					"weapon_bonesaw"
-			"item_quality"				"unique"
-			"item_logname"				"needlesaw"
-			"item_iconname"				"needlesaw"
-			"item_description"			"(Credits : Haau, Tabby)"
-			"image_inventory"			"backpack/workshop/weapons/c_models/c_needlesaw/c_needlesaw"
-			"image_inventory_size_w"	"128"
-			"image_inventory_size_h"	"82"
-			"model_player"				"models/weapons/c_models/c_needlesaw/c_needlesaw.mdl"
-			"moditem" 					"1"
-			"attributes"
-			{
-				"heal teammate on hit"
-				{
-					"attribute_class"	"heal_teammate_on_hit"
-					"value"				"50"
-				}
-				"single wep deploy time decreased"
-				{
-					"attribute_class"	"mult_single_wep_deploy_time"
-					"value"				"0.5"
-				}
-				"damage penalty"
-				{
-					"attribute_class"	"mult_dmg"
-					"value"				"0.25"
-				}
-				"mark for death"
-				{
-					"attribute_class"	"mark_for_death"
-					"value"				"1"
-				}
-			}
-		}
-		"35002"	// The Under Pressure Beta 1
-		{
-			"name"						"The Under Pressure Beta 1"
-			"item_quality"				"unique"
-			"prefab"					"weapon_syringegun"		
-			"item_description"			"(Credits : Haau, Dim)"				
-			"show_in_armory"			"1"	
-			"moditem"					"1"
-			"item_slot"					"primary"
-			"propername"				"1"
-			"item_name"					"The Under Pressure Beta 1"	
-			"item_logname"				"under_pressure"
-			"item_iconname"				"under_pressure"
-			"image_inventory"			"backpack\weapons\c_models\c_underpressure\c_underpressure"
-			"image_inventory_size_w"	"128"
-			"image_inventory_size_h"	"82"
-			"inspect_panel_dist"		"44"					
-			"model_player"				"models\weapons\c_models\c_underpressure/c_underpressure.mdl"
-			"attach_to_hands"			"1"
-			"used_by_classes"
-			{
-				"medic"					"1"
-			}
-			"static_attrs"
-			{
-				"single wep deploy time decreased"		"0.65"
-			}
-			"attributes"	
-			{			
-				"fire rate bonus"
-				{
-					"attribute_class"	"mult_postfiredelay"
-					"value"				"0.5"
-				}			
-				"Reload time decreased"
-				{
-					"attribute_class"	"mult_reload_time"
-					"value"				"0.65"
-				}
-				"clip size penalty"
-				{
-					"attribute_class"	"mult_clipsize"
-					"value"				"0.25"			
-				}			
-				"damage penalty"
-				{
-					"attribute_class"	"mult_dmg"
-					"value"				"0.85"			
-				}					
-			}
-			"visuals"
-			{
-			}
-			"mouse_pressed_sound"		"#ui/item_heavy_gun_pickup.wav"
-			"drop_sound"				"#ui/item_heavy_gun_drop.wav"	
-		}
-		"35003"	// The Under Pressure Beta 2
-		{
-			"name"						"The Under Pressure Beta 2"
-			"item_quality"				"unique"
-			"prefab"					"weapon_syringegun"		
-			"item_description"			"(Credits : Haau, Dim)"				
-			"show_in_armory"			"1"	
-			"moditem"					"1"
-			"item_slot"					"primary"
-			"propername"				"1"
-			"item_name"					"The Under Pressure Beta 2"	
-			"item_logname"				"under_pressure"
-			"item_iconname"				"under_pressure"
-			"image_inventory"			"backpack\weapons\c_models\c_underpressure\c_underpressure"
-			"image_inventory_size_w"	"128"
-			"image_inventory_size_h"	"82"
-			"inspect_panel_dist"		"44"					
-			"model_player"				"models\weapons\c_models\c_underpressure/c_underpressure.mdl"
-			"attach_to_hands"			"1"
-			"used_by_classes"
-			{
-				"medic"					"1"
-			}
-			"attributes"	
-			{			
-				"fire rate bonus"
-				{
-					"attribute_class"	"mult_postfiredelay"
-					"value"				"0.5"
-				}			
-				"Reload time decreased"
-				{
-					"attribute_class"	"mult_reload_time"
-					"value"	"0.65"
-				}
-				"clip size penalty"
-				{
-					"attribute_class"	"mult_clipsize"
-					"value"				"0.37"			
-				}			
-				"damage penalty"
-				{
-					"attribute_class"	"mult_dmg"
-					"value"				"0.85"			
-				}					
-			}
-			"visuals"
-			{
-			}
-			"mouse_pressed_sound"		"#ui/item_heavy_gun_pickup.wav"
-			"drop_sound"				"#ui/item_heavy_gun_drop.wav"
-		}		
-		// The Perforator Beta 1
-		"35004"
-		{
-			"name"						"The Perforator Beta 1"
-			"item_quality"				"unique"
-			"prefab"					"weapon_minigun"
-			"show_in_armory"			"1"	
-			"moditem"					"1"
-			"item_description"			"Shoots nail projectiles
+// 		"35000"
+// 		{
+// 			"name"						"Heal Saw Beta 1"
+// 			"item_name"					"Der Erwecker Beta 1"
+// 			"prefab"					"weapon_bonesaw"
+// 			"item_quality"				"unique"
+// 			"item_logname"				"needlesaw"
+// 			"item_iconname"				"needlesaw"
+// 			"item_description"			"(Credits : Haau, Tabby)"
+// 			"image_inventory"			"backpack/workshop/weapons/c_models/c_needlesaw/c_needlesaw"
+// 			"image_inventory_size_w"	"128"
+// 			"image_inventory_size_h"	"82"
+// 			"model_player"				"models/weapons/c_models/c_needlesaw/c_needlesaw.mdl"
+// 			"moditem" 					"1"
+// 			"attributes"
+// 			{
+// 				"heal teammate on hit"
+// 				{
+// 					"attribute_class"	"heal_teammate_on_hit"
+// 					"value"				"75"
+// 				}
+// 				"single wep deploy time decreased"
+// 				{
+// 					"attribute_class"	"mult_single_wep_deploy_time"
+// 					"value"				"0.5"
+// 				}
+// 				"damage penalty"
+// 				{
+// 					"attribute_class"	"mult_dmg"
+// 					"value"				"0.25"
+// 				}
+// 				"bleeding duration"
+// 				{
+// 					"attribute_class"	"bleeding_duration"
+// 					"value"				"4"
+// 				}
+// 			}
+// 		}
+// 		// Heal Saw Beta 2
+// 		"35001"
+// 		{
+// 			"name"						"Heal Saw Beta 2"
+// 			"item_name"					"Der Erwecker Beta 2"
+// 			"prefab"					"weapon_bonesaw"
+// 			"item_quality"				"unique"
+// 			"item_logname"				"needlesaw"
+// 			"item_iconname"				"needlesaw"
+// 			"item_description"			"(Credits : Haau, Tabby)"
+// 			"image_inventory"			"backpack/workshop/weapons/c_models/c_needlesaw/c_needlesaw"
+// 			"image_inventory_size_w"	"128"
+// 			"image_inventory_size_h"	"82"
+// 			"model_player"				"models/weapons/c_models/c_needlesaw/c_needlesaw.mdl"
+// 			"moditem" 					"1"
+// 			"attributes"
+// 			{
+// 				"heal teammate on hit"
+// 				{
+// 					"attribute_class"	"heal_teammate_on_hit"
+// 					"value"				"50"
+// 				}
+// 				"single wep deploy time decreased"
+// 				{
+// 					"attribute_class"	"mult_single_wep_deploy_time"
+// 					"value"				"0.5"
+// 				}
+// 				"damage penalty"
+// 				{
+// 					"attribute_class"	"mult_dmg"
+// 					"value"				"0.25"
+// 				}
+// 				"mark for death"
+// 				{
+// 					"attribute_class"	"mark_for_death"
+// 					"value"				"1"
+// 				}
+// 			}
+// 		}
+// 		"35002"	// The Under Pressure Beta 1
+// 		{
+// 			"name"						"The Under Pressure Beta 1"
+// 			"item_quality"				"unique"
+// 			"prefab"					"weapon_syringegun"		
+// 			"item_description"			"(Credits : Haau, Dim)"				
+// 			"show_in_armory"			"1"	
+// 			"moditem"					"1"
+// 			"item_slot"					"primary"
+// 			"propername"				"1"
+// 			"item_name"					"The Under Pressure Beta 1"	
+// 			"item_logname"				"under_pressure"
+// 			"item_iconname"				"under_pressure"
+// 			"image_inventory"			"backpack\weapons\c_models\c_underpressure\c_underpressure"
+// 			"image_inventory_size_w"	"128"
+// 			"image_inventory_size_h"	"82"
+// 			"inspect_panel_dist"		"44"					
+// 			"model_player"				"models\weapons\c_models\c_underpressure/c_underpressure.mdl"
+// 			"attach_to_hands"			"1"
+// 			"used_by_classes"
+// 			{
+// 				"medic"					"1"
+// 			}
+// 			"static_attrs"
+// 			{
+// 				"single wep deploy time decreased"		"0.65"
+// 			}
+// 			"attributes"	
+// 			{			
+// 				"fire rate bonus"
+// 				{
+// 					"attribute_class"	"mult_postfiredelay"
+// 					"value"				"0.5"
+// 				}			
+// 				"Reload time decreased"
+// 				{
+// 					"attribute_class"	"mult_reload_time"
+// 					"value"				"0.65"
+// 				}
+// 				"clip size penalty"
+// 				{
+// 					"attribute_class"	"mult_clipsize"
+// 					"value"				"0.25"			
+// 				}			
+// 				"damage penalty"
+// 				{
+// 					"attribute_class"	"mult_dmg"
+// 					"value"				"0.85"			
+// 				}					
+// 			}
+// 			"visuals"
+// 			{
+// 			}
+// 			"mouse_pressed_sound"		"#ui/item_heavy_gun_pickup.wav"
+// 			"drop_sound"				"#ui/item_heavy_gun_drop.wav"	
+// 		}
+// 		"35003"	// The Under Pressure Beta 2
+// 		{
+// 			"name"						"The Under Pressure Beta 2"
+// 			"item_quality"				"unique"
+// 			"prefab"					"weapon_syringegun"		
+// 			"item_description"			"(Credits : Haau, Dim)"				
+// 			"show_in_armory"			"1"	
+// 			"moditem"					"1"
+// 			"item_slot"					"primary"
+// 			"propername"				"1"
+// 			"item_name"					"The Under Pressure Beta 2"	
+// 			"item_logname"				"under_pressure"
+// 			"item_iconname"				"under_pressure"
+// 			"image_inventory"			"backpack\weapons\c_models\c_underpressure\c_underpressure"
+// 			"image_inventory_size_w"	"128"
+// 			"image_inventory_size_h"	"82"
+// 			"inspect_panel_dist"		"44"					
+// 			"model_player"				"models\weapons\c_models\c_underpressure/c_underpressure.mdl"
+// 			"attach_to_hands"			"1"
+// 			"used_by_classes"
+// 			{
+// 				"medic"					"1"
+// 			}
+// 			"attributes"	
+// 			{			
+// 				"fire rate bonus"
+// 				{
+// 					"attribute_class"	"mult_postfiredelay"
+// 					"value"				"0.5"
+// 				}			
+// 				"Reload time decreased"
+// 				{
+// 					"attribute_class"	"mult_reload_time"
+// 					"value"	"0.65"
+// 				}
+// 				"clip size penalty"
+// 				{
+// 					"attribute_class"	"mult_clipsize"
+// 					"value"				"0.37"			
+// 				}			
+// 				"damage penalty"
+// 				{
+// 					"attribute_class"	"mult_dmg"
+// 					"value"				"0.85"			
+// 				}					
+// 			}
+// 			"visuals"
+// 			{
+// 			}
+// 			"mouse_pressed_sound"		"#ui/item_heavy_gun_pickup.wav"
+// 			"drop_sound"				"#ui/item_heavy_gun_drop.wav"
+// 		}		
+// 		// The Perforator Beta 1
+// 		"35004"
+// 		{
+// 			"name"						"The Perforator Beta 1"
+// 			"item_quality"				"unique"
+// 			"prefab"					"weapon_minigun"
+// 			"show_in_armory"			"1"	
+// 			"moditem"					"1"
+// 			"item_description"			"Shoots nail projectiles
 			
-			(Credits : Haau, kibbleknight)"
-			"propername"				"0"
-			"item_name"					"The Perforator Beta 1"
-			"item_logname"				"perforator"
-			"item_iconname"				"perforator"
-			"image_inventory"			"backpack/weapons/w_models/w_nail_minigun"
-			"model_player"				"models/weapons/c_models/c_nail_minigun/c_nail_minigun.mdl"
-			"attach_to_hands"			"1"
-			"used_by_classes"
-			{
-				"heavy"				"1"
-			}
-			"attributes"
-			{
-				"override projectile type"
-				{
-					"attribute_class"	"override_projectile_type"
-					"value"				"32"
-				}
-				"damage bonus" 
-				{
-					"attribute_class"	"mult_dmg"
-					"value"				"2"
-				}			
-				"fire rate bonus"
-				{
-					"attribute_class"	"mult_postfiredelay"
-					"value"				"0.25"
-				}		
-				"maxammo primary increased" 
-				{
-					"attribute_class"	"mult_maxammo_primary"
-					"value"				"1.5"
-				}
-				"projectile spread angle penalty"
-				{
-					"attribute_class"	"projectile_spread_angle"
-					"value"	"3"
-				}					
-			}
-			"mouse_pressed_sound"		"#ui/item_heavy_gun_pickup.wav"
-			"drop_sound"				"#ui/item_heavy_gun_drop.wav"
-		}
+// 			(Credits : Haau, kibbleknight)"
+// 			"propername"				"0"
+// 			"item_name"					"The Perforator Beta 1"
+// 			"item_logname"				"perforator"
+// 			"item_iconname"				"perforator"
+// 			"image_inventory"			"backpack/weapons/w_models/w_nail_minigun"
+// 			"model_player"				"models/weapons/c_models/c_nail_minigun/c_nail_minigun.mdl"
+// 			"attach_to_hands"			"1"
+// 			"used_by_classes"
+// 			{
+// 				"heavy"				"1"
+// 			}
+// 			"attributes"
+// 			{
+// 				"override projectile type"
+// 				{
+// 					"attribute_class"	"override_projectile_type"
+// 					"value"				"32"
+// 				}
+// 				"damage bonus" 
+// 				{
+// 					"attribute_class"	"mult_dmg"
+// 					"value"				"2"
+// 				}			
+// 				"fire rate bonus"
+// 				{
+// 					"attribute_class"	"mult_postfiredelay"
+// 					"value"				"0.25"
+// 				}		
+// 				"maxammo primary increased" 
+// 				{
+// 					"attribute_class"	"mult_maxammo_primary"
+// 					"value"				"1.5"
+// 				}
+// 				"projectile spread angle penalty"
+// 				{
+// 					"attribute_class"	"projectile_spread_angle"
+// 					"value"	"3"
+// 				}					
+// 			}
+// 			"mouse_pressed_sound"		"#ui/item_heavy_gun_pickup.wav"
+// 			"drop_sound"				"#ui/item_heavy_gun_drop.wav"
+// 		}
 	}
 }

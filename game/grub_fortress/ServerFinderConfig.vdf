@@ -1,0 +1,10 @@
+"ServerFinderConfig"
+{
+	"map"		"plr_hightower"
+	"israndommap"		"1"
+	"maxplayers"		"24"
+	"MaxPing"		"0"
+	"RandomCrits"		"2"
+	"DamageSpread"		"2"
+	"RespawnTimes"		"2"
+}

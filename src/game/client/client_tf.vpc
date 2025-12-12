@@ -46,6 +46,12 @@ $Project "Client (Grub Fortress)"
 				$file	"fc\vgui\radialmenu.cpp"
 				$file	"fc\vgui\radialmenu.h"
 		}
+		
+		$Folder	"ServerFinder (Source SDK 2013 BDS Base)"
+		{
+			$File	"bdsbase\ServerFinderDialog.cpp"
+			$File	"bdsbase\ServerFinderDialog.h"
+		}
 	
 		$File	"$SRCDIR\game\shared\basecombatweapon_shared.h"
 		$File	"$SRCDIR\game\client\abuse_report.cpp"

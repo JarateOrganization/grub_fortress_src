@@ -101,6 +101,13 @@ DESCRIPTION INFO_OPTIONS
 		{ BOOL }
 		{ "1" }
 	}
+	"bdsbase"
+	{
+		"Source SDK 2013 BDS Base - Quick Search"
+		"github.com/BitlDevelopmentStudios/source-sdk-2013-bds-base"
+		{ BOOL }
+		{ "1" }
+	}
 	"ttrf_old_menu"
 	{
 		"Toru the Red Fox - Old TF2 Main menu code"
