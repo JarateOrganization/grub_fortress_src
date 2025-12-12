@@ -636,7 +636,10 @@ void CServerFinderDialog::BeginSearch()
 		AddFilter(vecServerFilters, "secure", "1");
 		AddFilter(vecServerFilters, "dedicated", "1");
 	}*/
-	AddFilter(vecServerFilters, "map", GetMapName());
+	if (!IsRandomMapSelected())
+	{
+		AddFilter(vecServerFilters, "map", GetMapName() );
+	}
 
 	SERVERFINDER_SPEW(SERVERFINDER_LEVEL_INTERNAL, "Beginning server search...\n");
 	m_pStatus->SetText("#Serverfinder_Status_Searching");
