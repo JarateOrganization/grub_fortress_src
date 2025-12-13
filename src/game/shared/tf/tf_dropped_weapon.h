@@ -56,6 +56,7 @@ public:
 	void InitPickedUpWeapon( CTFPlayer *pPlayer, CTFWeaponBase *pWeapon );
 
 	void ChargeLevelDegradeThink();
+	void Touch( CBaseEntity *pOther );
 #endif // GAME_DLL
 
 	CEconItemView *GetItem() { return &m_Item; }

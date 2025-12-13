@@ -14645,15 +14645,19 @@ void CTFPlayer::DropAmmoPack( const CTakeDamageInfo &info, bool bEmpty, bool bDi
 		pDroppedWeapon->InitDroppedWeapon( this, pDropWeaponProps, false, bIsSuicide );
 	}
 
-	// Create the ammo pack.
-	CTFAmmoPack *pAmmoPack = CTFAmmoPack::Create( vecPackOrigin, vecPackAngles, this, "models/items/ammopack_medium.mdl" );
-	Assert( pAmmoPack );
-	if ( pAmmoPack )
+	extern ConVar cf_dropped_weapons_give_ammo;
+	if ( !cf_dropped_weapons_give_ammo.GetBool() )
 	{
-		pAmmoPack->InitAmmoPack( this, pWeapon, nSkin, bEmpty, bIsSuicide );
-	
-		// Clean up old ammo packs if they exist in the world
-		AmmoPackCleanUp();	
+		// Create the ammo pack.
+		CTFAmmoPack *pAmmoPack = CTFAmmoPack::Create( vecPackOrigin, vecPackAngles, this, "models/items/ammopack_medium.mdl" );
+		Assert( pAmmoPack );
+		if ( pAmmoPack )
+		{
+			pAmmoPack->InitAmmoPack( this, pWeapon, nSkin, bEmpty, bIsSuicide );
+		
+			// Clean up old ammo packs if they exist in the world
+			AmmoPackCleanUp();	
+		}
 	}
 }
 
@@ -25395,6 +25399,11 @@ bool CTFPlayer::TryToPickupDroppedWeapon()
 		return false;
 
 	if ( GetActiveWeapon() && ( GetActiveWeapon()->m_flNextPrimaryAttack > gpGlobals->curtime ) )
+		return false;
+
+	// Don't allow H key pickup when cf_dropped_weapons_give_ammo is enabled
+	extern ConVar cf_dropped_weapons_give_ammo;
+	if ( cf_dropped_weapons_give_ammo.GetBool() )
 		return false;
 
 	CTFDroppedWeapon *pDroppedWeapon = GetDroppedWeaponInRange();

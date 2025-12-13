@@ -743,4 +743,69 @@
 			"prefix"		"mvm_"
 		}
 	}
+	"Reverts"
+	{
+		"category1"
+		{
+			"label"		"GENERAL"
+			"type"		"CATEGORY"
+		}
+		"cf_dropped_weapons_give_ammo"
+		{
+			"label"		"DROPPED WEAPONS GIVE AMMO (PRE-GM)"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"cf_pretoughbreak_switch"
+		{
+			"label"		"OLD WEAPON SWITCH SPEED (PRE-TB)"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"category2"
+		{
+			"label"		"SCOUT"
+			"type"		"CATEGORY"
+		}
+		"cf_scout_stunball_old_stun"
+		{
+			"label"		"OLD SANDMAN STUN"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"cf_enable_shortstop_shove"
+		{
+			"label"		"ENABLE SHORTSTOP SHOVE (PRE-MYM)"
+			"type"		"BOOL"
+			"val"		"1"
+		}
+		"category3"
+		{
+			"label"		"SOLDIER"
+			"type"		"CATEGORY"
+		}
+		"cf_revert_airstrike"
+		{
+			"label"		"REVERT AIRSTRIKE (PRE-TB)"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"category4"
+		{
+			"label"		"PYRO"
+			"type"		"CATEGORY"
+		}
+		"cf_revert_airblast"
+		{
+			"label"		"REVERT AIRBLAST MECHANICS (PRE-JI)"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"cf_revert_flamethrower"
+		{
+			"label"		"REVERT FLAMETHROWER (PRE-BM)"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+	}
 }

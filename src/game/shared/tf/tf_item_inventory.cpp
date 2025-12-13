@@ -2307,9 +2307,6 @@ void ReloadClientItemSchema()
 	// Reload the inventory
 	TFInventoryManager()->PostInit();
 	
-	// Reload custom workshop item schemas
-	CFCustomItemSchema()->ReloadAllCustomSchemas();
-	
 	// Refresh attributes on all players without reconnecting
 	C_TFPlayer *pLocalPlayer = C_TFPlayer::GetLocalTFPlayer();
 	if ( pLocalPlayer )

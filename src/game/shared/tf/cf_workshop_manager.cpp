@@ -1000,8 +1000,6 @@ void CCFWorkshopManager::SetItemEnabled(PublishedFileId_t fileID, bool bEnabled)
 		m_vecDisabledItems.FindAndRemove(fileID);
 		// Mount the item
 		MountWorkshopItem(fileID);
-		// Load custom item schema if available
-		LoadCustomItemSchemaForItem(fileID);
 	}
 	else
 	{
@@ -1009,25 +1007,6 @@ void CCFWorkshopManager::SetItemEnabled(PublishedFileId_t fileID, bool bEnabled)
 		if (m_vecDisabledItems.Find(fileID) == m_vecDisabledItems.InvalidIndex())
 		{
 			m_vecDisabledItems.AddToTail(fileID);
-		}
-		
-		// Unload custom item schema if loaded
-		if (CFCustomItemSchema()->IsWorkshopItemLoaded(fileID))
-		{
-			CFCustomItemSchema()->UnregisterWorkshopItem(fileID);
-			m_vecCustomSchemaItems.FindAndRemove(fileID);
-			
-			// Regenerate merged schema without this item
-			CFCustomItemSchema()->WriteMergedCustomSchema();
-			
-#ifdef CLIENT_DLL
-			// Trigger item schema reload on client to pick up changes
-			if (GetItemSchema())
-			{
-				CFWorkshopMsg("Triggering client item schema reload after disabling item...\n");
-				ReloadClientItemSchema();
-			}
-#endif
 		}
 		
 		// Unmount the item
@@ -2704,9 +2683,6 @@ void CCFWorkshopManager::Steam_OnItemInstalled(ItemInstalled_t* pResult)
 	
 	// Mount the item immediately so maps are available without restart
 	MountWorkshopItem(fileID);
-	
-	// Load custom item schema if available
-	LoadCustomItemSchemaForItem(fileID);
 }
 
 void CCFWorkshopManager::Steam_OnQueryCompleted(SteamUGCQueryCompleted_t* pResult, bool bError)
@@ -2889,9 +2865,6 @@ void CCFWorkshopManager::Steam_OnSubscribeItem(RemoteStorageSubscribePublishedFi
 		{
 			// Already installed, mount it now
 			MountWorkshopItem(pResult->m_nPublishedFileId);
-			
-			// Load custom item schema if available
-			LoadCustomItemSchemaForItem(pResult->m_nPublishedFileId);
 		}
 	}
 	
@@ -2911,25 +2884,6 @@ void CCFWorkshopManager::Steam_OnUnsubscribeItem(RemoteStorageUnsubscribePublish
 	
 	// Track this as recently unsubscribed to prevent re-mounting during refresh
 	m_vecRecentlyUnsubscribed.AddToTail(pResult->m_nPublishedFileId);
-	
-	// Unload custom item schema if this item had one
-	if (CFCustomItemSchema()->IsWorkshopItemLoaded(pResult->m_nPublishedFileId))
-	{
-		CFCustomItemSchema()->UnregisterWorkshopItem(pResult->m_nPublishedFileId);
-		m_vecCustomSchemaItems.FindAndRemove(pResult->m_nPublishedFileId);
-		
-		// Regenerate merged schema without this item
-		CFCustomItemSchema()->WriteMergedCustomSchema();
-		
-#ifdef CLIENT_DLL
-		// Trigger item schema reload on client to pick up changes
-		if (GetItemSchema())
-		{
-			CFWorkshopMsg("Triggering client item schema reload after unsubscribe...\n");
-			ReloadClientItemSchema();
-		}
-#endif
-	}
 	
 	// Unmount the item so maps are no longer available
 	UnmountWorkshopItem(pResult->m_nPublishedFileId);
@@ -3824,104 +3778,5 @@ CON_COMMAND(host_workshop_map, "Load a Workshop map by its file ID")
 #else
 	engine->ServerCommand(CFmtStr("changelevel %s\n", szCanonicalName));
 #endif
-}
-
-//-----------------------------------------------------------------------------
-// Custom Item Schema Support
-//-----------------------------------------------------------------------------
-void CCFWorkshopManager::LoadAllCustomItemSchemas()
-{
-	CFWorkshopMsg("Loading all custom item schemas from installed workshop items...\n");
-	
-	// Clear existing
-	m_vecCustomSchemaItems.Purge();
-	
-	// Iterate through all installed workshop items
-	FOR_EACH_VEC(m_vecSubscribedItems, i)
-	{
-		PublishedFileId_t fileID = m_vecSubscribedItems[i];
-		CCFWorkshopItem* pItem = GetItem(fileID);
-		
-		if (!pItem || !pItem->IsInstalled())
-			continue;
-		
-		// Try to load custom schema for this item
-		LoadCustomItemSchemaForItem(fileID);
-	}
-	
-	CFWorkshopMsg("Loaded custom schemas for %d items\n", m_vecCustomSchemaItems.Count());
-}
-
-void CCFWorkshopManager::LoadCustomItemSchemaForItem(PublishedFileId_t fileID)
-{
-	if (fileID == 0)
-		return;
-	
-	// Check if already loaded
-	if (CFCustomItemSchema()->IsWorkshopItemLoaded(fileID))
-	{
-		CFWorkshopDebug("Custom schema for item %llu already loaded\n", fileID);
-		return;
-	}
-	
-	CCFWorkshopItem* pItem = GetItem(fileID);
-	if (!pItem || !pItem->IsInstalled())
-	{
-		CFWorkshopDebug("Item %llu not installed, cannot load custom schema\n", fileID);
-		return;
-	}
-	
-	// Try to register with custom item schema manager
-	if (CFCustomItemSchema()->RegisterWorkshopItem(pItem))
-	{
-		// Successfully loaded custom schema
-		if (m_vecCustomSchemaItems.Find(fileID) == m_vecCustomSchemaItems.InvalidIndex())
-		{
-			m_vecCustomSchemaItems.AddToTail(fileID);
-		}
-		
-		CFWorkshopMsg("Loaded custom item schema for workshop item %llu\n", fileID);
-		
-		// Trigger inventory update
-		CFCustomItemSchema()->CreateInventoryItemsForCustomSchema();
-	}
-}
-
-void CCFWorkshopManager::RefreshCustomItemSchemas()
-{
-	CFWorkshopMsg("Refreshing custom item schemas...\n");
-	
-	// Unload items that are no longer subscribed
-	FOR_EACH_VEC_BACK(m_vecCustomSchemaItems, i)
-	{
-		PublishedFileId_t fileID = m_vecCustomSchemaItems[i];
-		
-		if (m_vecSubscribedItems.Find(fileID) == m_vecSubscribedItems.InvalidIndex())
-		{
-			// Item unsubscribed, unload schema
-			CFCustomItemSchema()->UnregisterWorkshopItem(fileID);
-			m_vecCustomSchemaItems.Remove(i);
-		}
-	}
-	
-	// Reload all schemas
-	CFCustomItemSchema()->ReloadAllCustomSchemas();
-	
-	CFWorkshopMsg("Custom item schema refresh complete\n");
-}
-
-int CCFWorkshopManager::GetCustomItemCount() const
-{
-	return CFCustomItemSchema()->GetCustomItemCount();
-}
-
-bool CCFWorkshopManager::HasCustomItems() const
-{
-	return m_vecCustomSchemaItems.Count() > 0;
-}
-
-bool CCFWorkshopManager::IsItemCustomSchemaLoaded(PublishedFileId_t fileID) const
-{
-	return m_vecCustomSchemaItems.Find(fileID) != m_vecCustomSchemaItems.InvalidIndex();
 }
 
