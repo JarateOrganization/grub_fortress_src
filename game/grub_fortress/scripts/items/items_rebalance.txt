@@ -1,4 +1,4 @@
-#base items_game.txt
+#base items_bot_weaponlist.txt
 "items_game"
 {
     "attributes"

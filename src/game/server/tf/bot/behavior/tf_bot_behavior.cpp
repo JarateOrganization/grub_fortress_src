@@ -53,8 +53,6 @@ ConVar tf_bot_always_full_reload( "tf_bot_always_full_reload", "0", FCVAR_CHEAT 
 ConVar tf_bot_fire_weapon_allowed( "tf_bot_fire_weapon_allowed", "1", FCVAR_CHEAT, "If zero, TFBots will not pull the trigger of their weapons (but will act like they did)" );
 ConVar tf_bot_reevaluate_class_in_spawnroom( "tf_bot_reevaluate_class_in_spawnroom", "1", FCVAR_CHEAT, "If set, bots will opportunisticly switch class while in spawnrooms if their current class is no longer their first choice." );
 
-ConVar tf_bot_use_items( "tf_bot_use_items", "0", FCVAR_CHEAT, "0-100: Chance bot will use random item." );
-
 //---------------------------------------------------------------------------------------------
 Action< CTFBot > *CTFBotMainAction::InitialContainedAction( CTFBot *me )
 {
@@ -89,13 +87,6 @@ ActionResult< CTFBot >	CTFBotMainAction::OnStart( CTFBot *me, Action< CTFBot > *
 		return ChangeTo( new CTFBotCreepWave, "I'm a creep" );
 	}
 #endif // TF_CREEP_MODE
-
-	if (tf_bot_use_items.GetInt() && (RandomInt(0, 100) <= tf_bot_use_items.GetInt()))
-	{
-		me->GiveRandomItem(LOADOUT_POSITION_PRIMARY);
-		me->GiveRandomItem(LOADOUT_POSITION_SECONDARY);
-		me->GiveRandomItem(LOADOUT_POSITION_MELEE);
-	}
 
 	return Continue();
 }
@@ -561,12 +552,6 @@ EventDesiredResult< CTFBot > CTFBotMainAction::OnOtherKilled( CTFBot *me, CBaseC
 	me->GetVisionInterface()->ForgetEntity( victim );
 
 	bool do_taunt = victim && victim->IsPlayer();
-
-	if (!do_taunt)
-	{
-		// If bots are using items, go ahead and let bots taunt other bots.
-		do_taunt = victim && tf_bot_use_items.GetBool();
-	}
 
 	if ( do_taunt )
 	{

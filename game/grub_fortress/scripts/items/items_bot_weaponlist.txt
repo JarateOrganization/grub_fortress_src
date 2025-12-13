@@ -1,0 +1,129 @@
+// 35 - Kritzkrieg
+// 36 - Blutsauger
+// 37 - Ubersaw
+// 38 - Axtinguisher
+// 39 - Flare gun
+// 40 - Backburner
+// 41 - Natascha
+// 42 - Sandvich
+// 43 - KGB
+// 44 - Sandman
+// 45 - Force-a-Nature
+// 46 - Bonk! Atomic Punch
+// 56 - Huntsman
+// 57 - Razorback
+// 58 - Jarate
+// 60 - Cloak and Dagger
+// 61 - Ambassador
+// 127 - Direct Hit
+// 128 - Eqalizer
+// 129 - Buff Banner
+// 130 - Scottish Resistance
+// 131 - Charge n Targe
+// 132 - Eyelander
+// 133 - Gunboats
+
+#base items_game.txt
+
+"items_game"
+{
+	"items"
+	{
+		"35" // Kritzkrieg
+		{
+			"usable_by_bots"			"1"
+		}
+		"36" // Blutsauger
+		{
+			"usable_by_bots"			"1"
+		}
+		"37" // Ubersaw
+		{
+			"usable_by_bots"			"1"
+		}
+		"38" // Axtinguisher
+		{
+			"usable_by_bots"			"1"
+		}
+		"39" // Flare gun
+		{
+			"usable_by_bots"			"1"
+		}
+		"40" // Backburner
+		{
+			"usable_by_bots"			"1"
+		}
+		"41" // Natascha
+		{
+			"usable_by_bots"			"1"
+		}
+		"42" // Sandvich
+		{
+			"usable_by_bots"			"1"
+		}
+		"43" // KGB
+		{
+			"usable_by_bots"			"1"
+		}
+		"44" // Sandman
+		{
+			"usable_by_bots"			"1"
+		}
+		"45" // Force-a-Nature
+		{
+			"usable_by_bots"			"1"
+		}
+		"46" // Bonk! Atomic Punch
+		{
+			"usable_by_bots"			"1"
+		}
+		"56" // Huntsman
+		{
+			"usable_by_bots"			"1"
+		}
+		"57" // Razorback
+		{
+			"usable_by_bots"			"1"
+		}
+		"58" // Jarate
+		{
+			"usable_by_bots"			"1"
+		}
+		"60" // Cloak and Dagger
+		{
+			"usable_by_bots"			"1"
+		}
+		"61" // Ambassador
+		{
+			"usable_by_bots"			"1"
+		}
+		"127" // Direct Hit
+		{
+			"usable_by_bots"			"1"
+		}
+		"128" // Eqalizer
+		{
+			"usable_by_bots"			"1"
+		}
+		"129" // Buff Banner
+		{
+			"usable_by_bots"			"1"
+		}
+		"130" // Scottish Resistance
+		{
+			"usable_by_bots"			"1"
+		}
+		"131" // Charge n Targe
+		{
+			"usable_by_bots"			"1"
+		}
+		"132" // Eyelander
+		{
+			"usable_by_bots"			"1"
+		}
+		"133" // Gunboats
+		{
+			"usable_by_bots"			"1"
+		}
+	}
+}

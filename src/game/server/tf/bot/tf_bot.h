@@ -29,6 +29,7 @@ class CObjectSentrygun;
 class CTFBotGenerator;
 
 extern void BotGenerateAndWearItem( CTFPlayer *pBot, const char *itemName );
+extern void BotGenerateAndWearItem(CTFPlayer* pBot, CEconItemView* pItem);
 
 //----------------------------------------------------------------------------
 // These must remain in sync with the bot_generator's spawnflags in tf.fgd:
@@ -48,6 +49,9 @@ extern void BotGenerateAndWearItem( CTFPlayer *pBot, const char *itemName );
 
 #define TFBOT_MVM_MAX_PATH_LENGTH		0.0f // 7000.0f			// in MvM, all pathfinds are limited to this (0 == no limit)
 
+#define TFBOT_MIN_LOADOUT_WAIT 0.1f
+#define TFBOT_MAX_LOADOUT_WAIT 0.3f
+#define TFBOT_CLASSSWITCH_LOADOUT_DELAY 0.1f
 
 //----------------------------------------------------------------------------
 class CTFBot: public NextBotPlayer< CTFPlayer >, public CGameEventListener
@@ -339,6 +343,16 @@ public:
 	bool FindSplashTarget( CBaseEntity *target, float maxSplashRadius, Vector *splashTarget ) const;
 
 	void GiveRandomItem( loadout_positions_t loadoutPosition );
+
+	const CEconItemDefinition* GiveRandomItemEx( loadout_positions_t loadoutPosition );
+	void SelectRandomizedLoadout( void );
+	void GiveSavedLoadout( void );
+	void HandleLoadout( void );
+	void ResetLoadout( void );
+	void Regenerate( bool bRefillHealthAndAmmo ) OVERRIDE;
+	void HandleCommand_JoinClass( const char* pClassName, bool bAllowSpawn = true) OVERRIDE;
+	void ScriptHandleLoadout( void ) { HandleLoadout(); }
+
 	void ScriptGenerateAndWearItem( const char *pszItemName ) { if ( pszItemName ) BotGenerateAndWearItem( this, pszItemName ); }
 
 	enum MissionType
@@ -493,10 +507,31 @@ public:
 	bool ShouldReEvaluateCurrentClass( void ) const;
 	void ReEvaluateCurrentClass( void );
 
+public:
+	CountdownTimer m_CompressionBlastTimer;
+
+	struct BotLoadoutItem_t
+	{
+		const CEconItemDefinition* pItemDef;
+		bool bIsAustralium;
+		bool bHasCheckedIfAustralium;
+		bool bIsKillstreak;
+		bool bHasCheckedIfKillstreak;
+		float flKillstreakTier;
+		float flKillstreakSheen;
+		float flKillstreakEffect;
+		float flPaintkitQuality;
+	};
+
+	CUtlVector< BotLoadoutItem_t > vecSavedRandomLoadout;
+
 private:
 	CTFBotLocomotion	*m_locomotor;
 	CTFBotBody			*m_body;
 	CTFBotVision		*m_vision;
+
+	CountdownTimer m_InitialLoadoutLoadTimer;
+	int iOldClassIndex;
 
 	CountdownTimer m_lookAtEnemyInvasionAreasTimer;
 
