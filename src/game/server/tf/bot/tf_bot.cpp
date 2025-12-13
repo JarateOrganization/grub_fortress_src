@@ -1492,6 +1492,16 @@ void CTFBot::PhysicsSimulate( void )
 		{
 			HandleLoadout();
 		}
+
+		CTFWeaponBase *pActiveWeapon = m_Shared.GetActiveTFWeapon();
+		if ( ( pActiveWeapon == NULL || !IsCombatWeapon( pActiveWeapon ) ) && m_requiredWeaponStack.Count() == 0 )
+		{
+			CTFWeaponBase *pMelee = dynamic_cast< CTFWeaponBase * >( Weapon_GetSlot( TF_WPN_TYPE_MELEE ) );
+			if ( pMelee && IsCombatWeapon( pMelee ) )
+			{
+				Weapon_Switch( pMelee );
+			}
+		}
 	}
 
 	// If we're dead, choose a new class.
@@ -4621,56 +4631,6 @@ void TFBotGenerateAndWearItem(CTFBot* pBot, CEconItemView* pItem)
 	}
 }
 
-bool TFBotSetPaintkitQuality(CTFBot* pBot, CEconItemView* pItem, int iSlot)
-{
-	CSteamID ownerSteamID;
-	pBot->GetSteamID(&ownerSteamID);
-	const char* itemName = pItem->GetItemDefinition()->GetItemDefinitionName();
-
-	if (IsValidPickupWeaponSlot(iSlot))
-	{
-		const CUtlVector<static_attrib_t>& vecStaticAttribs = pItem->GetStaticData()->GetStaticAttributes();
-
-		FOR_EACH_VEC(vecStaticAttribs, i)
-		{
-			const static_attrib_t& staticAttrib = vecStaticAttribs[i];
-
-			const CEconItemAttributeDefinition* pAttrDefPaint = GetItemSchema()->GetAttributeDefinitionByName("texture_wear_default");
-			if (!pAttrDefPaint)
-				return false;
-
-			if (staticAttrib.iDefIndex == pAttrDefPaint->GetDefinitionIndex())
-			{
-				//killstreaks can be applied to any weapon, so no checking here.
-				CAttributeList* pAttrList = pItem->GetAttributeList();
-				Assert(pAttrList);
-
-				if (pBot->vecSavedRandomLoadout[iSlot].flPaintkitQuality <= 0)
-				{
-					//hacky ass way of adding qualities...
-					CUtlVector<float> vecWear;
-					vecWear.AddToTail(0.2f);
-					vecWear.AddToTail(0.4f);
-					vecWear.AddToTail(0.6f);
-					vecWear.AddToTail(0.8f);
-					vecWear.AddToTail(1.0f);
-
-					float flQuality = vecWear.Random();
-
-					pBot->vecSavedRandomLoadout[iSlot].flPaintkitQuality = flQuality;
-				}
-
-				pAttrList->SetRuntimeAttributeValue(pAttrDefPaint, pBot->vecSavedRandomLoadout[iSlot].flPaintkitQuality);
-				DevMsg("%s's [%i] %s Set Painted Weapon quality to %f\n", pBot->GetPlayerName(), ownerSteamID.GetAccountID(), itemName, pBot->vecSavedRandomLoadout[iSlot].flPaintkitQuality);
-
-				return true;
-			}
-		}
-	}
-
-	return false;
-}
-
 void CTFBot::GiveSavedLoadout(void)
 {
 	if (TFGameRules() && TFGameRules()->IsMannVsMachineMode())
@@ -4691,9 +4651,6 @@ void CTFBot::GiveSavedLoadout(void)
 
 				CUniformRandomStream randomize;
 				randomize.SetSeed(pItemData->GetItemDefinition()->GetDefinitionIndex());
-
-				//set the paintkit quality if we have one.
-				bool painted = TFBotSetPaintkitQuality(this, pItemData, i);
 
 				vecSavedRandomLoadout[i].bIsAustralium = false;
 				vecSavedRandomLoadout[i].bHasCheckedIfAustralium = true;
@@ -4942,10 +4899,22 @@ Action< CTFBot > *CTFBot::OpportunisticallyUseWeaponAbilities( void )
 			CTFLunchBox *lunchbox = (CTFLunchBox *)weapon;
 			if ( lunchbox->HasAmmo() )
 			{
-				// scout lunchboxes are also gated by their energy drink meter
-				if ( !IsPlayerClass( TF_CLASS_SCOUT ) || m_Shared.GetScoutEnergyDrinkMeter() >= 100 )
+				// Scout lunchboxes are gated by their energy drink meter
+				if ( IsPlayerClass( TF_CLASS_SCOUT ) )
 				{
-					return new CTFBotUseItem( lunchbox );
+					if ( m_Shared.GetScoutEnergyDrinkMeter() >= 100 )
+					{
+						return new CTFBotUseItem( lunchbox );
+					}
+				}
+				// Heavy only eats if health is below 150
+				else if ( IsPlayerClass( TF_CLASS_HEAVYWEAPONS ) )
+				{
+					if ( GetHealth() < GetMaxHealth() * 0.5f )
+					{
+						Weapon_Switch( Weapon_GetSlot( TF_WPN_TYPE_SECONDARY ) );
+						return new CTFBotUseItem( lunchbox );
+					}
 				}
 			}
 		}
