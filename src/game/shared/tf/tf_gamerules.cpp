@@ -296,6 +296,8 @@ static MapInfo_t s_ValveMaps[] = {
 	{ "sd_doomsday",	"Doomsday",	"#Gametype_SD" },
 	{ "sd_doomsday_event",	"Carnival of Carnage",	"#Gametype_SD" },
 	{ "cp_mercenarypark",	"Mercenary Park",	"#TF_AttackDefend" },
+	{ "bd_bombyard",	"Bombyard",	"#Gametype_Bd" },
+	{ "bd_hunted",	"Hunted",	"#Gametype_Bd" },
 };
 
 static MapInfo_t s_CommunityMaps[] = {
@@ -1122,6 +1124,7 @@ ConVar tf_gamemode_payload ( "tf_gamemode_payload", "0", FCVAR_REPLICATED | FCVA
 ConVar tf_gamemode_mvm ( "tf_gamemode_mvm", "0", FCVAR_REPLICATED | FCVAR_NOTIFY | FCVAR_DEVELOPMENTONLY );
 ConVar tf_gamemode_passtime ( "tf_gamemode_passtime", "0", FCVAR_REPLICATED | FCVAR_NOTIFY | FCVAR_DEVELOPMENTONLY );
 ConVar tf_gamemode_misc ( "tf_gamemode_misc", "0", FCVAR_REPLICATED | FCVAR_NOTIFY | FCVAR_DEVELOPMENTONLY );
+ConVar tf_gamemode_bd ( "tf_gamemode_bd", "0", FCVAR_REPLICATED | FCVAR_NOTIFY );
 
 ConVar tf_bot_count( "tf_bot_count", "0", FCVAR_NOTIFY | FCVAR_DEVELOPMENTONLY );
 
@@ -1457,6 +1460,7 @@ BEGIN_NETWORK_TABLE_NOBASE( CTFGameRules, DT_TFGameRules )
 
 	RecvPropEHandle( RECVINFO( m_hBonusLogic ) ),
 	RecvPropBool( RECVINFO( m_bPlayingKoth ) ),
+	RecvPropBool( RECVINFO( m_bPlayingBd ) ),
 	RecvPropBool( RECVINFO( m_bPlayingMedieval ) ),
 	RecvPropBool( RECVINFO( m_bPlayingHybrid_CTF_CP ) ),
 	RecvPropBool( RECVINFO( m_bPlayingSpecialDeliveryMode ) ),
@@ -1528,6 +1532,7 @@ BEGIN_NETWORK_TABLE_NOBASE( CTFGameRules, DT_TFGameRules )
 
 	SendPropEHandle( SENDINFO( m_hBonusLogic ) ),
 	SendPropBool( SENDINFO( m_bPlayingKoth ) ),
+	SendPropBool( SENDINFO( m_bPlayingBd ) ),
 	SendPropBool( SENDINFO( m_bPlayingMedieval ) ),
 	SendPropBool( SENDINFO( m_bPlayingHybrid_CTF_CP ) ),
 	SendPropBool( SENDINFO( m_bPlayingSpecialDeliveryMode ) ),
@@ -4239,6 +4244,7 @@ static const char *s_PreserveEnts[] =
 	"tf_logic_competitive",
 	"tf_wearable_razorback",
 	"entity_soldier_statue",
+	"tf_logic_bd",
 	"", // END Marker
 };
 
@@ -4262,6 +4268,7 @@ void CTFGameRules::Activate()
 	tf_beta_content.SetValue( 0 );
 	tf_gamemode_passtime.SetValue( 0 );
 	tf_gamemode_misc.SetValue( 0 );
+	tf_gamemode_bd.SetValue( 0 );
 
 	tf_bot_count.SetValue( 0 );
 
@@ -4422,6 +4429,7 @@ void CTFGameRules::Activate()
 	if (pBd)
 	{
 		m_bPlayingBd.Set( true );
+		tf_gamemode_bd.SetValue(1);
 	}
 
 	CMedievalLogic *pMedieval = dynamic_cast<CMedievalLogic*> ( gEntList.FindEntityByClassname( NULL, "tf_logic_medieval" ) );

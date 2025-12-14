@@ -508,7 +508,14 @@ void CTFMapInfoMenu::LoadMapPage()
 						switch ( TFGameRules()->GetGameType() )
 						{
 						case TF_GAMETYPE_CTF:
-							pszDescription = "#default_ctf_description";
+							if (TFGameRules()->IsInBdMode())
+							{
+								pszDescription = "#default_bd_description";
+							}
+							else
+							{
+								pszDescription = "#default_ctf_description";
+							}
 							break;
 						case TF_GAMETYPE_CP:
 							if ( TFGameRules()->IsInKothMode() )
