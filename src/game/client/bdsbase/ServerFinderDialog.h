@@ -74,15 +74,16 @@ enum EGamemodes
 	eGamemodeAny,
 	eGamemodeCTF,
 	eGamemodeCP,
-	eGamemodeArena,
-	eGamemodeSD,
-	eGamemodeMVM,
 	eGamemodePayload,
-	eGamemodeRD,
-	eGamemodePD,
+	eGamemodeKOTH,
+	eGamemodeBd,
+	eGamemodeArena,
 	eGamemodeTC,
+	eGamemodePD,
+	eGamemodeSD,
+	eGamemodeRD,
 	eGamemodePasstime,
-	eGamemodeMisc
+	eGamemodeMVM
 };
 
 enum ERespawnTimes

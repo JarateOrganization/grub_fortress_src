@@ -128,18 +128,19 @@ CServerFinderDialog::CServerFinderDialog(vgui::Panel *parent) : BaseClass(NULL, 
 	m_pDmgSpread->AddItem("#TF_Quickplay_DamageSpread_DontCare", NULL);
 
 	m_pGamemode = new ComboBox(this, "Gamemode", 12, false);
-	m_pGamemode->AddItem("Any", NULL);
-	m_pGamemode->AddItem("Capture The Flag", NULL);
-	m_pGamemode->AddItem("Capture Points", NULL);
-	m_pGamemode->AddItem("Arena", NULL);
-	m_pGamemode->AddItem("SD", NULL);
-	m_pGamemode->AddItem("Mann VS Machine", NULL);
-	m_pGamemode->AddItem("Payload", NULL);
-	m_pGamemode->AddItem("RD", NULL);
-	m_pGamemode->AddItem("PD", NULL);
-	m_pGamemode->AddItem("TC", NULL);
-	m_pGamemode->AddItem("Pass", NULL);
-	m_pGamemode->AddItem("Misc", NULL);
+	m_pGamemode->AddItem("#Serverfinder_AnyGamemode", NULL);
+	m_pGamemode->AddItem("#Gametype_CTF", NULL);
+	m_pGamemode->AddItem("#Gametype_CP", NULL);
+	m_pGamemode->AddItem("#Gametype_Escort", NULL);
+	m_pGamemode->AddItem("#Gametype_Koth", NULL);
+	m_pGamemode->AddItem("#Gametype_Bd", NULL);
+	m_pGamemode->AddItem("#Gametype_Arena", NULL);
+	m_pGamemode->AddItem("#GameType_TerritorialControl", NULL);
+	m_pGamemode->AddItem("#Gametype_PlayerDestruction", NULL);
+	m_pGamemode->AddItem("#Gametype_SD", NULL);
+	m_pGamemode->AddItem("#Gametype_RobotDestruction", NULL);
+	m_pGamemode->AddItem("#GameType_Passtime", NULL);
+	m_pGamemode->AddItem("#Gametype_MVM", NULL);
 #endif
 
 	m_pRespawnTimes = new ComboBox(this, "RespawnTimes", 12, false);
@@ -544,43 +545,115 @@ void CServerFinderDialog::ServerResponded(gameserveritem_ex_t serverex)
 		case eInvertedDontCare:
 			break;
 	}
+
+	const char* serverMap = serverex.server.m_szMap;
+	if (!serverMap || !serverMap[0])
+	{
+		invalid = true;
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER %s: Server map is invalid!\n", serverex.server.GetName());
+	}
+
 	switch (m_pOptions->m_eGamemode)
 	{
-		case eGamemodeAny:
-			break;
-		case eGamemodeCTF:
-			requiredTags.CopyAndAddToTail("ctf");
-			break;
-		case eGamemodeCP:
-			requiredTags.CopyAndAddToTail("cp");
-			break;
-		case eGamemodeArena:
-			requiredTags.CopyAndAddToTail("arena");
-			break;
-		case eGamemodeSD:
-			requiredTags.CopyAndAddToTail("sd");
-			break;
-		case eGamemodeMVM:
-			requiredTags.CopyAndAddToTail("mvm");
-			break;
-		case eGamemodePayload:
-			requiredTags.CopyAndAddToTail("payload");
-			break;
-		case eGamemodeRD:
-			requiredTags.CopyAndAddToTail("rd");
-			break;
-		case eGamemodePD:
-			requiredTags.CopyAndAddToTail("pd");
-			break;
-		case eGamemodeTC:
-			requiredTags.CopyAndAddToTail("tc");
-			break;
-		case eGamemodePasstime:
-			requiredTags.CopyAndAddToTail("passtime");
-			break;
-		case eGamemodeMisc:
-			requiredTags.CopyAndAddToTail("misc");
-			break;
+	case eGamemodeAny:
+		break;
+
+	case eGamemodeCTF:
+		if (!StringHasPrefix(serverMap, "ctf_"))
+			invalid = true;
+		break;
+
+	case eGamemodeCP:
+		if (!StringHasPrefix(serverMap, "cp_"))
+			invalid = true;
+		break;
+
+	case eGamemodePayload:
+		if (!StringHasPrefix(serverMap, "pl_") &&
+			!StringHasPrefix(serverMap, "plr_"))
+			invalid = true;
+		break;
+
+	case eGamemodeKOTH:
+		if (!StringHasPrefix(serverMap, "koth_"))
+			invalid = true;
+		break;
+
+	case eGamemodeBd:
+		if (!StringHasPrefix(serverMap, "bd_"))
+			invalid = true;
+		break;
+
+	case eGamemodeArena:
+		if (!StringHasPrefix(serverMap, "arena_"))
+			invalid = true;
+		break;
+
+	case eGamemodeTC:
+		if (!StringHasPrefix(serverMap, "tc_"))
+			invalid = true;
+		break;
+
+	case eGamemodePD:
+		if (!StringHasPrefix(serverMap, "pd_"))
+			invalid = true;
+		break;
+
+	case eGamemodeSD:
+		if (!StringHasPrefix(serverMap, "sd_"))
+			invalid = true;
+		break;
+
+	case eGamemodeRD:
+		if (!StringHasPrefix(serverMap, "rd_"))
+			invalid = true;
+		break;
+
+	case eGamemodePasstime:
+		if (!StringHasPrefix(serverMap, "pass_"))
+			invalid = true;
+		break;
+
+	case eGamemodeMVM:
+		if (!StringHasPrefix(serverMap, "mvm_"))
+			invalid = true;
+		break;
+
+//		case eGamemodeAny:
+//			break;
+//		case eGamemodeCTF:
+//			requiredTags.CopyAndAddToTail("ctf");
+//			break;
+//		case eGamemodeCP:
+//			requiredTags.CopyAndAddToTail("cp");
+//			break;
+//		case eGamemodeArena:
+//			requiredTags.CopyAndAddToTail("arena");
+//			break;
+//		case eGamemodeSD:
+//			requiredTags.CopyAndAddToTail("sd");
+//			break;
+//		case eGamemodeMVM:
+//			requiredTags.CopyAndAddToTail("mvm");
+//			break;
+//		case eGamemodePayload:
+//			requiredTags.CopyAndAddToTail("payload");
+//			break;
+//		case eGamemodeRD:
+//			requiredTags.CopyAndAddToTail("rd");
+//			break;
+//		case eGamemodePD:
+//			requiredTags.CopyAndAddToTail("pd");
+//			break;
+//		case eGamemodeTC:
+//			requiredTags.CopyAndAddToTail("tc");
+//			break;
+//		case eGamemodePasstime:
+//			requiredTags.CopyAndAddToTail("passtime");
+//			break;
+//		case eGamemodeMisc:
+//			requiredTags.CopyAndAddToTail("misc");
+//			break;
 
 		default:
 			Assert(false);
@@ -608,8 +681,10 @@ void CServerFinderDialog::ServerResponded(gameserveritem_ex_t serverex)
 	else
 	{
 		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER: Server validation failed.\n");
-
-		OnSearchFailure();
+		if ( tfgrub_serverfinder_create_server.GetBool() )
+		{
+			OnSearchFailure();
+		}
 	}
 }
 
