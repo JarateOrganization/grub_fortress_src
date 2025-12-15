@@ -2218,8 +2218,9 @@ CON_COMMAND(clear_loadout_ui, "Clear local loadout back to stock defaults (show 
 }
 #endif	// TF_CLIENT_DLL
 
-#if defined( CLIENT_DLL )
-CON_COMMAND_F( cl_reload_item_schema, "Reload the item schema from items_game.txt and items_custom.txt on the client", FCVAR_CHEAT )
+#ifdef CLIENT_DLL
+// Helper function to reload item schema (can be called directly)
+void ReloadClientItemSchema()
 {
 	DevMsg("Reloading item schema on client...\n");
 	
@@ -2252,9 +2253,6 @@ CON_COMMAND_F( cl_reload_item_schema, "Reload the item schema from items_game.tx
 			if ( pKVItems )
 			{
 				DevMsg("Found custom items section, attempting to merge...\n");
-				// Note: This is a simplified approach - ideally we'd need to merge properly
-				// but for now this will reload the base schema and the custom file will 
-				// be handled by the existing BInitTextBuffer override
 			}
 		}
 		pKVCustom->deleteThis();
@@ -2294,6 +2292,11 @@ CON_COMMAND_F( cl_reload_item_schema, "Reload the item schema from items_game.tx
 	}
 	
 	DevMsg("Item schema reloaded successfully and attributes refreshed.\n");
+}
+
+CON_COMMAND_F( cl_reload_item_schema, "Reload the item schema from items_game.txt and items_custom.txt on the client", FCVAR_CHEAT )
+{
+	ReloadClientItemSchema();
 }
 #else
 CON_COMMAND_F( sv_reload_item_schema, "Reload the item schema from items_game.txt on the server", FCVAR_CHEAT )

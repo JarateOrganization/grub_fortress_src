@@ -71,6 +71,8 @@ END_DATADESC()
 ConVar tf_rocket_show_radius( "tf_rocket_show_radius", "0", FCVAR_REPLICATED | FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "Render rocket radius." );
 #endif
 
+ConVar cf_revert_airstrike( "cf_revert_airstrike", "0", FCVAR_NOTIFY | FCVAR_REPLICATED, "Revert Air Strike to pre-Tough Break mechanics. 0 = current mechanics (blast radius penalty when rocket jumping), 1 = pre-Tough Break (no penalty)." );
+
 //=============================================================================
 //
 // Shared (client/server) functions.
@@ -632,7 +634,8 @@ float CTFBaseRocket::GetRadius()
 
 		CTFPlayer *pTFPlayer = ToTFPlayer( pAttacker );
 		// Airstrike gets a small blast radius penalty while Rjing
-		if ( pTFPlayer && pTFPlayer->m_Shared.InCond( TF_COND_BLASTJUMPING ) )
+		extern ConVar cf_revert_airstrike;
+		if ( !cf_revert_airstrike.GetBool() && pTFPlayer && pTFPlayer->m_Shared.InCond( TF_COND_BLASTJUMPING ) )
 		{
 			// Using this attr to key in the AirStrike
 			float flRocketJumpAttackBonus = 1.0f;

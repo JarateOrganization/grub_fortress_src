@@ -32,6 +32,7 @@ const float tf_flame_burn_index_per_collide_remap_y = 50.f;
 const float tf_flame_burn_index_damage_scale_min = 0.5f;
 
 ConVar tf_flame_dmg_mode_dist( "tf_flame_dmg_mode_dist", "0", FCVAR_REPLICATED | FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY | FCVAR_HIDDEN );
+ConVar cf_revert_flamethrower( "cf_revert_flamethrower", "0", FCVAR_NOTIFY | FCVAR_REPLICATED, "Revert flamethrower to pre-Blue Moon mechanics. 0 = current mechanics (density ramp-up), 1 = pre-Blue Moon (full damage, ~30% more DPS)." );
 
 #ifdef WATERFALL_FLAMETHROWER_TEST
 ConVar tf_flame_waterfall_speed_override( "tf_flame_waterfall_speed_override", "0", FCVAR_REPLICATED );
@@ -536,16 +537,20 @@ float CTFFlameManager::GetFlameDamageScale( const tf_point_t* pPoint, CTFPlayer 
 	if ( pTFTarget 
 		)
 	{
-		float flIndexMod = 1.f;
-		auto iEntIndex = m_mapEntitiesBurnt.Find( pTFTarget );
-		if ( iEntIndex != m_mapEntitiesBurnt.InvalidIndex() )
+		extern ConVar cf_revert_flamethrower;
+		if ( !cf_revert_flamethrower.GetBool() )
 		{
-			flIndexMod = RemapValClamped( m_mapEntitiesBurnt[iEntIndex].m_flHeatIndex, 
+			float flIndexMod = 1.f;
+			auto iEntIndex = m_mapEntitiesBurnt.Find( pTFTarget );
+			if ( iEntIndex != m_mapEntitiesBurnt.InvalidIndex() )
+			{
+				flIndexMod = RemapValClamped( m_mapEntitiesBurnt[iEntIndex].m_flHeatIndex, 
 										  tf_flame_burn_index_per_collide_remap_x, tf_flame_burn_index_per_collide_remap_y, 
 										  tf_flame_burn_index_damage_scale_min, 1.f );
-		}
+			}
 
-		flDamageScale *= flIndexMod;
+			flDamageScale *= flIndexMod;
+		}
 	}
 
 	// should we reduce damage based on reflection?

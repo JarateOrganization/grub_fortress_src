@@ -1274,11 +1274,11 @@ CON_COMMAND_F( testhudanim, "Test a hud element animation.\n\tArguments: <anim n
 	g_pClientMode->GetViewportAnimationController()->StartAnimationSequence( args[1] );
 }
 
-CON_COMMAND_F( extract_ctx_data, "Extracts data from a specified ctx file.\n\tArguments: <filename>\n", FCVAR_NONE )
+CON_COMMAND_F( cf_extract_ctx_data, "Extracts data from a specified ctx file.\n\tArguments: <filename>\n", FCVAR_NONE )
 {
 	if ( args.ArgC() != 2 )
 	{
-		Msg("Usage:\n   extract_ctx_data <filename>\n");
+		Msg("Usage:\n   cf_extract_ctx_data <filename>\n");
 		return;
 	}
 

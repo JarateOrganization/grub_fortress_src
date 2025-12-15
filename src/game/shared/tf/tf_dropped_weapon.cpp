@@ -25,7 +25,8 @@
 
 #ifdef GAME_DLL
 ConVar tf_dropped_weapon_lifetime( "tf_dropped_weapon_lifetime", "30", FCVAR_CHEAT ); 
-ConVar tf_mvm_dropped_weapons( "tf_mvm_dropped_weapons", "0", FCVAR_REPLICATED ); 
+ConVar tf_mvm_dropped_weapons( "tf_mvm_dropped_weapons", "0", FCVAR_REPLICATED );
+ConVar cf_dropped_weapons_give_ammo( "cf_dropped_weapons_give_ammo", "0", FCVAR_NOTIFY | FCVAR_REPLICATED, "Revert dropped weapon behaviour to pre-Gun Mettle. Dropped weapons act as ammo packs." ); 
 
 EXTERN_SEND_TABLE( DT_ScriptCreatedItem );
 
@@ -116,8 +117,11 @@ void CTFDroppedWeapon::Spawn()
 	SetCollisionGroup( COLLISION_GROUP_DEBRIS );
 	CollisionProp()->UseTriggerBounds( true, ITEM_PICKUP_BOX_BLOAT );
 
+	// Enable touch detection
+	SetTouch( &CTFDroppedWeapon::Touch );
+
 	// Create the object in the physics system
-	int nSolidFlags = GetSolidFlags() | FSOLID_NOT_STANDABLE;
+	int nSolidFlags = GetSolidFlags() | FSOLID_NOT_STANDABLE | FSOLID_TRIGGER;
 
 	if ( VPhysicsInitNormal( SOLID_VPHYSICS, nSolidFlags, false ) == NULL )
 	{
@@ -695,6 +699,57 @@ void CTFDroppedWeapon::ChargeLevelDegradeThink()
 	}
 
 	SetContextThink( &CTFDroppedWeapon::ChargeLevelDegradeThink, gpGlobals->curtime + 0.1f, "ChargeLevelDegradeThink" );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Give ammo when touched if cf_dropped_weapons_give_ammo is enabled
+//-----------------------------------------------------------------------------
+void CTFDroppedWeapon::Touch( CBaseEntity *pOther )
+{
+	extern ConVar cf_dropped_weapons_give_ammo;
+	if ( !cf_dropped_weapons_give_ammo.GetBool() )
+	{
+		// Let the default pickup behavior happen
+		return;
+	}
+
+	// Validate that the toucher is a player
+	if ( !pOther || !pOther->IsPlayer() )
+		return;
+
+	CTFPlayer *pPlayer = ToTFPlayer( pOther );
+	if ( !pPlayer )
+		return;
+
+	// Don't allow dead players to pick up weapons
+	if ( !pPlayer->IsAlive() )
+		return;
+
+	// Act as an ammo pack - give ammo like a medium ammo pack would
+	float flAmmoRatio = 0.5f; // medium ammo pack ratio
+	
+	int iMaxPrimary = pPlayer->GetMaxAmmo( TF_AMMO_PRIMARY );
+	int iAmmoTaken = pPlayer->GiveAmmo( ceil( iMaxPrimary * flAmmoRatio ), TF_AMMO_PRIMARY, true, kAmmoSource_Pickup );
+	
+	int iMaxSecondary = pPlayer->GetMaxAmmo( TF_AMMO_SECONDARY );
+	iAmmoTaken += pPlayer->GiveAmmo( ceil( iMaxSecondary * flAmmoRatio ), TF_AMMO_SECONDARY, true, kAmmoSource_Pickup );
+	
+	// give them a chunk of cloak power
+	if ( pPlayer->m_Shared.AddToSpyCloakMeter( 100.0f * flAmmoRatio ) )
+	{
+		iAmmoTaken++;
+	}
+	
+	if ( pPlayer->AddToSpyKnife( 100.0f * flAmmoRatio, false ) )
+	{
+		iAmmoTaken++;
+	}
+	
+	if ( iAmmoTaken > 0 )
+	{
+		EmitSound( "BaseCombatCharacter.AmmoPickup" );
+		UTIL_Remove( this );
+	}
 }
 
 //-----------------------------------------------------------------------------

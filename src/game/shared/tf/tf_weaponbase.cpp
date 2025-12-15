@@ -83,6 +83,8 @@ ConVar tf_scout_hype_pep_min_damage( "tf_scout_hype_pep_min_damage", "5.0", FCVA
 
 ConVar tf_weapon_criticals_nopred( "tf_weapon_criticals_nopred", "1.0", FCVAR_REPLICATED | FCVAR_CHEAT );
 
+ConVar cf_pre_toughbreak_switch( "cf_pre_toughbreak_switch", "0", FCVAR_NOTIFY | FCVAR_REPLICATED, "Use pre-Tough Break weapon switch time (0.67 sec instead of 0.5 sec)" );
+
 #ifdef _DEBUG
 ConVar tf_weapon_criticals_anticheat( "tf_weapon_criticals_anticheat", "1.0", FCVAR_REPLICATED );
 ConVar tf_weapon_criticals_debug( "tf_weapon_criticals_debug", "0.0", FCVAR_REPLICATED );
@@ -93,6 +95,7 @@ extern ConVar tf_weapon_criticals_bucket_bottom;
 
 #ifdef CLIENT_DLL
 extern ConVar cl_crosshair_file;
+extern ConVar cl_muzzleflash_dlight_1st;
 #endif
 
 ConVar tf_centerfire_projectiles("tf_centerfire_projectiles", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "Forces all weapons to use center-fire projectiles if enabled.");
@@ -1268,7 +1271,8 @@ bool CTFWeaponBase::Deploy( void )
 		if ( !pPlayer )
 			return false;
 
-		float flWeaponSwitchTime = 0.5f;
+		extern ConVar cf_pre_toughbreak_switch;
+		float flWeaponSwitchTime = cf_pre_toughbreak_switch.GetBool() ? 0.67f : 0.5f;
 
 		// Overrides the anim length for calculating ready time.
 		float flDeployTimeMultiplier = 1.0f;
@@ -3336,12 +3340,11 @@ void CTFWeaponBase::CreateMuzzleFlashEffects( C_BaseEntity *pAttachEnt, int nInd
 	if ( iMuzzleFlashAttachment > 0 && (pszMuzzleFlashEffect || pszMuzzleFlashModel || pszMuzzleFlashParticleEffect ) )
 	{
 		pAttachEnt->GetAttachment( iMuzzleFlashAttachment, vecOrigin, angAngles );
-
 		// Muzzleflash light
-/*
+	if ( cl_muzzleflash_dlight_1st.GetBool() == true && IsFirstPersonView() ) {
 		CLocalPlayerFilter filter;
-		TE_DynamicLight( filter, 0.0f, &vecOrigin, 255, 192, 64, 5, 70.0f, 0.05f, 70.0f / 0.05f, LIGHT_INDEX_MUZZLEFLASH );
-*/
+		TE_DynamicLight( filter, 0.0f, &vecOrigin, 255, 192, 64, 5, RandomInt( 35, 105 ), 0.05f, 70.0f / 0.05f, LIGHT_INDEX_MUZZLEFLASH );
+	}
 
 		if ( pszMuzzleFlashEffect )
 		{

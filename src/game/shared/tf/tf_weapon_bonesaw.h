@@ -25,6 +25,7 @@ enum bonesaw_weapontypes_t
 	BONESAW_UBER_SAVEDONDEATH,
 	BONESAW_RADIUSHEAL,
 	BONESAW_TONGS,
+	BONESAW_DEFIB,
 };
 
 //=============================================================================

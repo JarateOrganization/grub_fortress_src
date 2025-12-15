@@ -938,11 +938,21 @@ bool CHudItemEffectMeter_Weapon< CTFMinigun >::IsEnabled( void )
 
 	bool bVisible = false;
 
+	float fKillComboFireRateBoost = 0.0f;
+	CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pWeapon, fKillComboFireRateBoost, kill_combo_fire_rate_boost );
+	if ( fKillComboFireRateBoost > 0.0f )
+	{
+		SetControlVisible( "ItemEffectMeter", false );
+		SetControlVisible( "ItemEffectMeterLabel", false );
+		bVisible = true;
+	}
 
 	int iRage = 0;
 	CALL_ATTRIB_HOOK_INT_ON_OTHER( m_pPlayer, iRage, generate_rage_on_dmg );
 	if ( iRage )
 	{
+		SetControlVisible( "ItemEffectMeter", true );
+		SetControlVisible( "ItemEffectMeterLabel", true );
 		bVisible = true;
 	}
 
