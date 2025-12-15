@@ -14,6 +14,9 @@
 #include "particle_parse.h"
 #include "tf_gamestats.h"
 #include "tf_fx.h"
+#include "tf_projectile_base.h"
+#include "tf_projectile_rocket.h"
+#include "tf_weapon_grenade_pipebomb.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -63,9 +66,8 @@ CObjectSpeedPad::CObjectSpeedPad()
 void CObjectSpeedPad::Spawn()
 {
 	SetSolid( SOLID_BBOX );
-	AddSolidFlags( FSOLID_TRIGGER );
 	SetModel( SPEEDPAD_MODEL_PLACEMENT );
-	m_takedamage = DAMAGE_NO;
+	m_takedamage = DAMAGE_YES;
 	m_iUpgradeLevel = 1;
 
 	BaseClass::Spawn();
@@ -152,11 +154,41 @@ void CObjectSpeedPad::SpeedPadTouch( CBaseEntity *pOther )
 	if ( IsDisabled() || IsBuilding() )
 		return;
 
+	// Check if it's a projectile and explode it
+	CTFBaseProjectile *pProjectile = dynamic_cast<CTFBaseProjectile*>( pOther );
+	if ( pProjectile )
+	{
+		// Get the trace for the explosion
+		trace_t tr;
+		tr.endpos = pProjectile->GetAbsOrigin();
+		
+		// Check if it's a grenade that can detonate
+		CTFGrenadePipebombProjectile *pGrenade = dynamic_cast<CTFGrenadePipebombProjectile*>( pOther );
+		if ( pGrenade )
+		{
+			pGrenade->Detonate();
+		}
+		else
+		{
+			// For rockets and other projectiles, call Explode if available
+			CTFProjectile_Rocket *pRocket = dynamic_cast<CTFProjectile_Rocket*>( pOther );
+			if ( pRocket )
+			{
+				pRocket->Explode( &tr, this );
+			}
+		}
+		return;
+	}
+
 	if ( !pOther->IsPlayer() )
 		return;
 
 	CTFPlayer *pPlayer = ToTFPlayer( pOther );
 	if ( !pPlayer || !pPlayer->IsAlive() )
+		return;
+
+	// Team filtering - only allow same team
+	if ( pPlayer->GetTeamNumber() != GetTeamNumber() )
 		return;
 
 	// Check cooldown
@@ -187,8 +219,27 @@ void CObjectSpeedPad::ApplySpeedBoost( CTFPlayer *pPlayer )
 	
 	float flDuration = g_flSpeedPadDuration[iLevel];
 
-	// Add speed boost condition
-	pPlayer->m_Shared.AddCond( TF_COND_SPEED_BOOST, flDuration );
+	// Remove any existing speed pad boost conditions
+	pPlayer->m_Shared.RemoveCond( TF_COND_SPEEDPAD_BOOST_LV1 );
+	pPlayer->m_Shared.RemoveCond( TF_COND_SPEEDPAD_BOOST_LV2 );
+	pPlayer->m_Shared.RemoveCond( TF_COND_SPEEDPAD_BOOST_LV3 );
+
+	// Add level-specific speed boost condition
+	ETFCond speedCond = TF_COND_SPEEDPAD_BOOST_LV1;
+	switch ( iLevel )
+	{
+		case 1:
+			speedCond = TF_COND_SPEEDPAD_BOOST_LV1; // 33% speed boost
+			break;
+		case 2:
+			speedCond = TF_COND_SPEEDPAD_BOOST_LV2; // 50% speed boost
+			break;
+		case 3:
+			speedCond = TF_COND_SPEEDPAD_BOOST_LV3; // 90% speed boost
+			break;
+	}
+	
+	pPlayer->m_Shared.AddCond( speedCond, flDuration );
 
 	Vector origin = GetAbsOrigin();
 	CPVSFilter filter( origin );

@@ -832,6 +832,12 @@ enum ETFCond
 	TF_COND_POWERUPMODE_DOMINANT			 = 129,
 	TF_COND_IMMUNE_TO_PUSHBACK				 = 130,
 	TF_COND_SPEED_BOOST_WATCH				 = 131, // = 131
+
+	// CF CONDS
+
+	TF_COND_SPEEDPAD_BOOST_LV1				 = 132, // Speed Pad Level 1: 33% speed boost
+	TF_COND_SPEEDPAD_BOOST_LV2				 = 133, // Speed Pad Level 2: 50% speed boost
+	TF_COND_SPEEDPAD_BOOST_LV3				 = 134, // Speed Pad Level 3: 90% speed boost
 		//
 	// ADD NEW ITEMS HERE TO AVOID BREAKING DEMOS
 	//

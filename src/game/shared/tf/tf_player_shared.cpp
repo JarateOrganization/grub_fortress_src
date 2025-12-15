@@ -1696,6 +1696,12 @@ void CTFPlayerShared::OnConditionAdded( ETFCond eCond )
 
 	case TF_COND_SPEED_BOOST:				OnAddSpeedBoost( false );		break;
 
+	case TF_COND_SPEEDPAD_BOOST_LV1:
+	case TF_COND_SPEEDPAD_BOOST_LV2:
+	case TF_COND_SPEEDPAD_BOOST_LV3:
+		OnAddSpeedPadBoost();
+		break;
+
 	case TF_COND_SAPPED:
 		OnAddSapped();
 		break;
@@ -2024,6 +2030,11 @@ void CTFPlayerShared::OnConditionRemoved( ETFCond eCond )
 
 	case TF_COND_SPEED_BOOST:					OnRemoveSpeedBoost( false );		break;
 		
+	case TF_COND_SPEEDPAD_BOOST_LV1:
+	case TF_COND_SPEEDPAD_BOOST_LV2:
+	case TF_COND_SPEEDPAD_BOOST_LV3:
+		OnRemoveSpeedPadBoost();
+		break;
 
 	case TF_COND_SAPPED:
 		OnRemoveSapped();
@@ -4399,6 +4410,53 @@ void CTFPlayerShared::OnRemoveSpeedBoost( bool IsNonCombat )
 	{
 		m_pOuter->EmitSound( "DisciplineDevice.PowerDown" );
 	}
+#else // !CLIENT_DLL
+	m_pOuter->TeamFortress_SetSpeed();
+#endif // CLIENT_DLL
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Speed Pad boost particle effects
+//-----------------------------------------------------------------------------
+void CTFPlayerShared::OnAddSpeedPadBoost( void )
+{
+#ifdef CLIENT_DLL
+	const char* strBuffName = "speed_boost_trail";
+
+	if ( !m_pOuter->m_pSpeedBoostEffect )
+	{
+		// No speedlines at all for stealth or feign death 
+		if ( !InCond( TF_COND_STEALTHED ) && !InCond(TF_COND_FEIGN_DEATH) )
+		{
+			m_pOuter->m_pSpeedBoostEffect = m_pOuter->ParticleProp()->Create( strBuffName, PATTACH_ABSORIGIN_FOLLOW );
+		}
+	}
+	
+	if ( m_pOuter->IsLocalPlayer())
+	{
+		m_pOuter->EmitSound( "DisciplineDevice.PowerUp" );
+	}
+#else // !CLIENT_DLL
+	m_pOuter->TeamFortress_SetSpeed();
+#endif // CLIENT_DLL
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFPlayerShared::OnRemoveSpeedPadBoost( void )
+{
+#ifdef CLIENT_DLL
+	if ( m_pOuter->m_pSpeedBoostEffect )
+	{
+		m_pOuter->ParticleProp()->StopEmission( m_pOuter->m_pSpeedBoostEffect );
+		m_pOuter->m_pSpeedBoostEffect = NULL;
+	}
+
+	if ( m_pOuter->IsLocalPlayer() )
+	{
+		m_pOuter->EmitSound( "DisciplineDevice.PowerDown" );
+	}
 	else
 	{
 		m_pOuter->EmitSound( "Building_Speedpad.BoostStop" );
@@ -4686,6 +4744,16 @@ void CTFPlayerShared::OnAttack( void )
 		{
 			AddCond( TF_COND_MARKEDFORDEATH_SILENT, flMarkedForDeathTime );
 		}
+	}
+
+	// Remove Speed Pad boost when attacking
+	if ( InCond( TF_COND_SPEEDPAD_BOOST_LV1 ) ||
+		 InCond( TF_COND_SPEEDPAD_BOOST_LV2 ) ||
+		 InCond( TF_COND_SPEEDPAD_BOOST_LV3 ) )
+	{
+		RemoveCond( TF_COND_SPEEDPAD_BOOST_LV1 );
+		RemoveCond( TF_COND_SPEEDPAD_BOOST_LV2 );
+		RemoveCond( TF_COND_SPEEDPAD_BOOST_LV3 );
 	}
 }
 
@@ -10928,6 +10996,28 @@ float CTFPlayer::TeamFortress_CalculateMaxSpeed( bool bIgnoreSpecialAbility /*= 
 		if ( maxfbspeed > 0.0f )
 		{
 			maxfbspeed += MIN( maxfbspeed * 0.4f, tf_whip_speed_increase.GetFloat() );
+		}
+	}
+	// Speed Pad boost conditions with variable multipliers
+	if ( m_Shared.InCond( TF_COND_SPEEDPAD_BOOST_LV1 ) )
+	{
+		if ( maxfbspeed > 0.0f )
+		{
+			maxfbspeed *= 1.33f; // 33% speed increase
+		}
+	}
+	else if ( m_Shared.InCond( TF_COND_SPEEDPAD_BOOST_LV2 ) )
+	{
+		if ( maxfbspeed > 0.0f )
+		{
+			maxfbspeed *= 1.50f; // 50% speed increase
+		}
+	}
+	else if ( m_Shared.InCond( TF_COND_SPEEDPAD_BOOST_LV3 ) )
+	{
+		if ( maxfbspeed > 0.0f )
+		{
+			maxfbspeed *= 1.90f; // 90% speed increase
 		}
 	}
 #endif

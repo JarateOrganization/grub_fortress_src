@@ -14,6 +14,9 @@
 #include "particle_parse.h"
 #include "tf_gamestats.h"
 #include "tf_fx.h"
+#include "tf_projectile_base.h"
+#include "tf_projectile_rocket.h"
+#include "tf_weapon_grenade_pipebomb.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -63,9 +66,8 @@ CObjectJumpPad::CObjectJumpPad()
 void CObjectJumpPad::Spawn()
 {
 	SetSolid( SOLID_BBOX );
-	AddSolidFlags( FSOLID_TRIGGER );
 	SetModel( JUMPPAD_MODEL_PLACEMENT );
-	m_takedamage = DAMAGE_NO;
+	m_takedamage = DAMAGE_YES;
 	m_iUpgradeLevel = 1;
 
 	BaseClass::Spawn();
@@ -152,11 +154,41 @@ void CObjectJumpPad::JumpPadTouch( CBaseEntity *pOther )
 	if ( IsDisabled() || IsBuilding() )
 		return;
 
+	// Check if it's a projectile and explode it
+	CTFBaseProjectile *pProjectile = dynamic_cast<CTFBaseProjectile*>( pOther );
+	if ( pProjectile )
+	{
+		// Get the trace for the explosion
+		trace_t tr;
+		tr.endpos = pProjectile->GetAbsOrigin();
+		
+		// Check if it's a grenade that can detonate
+		CTFGrenadePipebombProjectile *pGrenade = dynamic_cast<CTFGrenadePipebombProjectile*>( pOther );
+		if ( pGrenade )
+		{
+			pGrenade->Detonate();
+		}
+		else
+		{
+			// For rockets and other projectiles, call Explode if available
+			CTFProjectile_Rocket *pRocket = dynamic_cast<CTFProjectile_Rocket*>( pOther );
+			if ( pRocket )
+			{
+				pRocket->Explode( &tr, this );
+			}
+		}
+		return;
+	}
+
 	if ( !pOther->IsPlayer() )
 		return;
 
 	CTFPlayer *pPlayer = ToTFPlayer( pOther );
 	if ( !pPlayer || !pPlayer->IsAlive() )
+		return;
+
+	// Team filtering - only allow same team
+	if ( pPlayer->GetTeamNumber() != GetTeamNumber() )
 		return;
 
 	// Check cooldown
@@ -187,12 +219,24 @@ void CObjectJumpPad::ApplyJumpBoost( CTFPlayer *pPlayer )
 	
 	float flVelocity = g_flJumpPadVelocity[iLevel];
 
-	// Apply upward velocity impulse
-	Vector vecImpulse( 0, 0, flVelocity );
+	// Get player's forward direction for horizontal boost
+	Vector vecForward;
+	pPlayer->GetVectors( &vecForward, NULL, NULL );
+	vecForward.z = 0; // Only horizontal component
+	VectorNormalize( vecForward );
+
+	// Calculate horizontal boost (about 20% of vertical boost)
+	float flHorizontalBoost = flVelocity * 0.2f;
+	Vector vecHorizontalBoost = vecForward * flHorizontalBoost;
+
+	// Apply upward and horizontal velocity impulse
+	Vector vecImpulse( vecHorizontalBoost.x, vecHorizontalBoost.y, flVelocity );
 	pPlayer->ApplyAbsVelocityImpulse( vecImpulse );
 
-	// Also set the base velocity Z to ensure the boost is applied
+	// Also set the base velocity to ensure the boost is applied
 	Vector vecBaseVelocity = pPlayer->GetBaseVelocity();
+	vecBaseVelocity.x = vecHorizontalBoost.x;
+	vecBaseVelocity.y = vecHorizontalBoost.y;
 	vecBaseVelocity.z = flVelocity;
 	pPlayer->SetBaseVelocity( vecBaseVelocity );
 

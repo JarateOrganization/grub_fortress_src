@@ -156,7 +156,7 @@ objects
 		MaxObjects			1
 		Cost				50
 		CostMultiplier		1
-		UpgradeCost			200
+		UpgradeCost			100
 		UpgradeDuration		1.5
 		MaxUpgradeLevel		0
 		BuilderWeaponName	"Speed Pad"
@@ -189,7 +189,7 @@ objects
 		MaxObjects			1
 		Cost				50
 		CostMultiplier		1
-		UpgradeCost			200
+		UpgradeCost			100
 		UpgradeDuration		1.5
 		MaxUpgradeLevel		0
 		BuilderWeaponName	"Jump Pad"

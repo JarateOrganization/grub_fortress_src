@@ -12076,6 +12076,16 @@ int CTFPlayer::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 	if ( TFGameRules()->IsInItemTestingMode() && !IsFakeClient() )
 		return 0;
 
+	// Remove Speed Pad boost when taking damage
+	if ( m_Shared.InCond( TF_COND_SPEEDPAD_BOOST_LV1 ) ||
+		 m_Shared.InCond( TF_COND_SPEEDPAD_BOOST_LV2 ) ||
+		 m_Shared.InCond( TF_COND_SPEEDPAD_BOOST_LV3 ) )
+	{
+		m_Shared.RemoveCond( TF_COND_SPEEDPAD_BOOST_LV1 );
+		m_Shared.RemoveCond( TF_COND_SPEEDPAD_BOOST_LV2 );
+		m_Shared.RemoveCond( TF_COND_SPEEDPAD_BOOST_LV3 );
+	}
+
 	bool bUsingUpgrades = TFGameRules()->GameModeUsesUpgrades();
 
 	// Always NULL check this below
@@ -12191,6 +12201,17 @@ int CTFPlayer::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 	}
 
 	m_flLastDamageTime = gpGlobals->curtime; // not networked
+	
+	// Remove Speed Pad boost when taking damage
+	if ( m_Shared.InCond( TF_COND_SPEEDPAD_BOOST_LV1 ) ||
+		 m_Shared.InCond( TF_COND_SPEEDPAD_BOOST_LV2 ) ||
+		 m_Shared.InCond( TF_COND_SPEEDPAD_BOOST_LV3 ) )
+	{
+		m_Shared.RemoveCond( TF_COND_SPEEDPAD_BOOST_LV1 );
+		m_Shared.RemoveCond( TF_COND_SPEEDPAD_BOOST_LV2 );
+		m_Shared.RemoveCond( TF_COND_SPEEDPAD_BOOST_LV3 );
+	}
+	
 	if ( TFGameRules()->IsMannVsMachineMode() )
 	{
 		// We only need damage time networked while in MvM

@@ -779,6 +779,7 @@ private:
 	void OnAddTaunting( void );
 	void OnAddNoHealingDamageBuff( void );
 	void OnAddSpeedBoost( bool IsNonCombat );
+	void OnAddSpeedPadBoost( void );
 	void OnAddSapped( void );
 	void OnAddReprogrammed( void );
 	void OnAddMarkedForDeathSilent( void );
@@ -856,6 +857,7 @@ private:
 	void OnRemoveTaunting( void );
 	void OnRemoveNoHealingDamageBuff( void );
 	void OnRemoveSpeedBoost( bool IsNonCombat );
+	void OnRemoveSpeedPadBoost( void );
 	void OnRemoveSapped( void );
 	void OnRemoveReprogrammed( void );
 	void OnRemoveMarkedForDeathSilent( void );
