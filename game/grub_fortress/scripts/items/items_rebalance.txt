@@ -200,12 +200,27 @@
 			{
 				"spunup_damage_resistance"
 				{
-					"value"					"delete"
+					"value"				"delete"
 				}
 				"spunup_damage_resistance_simple"
 				{
-					"attribute_class"		"spunup_damage_resistance_simple"
-					"value"					"0.80"
+					"attribute_class"	"spunup_damage_resistance_simple"
+					"value"				"0.80"
+				}
+				"damage force reduction"
+				{
+					"attribute_class"	"damage_force_reduction"
+					"value"				"0.25"
+				}
+				"airblast vulnerability multiplier"
+				{
+					"attribute_class"	"airblast_vulnerability_multiplier"
+					"value"				"0.25"
+				}
+				"provide on active"
+				{
+					"attribute_class"	"provide_on_active"
+					"value"				"1"
 				}
 			}
 		}
@@ -330,6 +345,31 @@
 				}
 			}
 		}
+		"128" // Equalizer
+		{
+			"attributes"
+			{
+				"mod shovel damage boost"
+				{
+					"value"				"delete"
+				}
+				"dmg bonus while half dead"
+				{
+					"attribute_class"	"mult_dmg_bonus_while_half_dead"
+					"value"				"1.5"
+				}
+				"dmg penalty while half alive"
+				{
+					"attribute_class"	"mult_dmg_penalty_while_half_alive"
+					"value"				"0.75"
+				}
+				"dmg from ranged reduced"
+				{
+					"attribute_class"	"dmg_from_ranged"
+					"value"				"0.8"
+				}
+			}
+		}
 		"133" // The Gunboats
 		{
 			"used_by_classes"
@@ -442,6 +482,17 @@
 				"spy"					"1"
 			}
 		}
+//		"307" // Ullapool Caber (CURRENTLY BROKEN, TAKE A LOOK AT IT LATER)
+// 		{
+// 			"attributes"
+// 			{
+// 				"dmg falloff decreased"
+// 				{
+// 					"attribute_class"	"mult_dmg_falloff"
+// 					"value"				"0"
+// 				}
+// 			}
+// 		}
 		"311" // The Buffalo Steak Sandvich
 		{
 			"attributes"
@@ -449,6 +500,21 @@
 				"energy buff dmg taken multiplier"
 				{
 					"value"				"delete"
+				}
+			}
+		}
+		"317" // Candy Cane
+		{
+			"attributes"
+			{
+				"dmg taken from blast increased"
+				{
+					"value"				"delete"
+				}
+				"max health additive penalty"
+				{
+					"attribute_class"	"add_maxhealth"
+					"value"				"-15"
 				}
 			}
 		}
@@ -475,6 +541,17 @@
 				{
 					"attribute_class"	"mult_dmgtaken_from_bullets"
 					"value"				"0.6"
+				}
+			}
+		}
+		"355" // Fan O'War
+		{
+			"attributes"
+			{
+				"melee range multiplier"
+				{
+					"attribute_class"	"melee_range_multiplier"
+					"value"				"1.5"
 				}
 			}
 		}
@@ -514,6 +591,44 @@
 				{
 					"attribute_class"	"special_taunt"
 					"value"				"1"
+				}
+			}
+		}
+		"411" // Quickfix
+		{
+			"attributes"
+			{
+				"ubercharge rate bonus"
+				{
+					"value"				"delete"
+				}
+				"ubercharge rate bonus"
+				{
+					"attribute_class"	"mult_medigun_uberchargerate"
+					"value"				"1.2"
+				}
+			}
+
+		}
+		"426" // The Eviction Notice
+		{
+			"static_attrs"
+			{
+				"mod_maxhealth_drain_rate"				"delete"
+				"single wep deploy time decreased"		"0.8"
+				"switch from wep deploy time decreased"	"0.8"
+			}
+			"attributes"
+			{
+				"provide on active"
+				{
+					"attribute_class"	"provide_on_active"
+					"value"				"1"
+				}
+				"dmg taken increased"
+				{
+					"attribute_class"	"mult_dmgtaken"
+					"value"				"1.25"
 				}
 			}
 		}
@@ -632,6 +747,17 @@
 				}
 			}
 		}
+// 		"656" // Holiday Punch (CURRENTLY BROKEN, TAKE A LOOK AT IT LATER)
+// 		{
+// 			"attributes"
+// 			{
+// 				"minicrits become crits"
+// 				{
+// 					"attribute_class"	"minicrits_become_crits"
+// 					"value"				"1"
+// 				}
+// 			}
+//		}
 		"751" // The Cleaner's Carbine
 		{
 			"attributes"
