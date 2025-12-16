@@ -342,8 +342,21 @@ void CHudMenuEngyDestroy::OnTick( void )
 		// Update the label text for Speed Pad and Jump Pad
 		if ( iRemappedObjectID == OBJ_SPEEDPAD || iRemappedObjectID == OBJ_JUMPPAD )
 		{
-			const wchar_t *pszLocalizedName = g_pVGuiLocalize->Find( 
-				iRemappedObjectID == OBJ_SPEEDPAD ? "TF_Object_SpeedPad" : "TF_Object_JumpPad" );
+			const wchar_t* pszLocalizedName = nullptr;
+
+			switch ( iRemappedObjectID )
+			{
+			case OBJ_SPEEDPAD:
+				pszLocalizedName = g_pVGuiLocalize->Find( "TF_Object_SpeedPad" );
+				break;
+
+			case OBJ_JUMPPAD:
+				pszLocalizedName = g_pVGuiLocalize->Find( "TF_Object_JumpPad" );
+				break;
+
+			default:
+				break;
+			}
 			
 			if ( pszLocalizedName )
 			{

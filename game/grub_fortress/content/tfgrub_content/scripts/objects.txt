@@ -179,6 +179,21 @@ objects
 		UpgradeSound		"Building_Sentrygun.Built"
 		BuildCount		1
 		RequiresOwnBuilder	0
+		AltModes
+		{
+			AltMode0
+			{
+				StatusName	"#TF_Object_SpeedPad"
+				ModeName	"#TF_Object_SpeedPad"
+				IconMenu	hud_menu_tele_entrance_build
+			}
+			AltMode1
+			{
+				StatusName	"#TF_Object_SpeedPad"
+				ModeName	"#TF_Object_SpeedPad"
+				IconMenu	hud_menu_tele_exit_build
+			}
+		}
 	}
 
 	OBJ_JUMPPAD
@@ -212,5 +227,20 @@ objects
 		UpgradeSound		"Building_Sentrygun.Built"
 		BuildCount		1
 		RequiresOwnBuilder	0
+		AltModes
+		{
+			AltMode0
+			{
+				StatusName	"#TF_Object_JumpPad"
+				ModeName	"#TF_Object_JumpPad"
+				IconMenu	hud_menu_tele_entrance_build
+			}
+			AltMode1
+			{
+				StatusName	"#TF_Object_JumpPad"
+				ModeName	"#TF_Object_JumpPad"
+				IconMenu	hud_menu_tele_exit_build
+			}
+		}	
 	}
 }

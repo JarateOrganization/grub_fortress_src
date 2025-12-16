@@ -450,14 +450,34 @@ void CTFWeaponPDA::Detach(void)
 			
 			// If switching off of pads, blow up pads
 			int iBuildsPads = 0;
+			int iBuildsSpeedPads = 0;
+			int iBuildsJumpPads = 0;
 			CALL_ATTRIB_HOOK_INT(iBuildsPads, pda_builds_pads);
+			CALL_ATTRIB_HOOK_INT(iBuildsSpeedPads, pda_builds_speedpads);
+			CALL_ATTRIB_HOOK_INT(iBuildsJumpPads, pda_builds_jumppads);
 			if (iBuildsPads)
 			{
-				CBaseObject* pSpeedPad = pPlayer->GetObjectOfType(OBJ_SPEEDPAD);
-				if (pSpeedPad)
+				CBaseObject* pSpeedPad = pPlayer->GetObjectOfType( OBJ_SPEEDPAD );
+				if ( pSpeedPad )
 				{
 					pSpeedPad->DetonateObject();
 				}
+				CBaseObject* pJumpPad = pPlayer->GetObjectOfType( OBJ_JUMPPAD );
+				if ( pJumpPad )
+				{
+					pJumpPad->DetonateObject();
+				}
+			}
+			else if (iBuildsSpeedPads)
+			{
+				CBaseObject* pSpeedPad = pPlayer->GetObjectOfType( OBJ_SPEEDPAD );
+				if ( pSpeedPad )
+				{
+					pSpeedPad->DetonateObject();
+				}
+			}
+			else if (iBuildsJumpPads)
+			{
 				CBaseObject* pJumpPad = pPlayer->GetObjectOfType(OBJ_JUMPPAD);
 				if (pJumpPad)
 				{

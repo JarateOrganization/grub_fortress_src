@@ -11452,8 +11452,20 @@ int CTFPlayer::CanBuild( int iObjectType, int iObjectMode )
 				if ( pWeapon && pWeapon->GetWeaponID() == TF_WEAPON_PDA_ENGINEER_BUILD )
 				{
 					int iBuildsPads = 0;
+					int iBuildsSpeedPads = 0;
+					int iBuildsJumpPads = 0;
 					CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iBuildsPads, pda_builds_pads );
+					CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iBuildsSpeedPads, pda_builds_speedpads );
+					CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iBuildsJumpPads, pda_builds_jumppads );
 					if ( iBuildsPads != 0 )
+					{
+						bCanBuildPad = true;
+					}
+					else if (iObjectType == OBJ_SPEEDPAD && iBuildsSpeedPads != 0)
+					{
+						bCanBuildPad = true;
+					}
+					else if (iObjectType == OBJ_JUMPPAD && iBuildsJumpPads != 0)
 					{
 						bCanBuildPad = true;
 					}
@@ -13376,6 +13388,8 @@ void CTFPlayer::StartBuildingObjectOfType( int iType, int iMode )
 {
 	// Check if we should replace teleporters with pads
 	int iBuildsPads = 0;
+	int iBuildsSpeedPads = 0;
+	int iBuildsJumpPads = 0;
 	
 	// Find the PDA weapon in the player's inventory
 	for ( int i = 0; i < MAX_WEAPONS; i++ )
@@ -13384,6 +13398,8 @@ void CTFPlayer::StartBuildingObjectOfType( int iType, int iMode )
 		if ( pWeapon && pWeapon->GetWeaponID() == TF_WEAPON_PDA_ENGINEER_BUILD )
 		{
 			CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iBuildsPads, pda_builds_pads );
+			CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iBuildsSpeedPads, pda_builds_speedpads );
+			CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iBuildsJumpPads, pda_builds_jumppads );
 			break;
 		}
 	}
@@ -13400,6 +13416,32 @@ void CTFPlayer::StartBuildingObjectOfType( int iType, int iMode )
 		{
 			iType = OBJ_JUMPPAD;
 			iMode = 0;
+		}
+	}
+	else if ( iBuildsSpeedPads != 0 && iType == OBJ_TELEPORTER )
+	{
+		if (iMode == MODE_TELEPORTER_ENTRANCE)
+		{
+			iType = OBJ_SPEEDPAD;
+			iMode = MODE_SPEEDPAD_1;
+		}
+		else if (iMode == MODE_TELEPORTER_EXIT)
+		{
+			iType = OBJ_SPEEDPAD;
+			iMode = MODE_SPEEDPAD_2;
+		}
+	}
+	else if ( iBuildsJumpPads != 0 && iType == OBJ_TELEPORTER )
+	{
+		if (iMode == MODE_TELEPORTER_ENTRANCE)
+		{
+			iType = OBJ_JUMPPAD;
+			iMode = MODE_JUMPPAD_1;
+		}
+		else if (iMode == MODE_TELEPORTER_EXIT)
+		{
+			iType = OBJ_JUMPPAD;
+			iMode = MODE_JUMPPAD_2;
 		}
 	}
 
@@ -14919,6 +14961,8 @@ CTFWeaponBuilder *CTFPlayerSharedUtils::GetBuilderForObjectType( CTFPlayer *pTFP
 			{
 				int iBuildsPads = 0;
 				CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iBuildsPads, pda_builds_pads );
+				CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iBuildsPads, pda_builds_speedpads );
+				CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iBuildsPads, pda_builds_jumppads );
 				if ( iBuildsPads != 0 )
 				{
 					bLookingForPadWithAttribute = true;

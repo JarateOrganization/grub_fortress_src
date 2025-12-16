@@ -363,6 +363,111 @@
 				}
 			}	
 		}
+		"34009" // PDA: SpeedPad
+		{
+			"name"						"PDA: SpeedPad"
+			"prefab"					"weapon_pda"
+			"item_name"					"PDA: SpeedPad"
+			"item_quality"				"unique"
+			"moditem" 					"1"
+			"attach_to_hands"			"1"
+			"used_by_classes"
+			{
+				"engineer"				"1"
+			}
+			"static_attrs"
+			{
+				"min_viewmodel_offset"					"10 0 -10"				
+			}
+			"attributes"
+			{
+				"mod pda builds speedpads"
+				{
+					"attribute_class"	"pda_builds_speedpads"
+					"value"				"1"
+				}
+			}
+			"mouse_pressed_sound"	"ui/item_metal_weapon_pickup.wav"
+			"drop_sound"			"ui/item_metal_weapon_drop.wav"
+			"visuals"
+			{
+				"animation_replacement"
+				{
+					"ACT_VM_IDLE"	"ACT_ENGINEER_PDA1_VM_IDLE"
+					"ACT_VM_DRAW"	"ACT_ENGINEER_PDA1_VM_DRAW"
+				}
+			}
+		}
+		"34010" // PDA: JumpPad
+		{
+			"name"						"PDA: JumpPad"
+			"prefab"					"weapon_pda"
+			"item_name"					"PDA: JumpPad"
+			"item_quality"				"unique"
+			"moditem" 					"1"
+			"attach_to_hands"			"1"
+			"used_by_classes"
+			{
+				"engineer"				"1"
+			}
+			"static_attrs"
+			{
+				"min_viewmodel_offset"					"10 0 -10"				
+			}
+			"attributes"
+			{
+				"mod pda builds jumppads"
+				{
+					"attribute_class"	"pda_builds_jumppads"
+					"value"				"1"
+				}
+			}
+			"mouse_pressed_sound"	"ui/item_metal_weapon_pickup.wav"
+			"drop_sound"			"ui/item_metal_weapon_drop.wav"
+			"visuals"
+			{
+				"animation_replacement"
+				{
+					"ACT_VM_IDLE"	"ACT_ENGINEER_PDA1_VM_IDLE"
+					"ACT_VM_DRAW"	"ACT_ENGINEER_PDA1_VM_DRAW"
+				}
+			}
+		}
+		"34011" // PDA: Jump-Speed-Pad
+		{
+			"name"						"PDA: Jump-Speed-Pad"
+			"prefab"					"weapon_pda"
+			"item_name"					"PDA: Jump-Speed-Pad"
+			"item_quality"				"unique"
+			"moditem" 					"1"
+			"attach_to_hands"			"1"
+			"used_by_classes"
+			{
+				"engineer"				"1"
+			}
+			"static_attrs"
+			{
+				"min_viewmodel_offset"					"10 0 -10"				
+			}
+			"attributes"
+			{
+				"mod pda builds pads"
+				{
+					"attribute_class"	"pda_builds_pads"
+					"value"				"1"
+				}
+			}
+			"mouse_pressed_sound"	"ui/item_metal_weapon_pickup.wav"
+			"drop_sound"			"ui/item_metal_weapon_drop.wav"
+			"visuals"
+			{
+				"animation_replacement"
+				{
+					"ACT_VM_IDLE"	"ACT_ENGINEER_PDA1_VM_IDLE"
+					"ACT_VM_DRAW"	"ACT_ENGINEER_PDA1_VM_DRAW"
+				}
+			}
+		}
 		// Heal Saw Beta 1
 // 		"35000"
 // 		{

@@ -581,8 +581,21 @@ void CHudMenuEngyBuild::OnTick( void )
 		// Update the label text for Speed Pad and Jump Pad
 		if ( iRemappedObjectID == OBJ_SPEEDPAD || iRemappedObjectID == OBJ_JUMPPAD )
 		{
-			const wchar_t *pszLocalizedName = g_pVGuiLocalize->Find( 
-				iRemappedObjectID == OBJ_SPEEDPAD ? "TF_Object_SpeedPad" : "TF_Object_JumpPad" );
+			const wchar_t* pszLocalizedName = nullptr;
+
+			switch ( iRemappedObjectID )
+			{
+			case OBJ_SPEEDPAD:
+				pszLocalizedName = g_pVGuiLocalize->Find( "TF_Object_SpeedPad" );
+				break;
+
+			case OBJ_JUMPPAD:
+				pszLocalizedName = g_pVGuiLocalize->Find( "TF_Object_JumpPad" );
+				break;
+
+			default:
+				break;
+			}
 			
 			if ( pszLocalizedName )
 			{
@@ -790,16 +803,30 @@ void CHudMenuEngyBuild::ReplaceBuildings( EngyConstructBuilding_t (&targetBuildi
 
 	// Check if player has pda_builds_pads attribute
 	bool bBuildsPads = false;
+	bool bBuildsSpeedPads = false;
+	bool bBuildsJumpPads = false;
 	for ( int i = 0; i < MAX_WEAPONS; i++ )
 	{
 		C_TFWeaponBase *pWeapon = dynamic_cast<C_TFWeaponBase*>( pLocalPlayer->GetWeapon( i ) );
 		if ( pWeapon && pWeapon->GetWeaponID() == TF_WEAPON_PDA_ENGINEER_BUILD )
 		{
 			int iBuildsPads = 0;
-			CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iBuildsPads, pda_builds_pads );
-			if ( iBuildsPads != 0 )
+			int iBuildsSpeedPads = 0;
+			int iBuildsJumpPads = 0;
+			CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iBuildsSpeedPads, pda_builds_pads );
+			if (iBuildsSpeedPads != 0 )
 			{
 				bBuildsPads = true;
+			}
+			CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iBuildsSpeedPads, pda_builds_speedpads );
+			if ( iBuildsSpeedPads != 0 )
+			{
+				bBuildsSpeedPads = true;
+			}
+			CALL_ATTRIB_HOOK_INT_ON_OTHER( pWeapon, iBuildsJumpPads, pda_builds_jumppads );
+			if ( iBuildsJumpPads != 0 )
+			{
+				bBuildsJumpPads = true;
 			}
 			break;
 		}
@@ -831,6 +858,58 @@ void CHudMenuEngyBuild::ReplaceBuildings( EngyConstructBuilding_t (&targetBuildi
 													 "tele_exit_active.res",
 													 "tele_exit_inactive.res",
 													 "tele_exit_inactive.res" );
+	}
+	else if ( bBuildsSpeedPads )
+	{
+		// Replace slot 3 (Teleporter Entrance) with Speed Pad
+		targetBuildings[2] = EngyConstructBuilding_t(true,
+			OBJ_SPEEDPAD,
+			MODE_SPEEDPAD_1,
+			"tele_entrance_active.res",
+			"tele_entrance_already_built.res",
+			"tele_entrance_cant_afford.res",
+			"tele_entrance_unavailable.res",
+			"tele_entrance_active.res",
+			"tele_entrance_inactive.res",
+			"tele_entrance_inactive.res");
+
+		// Replace slot 4 (Teleporter Exit) with Jump Pad
+		targetBuildings[3] = EngyConstructBuilding_t(true,
+			OBJ_SPEEDPAD,
+			MODE_SPEEDPAD_2,
+			"tele_exit_active.res",
+			"tele_exit_already_built.res",
+			"tele_exit_cant_afford.res",
+			"tele_exit_unavailable.res",
+			"tele_exit_active.res",
+			"tele_exit_inactive.res",
+			"tele_exit_inactive.res");
+	}
+	else if ( bBuildsJumpPads )
+	{
+		// Replace slot 3 (Teleporter Entrance) with Speed Pad
+		targetBuildings[2] = EngyConstructBuilding_t(true,
+			OBJ_JUMPPAD,
+			MODE_JUMPPAD_1,
+			"tele_entrance_active.res",
+			"tele_entrance_already_built.res",
+			"tele_entrance_cant_afford.res",
+			"tele_entrance_unavailable.res",
+			"tele_entrance_active.res",
+			"tele_entrance_inactive.res",
+			"tele_entrance_inactive.res");
+
+		// Replace slot 4 (Teleporter Exit) with Jump Pad
+		targetBuildings[3] = EngyConstructBuilding_t(true,
+			OBJ_JUMPPAD,
+			MODE_JUMPPAD_2,
+			"tele_exit_active.res",
+			"tele_exit_already_built.res",
+			"tele_exit_cant_afford.res",
+			"tele_exit_unavailable.res",
+			"tele_exit_active.res",
+			"tele_exit_inactive.res",
+			"tele_exit_inactive.res");
 	}
 
 	CUtlVector< const EngyBuildingReplacement_t* > vecReplacements;

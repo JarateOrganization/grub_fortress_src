@@ -185,6 +185,16 @@ not sure if it should be used as a weapon"
 			"effect_type"	"neutral"
 			"stored_as_integer"	"1"
 		}
+		"4038"
+		{
+			"name"	"mod pda builds pads"
+			"attribute_class"	"pda_builds_pads"
+			"description_string"	"#Attrib_TeleporterPads"
+			"description_format"	"value_is_additive"
+			"hidden"	"0"
+			"effect_type"	"neutral"
+			"stored_as_integer"	"1"
+		}
 		// GRUB FORTRESS ATTRIBUTES
 		"5000"
 		{
@@ -346,6 +356,26 @@ not sure if it should be used as a weapon"
 			"effect_type"	"positive"
 			"armory_desc"	"on_wearer"
 			"stored_as_integer"	"0"
+		}
+		"5016"
+		{
+			"name"	"mod pda builds speedpads"
+			"attribute_class"	"pda_builds_speedpads"
+			"description_string"	"#Attrib_TeleporterPads"
+			"description_format"	"value_is_additive"
+			"hidden"	"0"
+			"effect_type"	"neutral"
+			"stored_as_integer"	"1"
+		}
+		"5017"
+		{
+			"name"	"mod pda builds jumppads"
+			"attribute_class"	"pda_builds_jumppads"
+			"description_string"	"#Attrib_TeleporterPads"
+			"description_format"	"value_is_additive"
+			"hidden"	"0"
+			"effect_type"	"neutral"
+			"stored_as_integer"	"1"
 		}
 	}
 	"items"
