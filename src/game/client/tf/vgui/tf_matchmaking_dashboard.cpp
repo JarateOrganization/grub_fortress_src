@@ -28,6 +28,7 @@
 #include "tf_matchmaking_dashboard_side_panel.h"
 #include "tf_matchmaking_dashboard_explanations.h"
 #include "tf_matchmaking_dashboard_mvm_criteria.h"
+#include "vgui/cf_serverbrowser.h"
 
 using namespace vgui;
 using namespace GCSDK;
@@ -379,12 +380,9 @@ void CTFMatchmakingDashboard::OnCommand( const char *command )
 	}
 	else if ( FStrEq( command, "find_game" ) )
 	{
-		OnPlayCommunity();
+		// Open custom server browser
+		CCFServerBrowser::ShowDialog();
 		return;
-		PopStack( 100, k_eSideRight ); // All y'all
-		PushSlidePanel( GetDashboardPanel().GetTypedPanel< CMatchMakingDashboardSidePanel >( k_ePlayList ) );
-		CHudMainMenuOverride *pMMOverride = (CHudMainMenuOverride*)( gViewPortInterface->FindPanelByName( PANEL_MAINMENUOVERRIDE ) );
-		pMMOverride->CheckTrainingStatus();
 	}
 	else if ( FStrEq( command, "quit" ) )
 	{

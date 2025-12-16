@@ -1,0 +1,71 @@
+"SpectateGames.res"
+{
+	"SpectateGames"
+	{
+		"ControlName"		"CSpectateGames"
+		"fieldName"		"SpectateGames"
+		"xpos"		"0"
+		"ypos"		"0"
+		"wide"		"1180"
+		"tall"		"600"
+		"autoResize"		"0"
+		"pinCorner"		"0"
+		"visible"		"1"
+		"enabled"		"1"
+		"tabPosition"		"0"
+		"bgcolor_override" "40 40 40 255"
+	}
+	
+	"GameList"
+	{
+		"ControlName"		"ListPanel"
+		"fieldName"		"GameList"
+		"xpos"		"10"
+		"ypos"		"10"
+		"wide"		"1160"
+		"tall"		"580"
+		"autoResize"		"3"
+		"pinCorner"		"0"
+		"visible"		"1"
+		"enabled"		"1"
+		"tabPosition"		"1"
+		"linespacing"		"48"
+	}
+	
+	"ConnectButton"
+	{
+		"ControlName"		"Button"
+		"fieldName"		"ConnectButton"
+		"xpos"		"960"
+		"ypos"		"565"
+		"wide"		"100"
+		"tall"		"24"
+		"autoResize"		"0"
+		"pinCorner"		"3"
+		"visible"		"1"
+		"enabled"		"0"
+		"tabPosition"		"2"
+		"labelText"		"#ServerBrowser_Spectate"
+		"textAlignment"		"west"
+		"command"		"Connect"
+		"Default"		"1"
+	}
+	
+	"RefreshButton"
+	{
+		"ControlName"		"Button"
+		"fieldName"		"RefreshButton"
+		"xpos"		"1070"
+		"ypos"		"565"
+		"wide"		"100"
+		"tall"		"24"
+		"autoResize"		"0"
+		"pinCorner"		"3"
+		"visible"		"1"
+		"enabled"		"1"
+		"tabPosition"		"3"
+		"labelText"		"#ServerBrowser_Refresh"
+		"textAlignment"		"west"
+		"command"		"GetNewList"
+	}
+}

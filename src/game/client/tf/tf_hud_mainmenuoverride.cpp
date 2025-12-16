@@ -46,6 +46,7 @@
 #include "tf_matchmaking_dashboard_comp_rank_tooltip.h"
 #include "tf_rating_data.h"
 #include "tf_progression.h"
+#include "vgui/cf_serverbrowser.h"
 
 #include "replay/ireplaysystem.h"
 #include "replay/ienginereplay.h"
@@ -1998,6 +1999,11 @@ void CHudMainMenuOverride::OnCommand( const char *command )
 		{
 			CFWorkshop()->PrintStatus();
 		}
+	}
+	else if ( !Q_stricmp( command, "find_game" ) )
+	{
+		// Open the custom server browser
+		CCFServerBrowser::ShowDialog();
 	}
 	else if ( !Q_stricmp( command, "engine disconnect" ) && engine->IsInGame() && TFGameRules() && ( TFGameRules()->IsMannVsMachineMode() || TFGameRules()->IsCompetitiveMode() ) )
 	{

@@ -466,6 +466,8 @@ CCFWorkshopManager::CCFWorkshopManager()
 	, m_nPendingDeleteFileID(0)
 	, m_ePendingType(CF_WORKSHOP_TYPE_OTHER)
 	, m_ePendingVisibility(k_ERemoteStoragePublishedFileVisibilityPublic)
+	, m_bConfigLoaded(false)
+	, m_flNextConfigUpdateCheck(0.0f)
 {
 	m_szUploadStatus[0] = '\0';
 }
@@ -513,6 +515,32 @@ void CCFWorkshopManager::Update(float frametime)
 	{
 		m_bRefreshQueued = false;
 		RefreshSubscriptions();
+	}
+	
+	// Periodic update checking (if configured)
+	if (m_bConfigLoaded && m_config.m_nUpdateCheckInterval > 0)
+	{
+		float flCurrentTime = Plat_FloatTime();
+		if (flCurrentTime >= m_flNextConfigUpdateCheck)
+		{
+			m_flNextConfigUpdateCheck = flCurrentTime + m_config.m_nUpdateCheckInterval;
+			
+			// Check for updates on all subscribed items
+			FOR_EACH_VEC(m_vecSubscribedItems, i)
+			{
+				PublishedFileId_t fileID = m_vecSubscribedItems[i];
+				CCFWorkshopItem* pItem = GetItem(fileID);
+				if (pItem)
+				{
+					pItem->Refresh(m_config.m_bHighPriority);
+				}
+			}
+			
+			if (m_config.m_bLogUpdates)
+			{
+				CFWorkshopMsg("Checking for workshop item updates...\n");
+			}
+		}
 	}
 	
 #ifdef CLIENT_DLL
@@ -598,8 +626,87 @@ void CCFWorkshopManager::InitWorkshop()
 	CFWorkshopMsg("Workshop initialized successfully\n");
 	m_bInitialized = true;
 	
+	// Load workshop configuration
+	LoadConfig();
+	
+	// Apply sv_pure override if configured
+	if (m_bConfigLoaded && m_config.m_nSvPureOverride >= 0)
+	{
+#ifndef CLIENT_DLL
+		ConVar* sv_pure = cvar->FindVar("sv_pure");
+		if (sv_pure)
+		{
+			sv_pure->SetValue(m_config.m_nSvPureOverride);
+			if (m_config.m_bLoggingEnabled)
+			{
+				CFWorkshopMsg("Set sv_pure to %d (from config)\n", m_config.m_nSvPureOverride);
+			}
+		}
+#endif
+	}
+	
 	// Load disabled items from config
 	LoadDisabledItems();
+	
+	// Download collection items if configured
+	if (m_bConfigLoaded && m_config.m_bAutoDownload && m_config.m_nCollectionID != 0)
+	{
+		if (m_config.m_bLoggingEnabled)
+		{
+			CFWorkshopMsg("Auto-downloading collection %llu...\n", m_config.m_nCollectionID);
+		}
+		// Note: Collection download will be implemented via QueryCollection
+		QueryCollection(m_config.m_nCollectionID);
+	}
+	
+	// Subscribe and download specific map IDs from config
+	if (m_bConfigLoaded && m_config.m_bAutoDownload)
+	{
+		FOR_EACH_VEC(m_config.m_vecMapIDs, i)
+		{
+			PublishedFileId_t mapID = m_config.m_vecMapIDs[i];
+			if (mapID != 0)
+			{
+				CCFWorkshopItem* pItem = GetItem(mapID);
+				if (!pItem)
+				{
+					pItem = AddItem(mapID, CF_WORKSHOP_TYPE_MAP);
+				}
+				
+				if (pItem && !pItem->IsDownloaded())
+				{
+					if (m_config.m_bLogDownloads)
+					{
+						CFWorkshopMsg("Auto-downloading map %llu from config...\n", mapID);
+					}
+					pItem->Download(m_config.m_bHighPriority);
+				}
+			}
+		}
+		
+		// Subscribe and download specific item IDs from config
+		FOR_EACH_VEC(m_config.m_vecItemIDs, i)
+		{
+			PublishedFileId_t itemID = m_config.m_vecItemIDs[i];
+			if (itemID != 0)
+			{
+				CCFWorkshopItem* pItem = GetItem(itemID);
+				if (!pItem)
+				{
+					pItem = AddItem(itemID, CF_WORKSHOP_TYPE_OTHER);
+				}
+				
+				if (pItem && !pItem->IsDownloaded())
+				{
+					if (m_config.m_bLogDownloads)
+					{
+						CFWorkshopMsg("Auto-downloading item %llu from config...\n", itemID);
+					}
+					pItem->Download(m_config.m_bHighPriority);
+				}
+			}
+		}
+	}
 	
 	// Queue a refresh of subscriptions
 	m_bRefreshQueued = true;
@@ -774,6 +881,16 @@ void CCFWorkshopManager::MountWorkshopItem(PublishedFileId_t fileID)
 		// Detect HUD mod: has resource/ui or scripts/hudlayout.res
 		if (bHasResourceUI || bHasHudLayout)
 		{
+			// Check config restrictions for HUDs
+			if (m_bConfigLoaded && !m_config.m_bAllowHUDs)
+			{
+				if (m_config.m_bLoggingEnabled)
+				{
+					CFWorkshopMsg("Skipping HUD mod %llu (disabled in config)\n", fileID);
+				}
+				return;
+			}
+			
 			bIsContentReplacement = true;
 			bIsHUD = true;
 		}
@@ -781,6 +898,50 @@ void CCFWorkshopManager::MountWorkshopItem(PublishedFileId_t fileID)
 		// This includes models/materials (skins), sound, or particles
 		else if (!bHasMaps && !bHasItemScripts)
 		{
+			// Apply config restrictions
+			bool bAllowThisContent = true;
+			
+			if (bHasSound)
+			{
+				if (m_bConfigLoaded && !m_config.m_bAllowSounds)
+				{
+					if (m_config.m_bLoggingEnabled)
+					{
+						CFWorkshopMsg("Skipping sound mod %llu (disabled in config)\n", fileID);
+					}
+					bAllowThisContent = false;
+				}
+			}
+			
+			if (bHasParticles)
+			{
+				if (m_bConfigLoaded && !m_config.m_bAllowParticles)
+				{
+					if (m_config.m_bLoggingEnabled)
+					{
+						CFWorkshopMsg("Skipping particle mod %llu (disabled in config)\n", fileID);
+					}
+					bAllowThisContent = false;
+				}
+			}
+			
+			if (bHasModels || bHasMaterials)
+			{
+				if (m_bConfigLoaded && !m_config.m_bAllowSkins)
+				{
+					if (m_config.m_bLoggingEnabled)
+					{
+						CFWorkshopMsg("Skipping skin mod %llu (disabled in config)\n", fileID);
+					}
+					bAllowThisContent = false;
+				}
+			}
+			
+			if (!bAllowThisContent)
+			{
+				return; // Skip mounting this item
+			}
+			
 			if (bHasModels || bHasMaterials || bHasSound || bHasParticles)
 			{
 				bIsContentReplacement = true;
@@ -1057,6 +1218,133 @@ void CCFWorkshopManager::LoadDisabledItems()
 		CFWorkshopMsg("Loaded %d disabled workshop items from config\n", m_vecDisabledItems.Count());
 	}
 	pKV->deleteThis();
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Load workshop configuration from workshop_config.txt
+//-----------------------------------------------------------------------------
+void CCFWorkshopManager::LoadConfig()
+{
+	m_config.Reset();
+	m_bConfigLoaded = false;
+	
+	KeyValues* pKV = new KeyValues("WorkshopConfig");
+	if (!pKV->LoadFromFile(g_pFullFileSystem, "cfg/workshop_config.txt", "MOD"))
+	{
+		if (m_config.m_bLoggingEnabled)
+		{
+			CFWorkshopMsg("No workshop_config.txt found, using default settings\n");
+		}
+		pKV->deleteThis();
+		return;
+	}
+	
+	// Load collection ID
+	m_config.m_nCollectionID = pKV->GetUint64("collection_id", 0);
+	
+	// Load auto-download setting
+	m_config.m_bAutoDownload = pKV->GetBool("auto_download", true);
+	
+	// Load map IDs
+	KeyValues* pMapsSection = pKV->FindKey("maps");
+	if (pMapsSection)
+	{
+		for (KeyValues* pMapKey = pMapsSection->GetFirstValue(); pMapKey; pMapKey = pMapKey->GetNextValue())
+		{
+			PublishedFileId_t mapID = Q_atoui64(pMapKey->GetString());
+			if (mapID != 0)
+			{
+				m_config.m_vecMapIDs.AddToTail(mapID);
+			}
+		}
+	}
+	
+	// Load item IDs
+	KeyValues* pItemsSection = pKV->FindKey("items");
+	if (pItemsSection)
+	{
+		for (KeyValues* pItemKey = pItemsSection->GetFirstValue(); pItemKey; pItemKey = pItemKey->GetNextValue())
+		{
+			PublishedFileId_t itemID = Q_atoui64(pItemKey->GetString());
+			if (itemID != 0)
+			{
+				m_config.m_vecItemIDs.AddToTail(itemID);
+			}
+		}
+	}
+	
+	// Load download priority
+	const char* pszPriority = pKV->GetString("download_priority", "high");
+	m_config.m_bHighPriority = (V_stricmp(pszPriority, "high") == 0);
+	
+	// Load update check interval
+	m_config.m_nUpdateCheckInterval = pKV->GetInt("update_check_interval", 3600);
+	
+	// Load content path
+	const char* pszContentPath = pKV->GetString("content_path", "workshop_content");
+	V_strcpy_safe(m_config.m_szContentPath, pszContentPath);
+	
+	// Load allow workshop in rotation
+	m_config.m_bAllowWorkshopInRotation = pKV->GetBool("allow_workshop_in_rotation", true);
+	
+	// Load restrictions
+	KeyValues* pRestrictionsSection = pKV->FindKey("restrictions");
+	if (pRestrictionsSection)
+	{
+		m_config.m_nMaxFileSizeMB = pRestrictionsSection->GetInt("max_file_size", 100);
+		m_config.m_bAllowSkins = pRestrictionsSection->GetBool("allow_skins", true);
+		m_config.m_bAllowParticles = pRestrictionsSection->GetBool("allow_particles", true);
+		m_config.m_bAllowSounds = pRestrictionsSection->GetBool("allow_sounds", false);
+		m_config.m_bAllowHUDs = pRestrictionsSection->GetBool("allow_huds", false);
+	}
+	
+	// Load sv_pure override
+	m_config.m_nSvPureOverride = pKV->GetInt("sv_pure_override", -1);
+	
+	// Load logging settings
+	KeyValues* pLoggingSection = pKV->FindKey("logging");
+	if (pLoggingSection)
+	{
+		m_config.m_bLoggingEnabled = pLoggingSection->GetBool("enabled", true);
+		m_config.m_bVerboseLogging = pLoggingSection->GetBool("verbose", false);
+		m_config.m_bLogDownloads = pLoggingSection->GetBool("log_downloads", true);
+		m_config.m_bLogUpdates = pLoggingSection->GetBool("log_updates", true);
+	}
+	
+	pKV->deleteThis();
+	
+	m_bConfigLoaded = true;
+	
+	if (m_config.m_bLoggingEnabled)
+	{
+		CFWorkshopMsg("Loaded workshop configuration from workshop_config.txt\n");
+		if (m_config.m_bVerboseLogging)
+		{
+			CFWorkshopMsg("  Collection ID: %llu\n", m_config.m_nCollectionID);
+			CFWorkshopMsg("  Auto-download: %s\n", m_config.m_bAutoDownload ? "Yes" : "No");
+			CFWorkshopMsg("  Map IDs: %d\n", m_config.m_vecMapIDs.Count());
+			CFWorkshopMsg("  Item IDs: %d\n", m_config.m_vecItemIDs.Count());
+			CFWorkshopMsg("  High Priority: %s\n", m_config.m_bHighPriority ? "Yes" : "No");
+			CFWorkshopMsg("  Update Check Interval: %u seconds\n", m_config.m_nUpdateCheckInterval);
+			CFWorkshopMsg("  Allow Skins: %s\n", m_config.m_bAllowSkins ? "Yes" : "No");
+			CFWorkshopMsg("  Allow Particles: %s\n", m_config.m_bAllowParticles ? "Yes" : "No");
+			CFWorkshopMsg("  Allow Sounds: %s\n", m_config.m_bAllowSounds ? "Yes" : "No");
+			CFWorkshopMsg("  Allow HUDs: %s\n", m_config.m_bAllowHUDs ? "Yes" : "No");
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Reload workshop configuration
+//-----------------------------------------------------------------------------
+void CCFWorkshopManager::ReloadConfig()
+{
+	LoadConfig();
+	
+	if (m_bConfigLoaded && m_config.m_bLoggingEnabled)
+	{
+		CFWorkshopMsg("Workshop configuration reloaded\n");
+	}
 }
 
 void CCFWorkshopManager::GetItemsByType(CFWorkshopItemType_t type, CUtlVector<CCFWorkshopItem*>& items)
@@ -1785,6 +2073,40 @@ void CCFWorkshopManager::QueryRecentItems(uint32 numItems)
 	if (hQuery != k_UGCQueryHandleInvalid)
 	{
 		// Limit results to requested number
+		pUGC->SetReturnLongDescription(hQuery, true);
+		pUGC->SetReturnMetadata(hQuery, true);
+		
+		SteamAPICall_t hCall = pUGC->SendQueryUGCRequest(hQuery);
+		m_callbackQueryCompleted.Set(hCall, this, &CCFWorkshopManager::Steam_OnQueryCompleted);
+		m_hCurrentQuery = hQuery;
+	}
+}
+
+void CCFWorkshopManager::QueryCollection(PublishedFileId_t collectionID)
+{
+	if (collectionID == 0)
+		return;
+		
+	ISteamUGC* pUGC = GetSteamUGC();
+	if (!pUGC)
+		return;
+
+	// Don't start a new query if one is in progress
+	if (m_hCurrentQuery != k_UGCQueryHandleInvalid)
+		return;
+
+	if (m_bConfigLoaded && m_config.m_bLoggingEnabled)
+	{
+		CFWorkshopMsg("Querying Workshop collection %llu...\n", collectionID);
+	}
+
+	// Query the collection details to get the list of items
+	PublishedFileId_t collectionArray[1] = { collectionID };
+	UGCQueryHandle_t hQuery = pUGC->CreateQueryUGCDetailsRequest(collectionArray, 1);
+
+	if (hQuery != k_UGCQueryHandleInvalid)
+	{
+		pUGC->SetReturnChildren(hQuery, true); // Get the items in the collection
 		pUGC->SetReturnLongDescription(hQuery, true);
 		pUGC->SetReturnMetadata(hQuery, true);
 		
@@ -2712,6 +3034,81 @@ void CCFWorkshopManager::Steam_OnQueryCompleted(SteamUGCQueryCompleted_t* pResul
 		SteamUGCDetails_t details;
 		if (pUGC->GetQueryUGCResult(pResult->m_handle, i, &details))
 		{
+			// Check if this is a collection - if so, download all children
+			if (details.m_eFileType == k_EWorkshopFileTypeCollection)
+			{
+				CFWorkshopMsg("Found collection: %s (%llu) with %u children\n", details.m_rgchTitle, details.m_nPublishedFileId, details.m_unNumChildren);
+				
+				// Get child items from the collection
+				uint32 numChildren = details.m_unNumChildren;
+				if (numChildren > 0)
+				{
+					PublishedFileId_t* pChildIDs = new PublishedFileId_t[numChildren];
+					bool bSuccess = pUGC->GetQueryUGCChildren(pResult->m_handle, i, pChildIDs, numChildren);
+					
+					if (bSuccess)
+					{
+						CFWorkshopMsg("Successfully retrieved %u items from collection, subscribing and downloading...\n", numChildren);
+						
+						// Subscribe to and download each child item
+						for (uint32 j = 0; j < numChildren; j++)
+						{
+							PublishedFileId_t childID = pChildIDs[j];
+							
+							if (childID == 0)
+								continue;
+								
+							Msg("[CF Workshop] Collection item %d/%d: ID %llu\n", j + 1, numChildren, childID);
+							
+							// Add or get the item
+							CCFWorkshopItem* pChildItem = GetItem(childID);
+							if (!pChildItem)
+							{
+								pChildItem = AddItem(childID, CF_WORKSHOP_TYPE_OTHER);
+								Msg("[CF Workshop]   Created new item entry\n");
+							}
+							
+							// Subscribe if not already subscribed
+							if (pChildItem && !pChildItem->IsSubscribed())
+							{
+								Msg("[CF Workshop]   Subscribing...\n");
+								SubscribeItem(childID);
+							}
+							else if (pChildItem)
+							{
+								Msg("[CF Workshop]   Already subscribed\n");
+							}
+							
+							// Download if auto-download is enabled
+							if (pChildItem && m_bConfigLoaded && m_config.m_bAutoDownload)
+							{
+								if (!pChildItem->IsDownloaded())
+								{
+									Msg("[CF Workshop]   Downloading (priority: %s)...\n", m_config.m_bHighPriority ? "high" : "normal");
+									pChildItem->Download(m_config.m_bHighPriority);
+								}
+								else
+								{
+									Msg("[CF Workshop]   Already downloaded\n");
+								}
+							}
+						}
+					}
+					else
+					{
+						Warning("[CF Workshop] Failed to retrieve collection children!\n");
+					}
+					
+					delete[] pChildIDs;
+				}
+				else
+				{
+					Warning("[CF Workshop] Collection has 0 children!\n");
+				}
+				
+				continue; // Skip adding the collection itself to browseable items
+			}
+			
 			// Skip deleted, banned, or otherwise invalid items
 			if (details.m_eResult != k_EResultOK)
 			{
@@ -3307,6 +3704,125 @@ CON_COMMAND(cf_workshop_skin_status, "List mounted weapon skins")
 CON_COMMAND(cf_workshop_refresh_skins, "Refresh all weapon skins")
 {
 	CFWorkshop()->RefreshWeaponSkins();
+}
+
+CON_COMMAND(cf_workshop_config_reload, "Reload workshop configuration from workshop_config.txt")
+{
+	CFWorkshop()->ReloadConfig();
+	Msg("[CF Workshop] Configuration reloaded.\n");
+}
+
+CON_COMMAND(cf_workshop_config_status, "Display current workshop configuration")
+{
+	if (!CFWorkshop()->IsConfigEnabled())
+	{
+		Msg("[CF Workshop] Configuration not loaded or workshop_config.txt not found.\n");
+		Msg("[CF Workshop] Using default settings.\n");
+		return;
+	}
+	
+	const CFWorkshopConfig_t& config = CFWorkshop()->GetConfig();
+	
+	Msg("========================================\n");
+	Msg(" Custom Fortress 2 Workshop Config\n");
+	Msg("========================================\n");
+	Msg("Collection ID: %llu\n", config.m_nCollectionID);
+	Msg("Auto-download: %s\n", config.m_bAutoDownload ? "Enabled" : "Disabled");
+	Msg("High Priority Downloads: %s\n", config.m_bHighPriority ? "Yes" : "No");
+	Msg("Update Check Interval: %u seconds\n", config.m_nUpdateCheckInterval);
+	Msg("Content Path: %s\n", config.m_szContentPath);
+	Msg("Allow Workshop in Rotation: %s\n", config.m_bAllowWorkshopInRotation ? "Yes" : "No");
+	Msg("\nConfigured Map IDs: %d\n", config.m_vecMapIDs.Count());
+	FOR_EACH_VEC(config.m_vecMapIDs, i)
+	{
+		Msg("  %d. %llu\n", i + 1, config.m_vecMapIDs[i]);
+	}
+	Msg("\nConfigured Item IDs: %d\n", config.m_vecItemIDs.Count());
+	FOR_EACH_VEC(config.m_vecItemIDs, i)
+	{
+		Msg("  %d. %llu\n", i + 1, config.m_vecItemIDs[i]);
+	}
+	Msg("\nRestrictions:\n");
+	Msg("  Max File Size: %u MB\n", config.m_nMaxFileSizeMB);
+	Msg("  Allow Skins: %s\n", config.m_bAllowSkins ? "Yes" : "No");
+	Msg("  Allow Particles: %s\n", config.m_bAllowParticles ? "Yes" : "No");
+	Msg("  Allow Sounds: %s\n", config.m_bAllowSounds ? "Yes" : "No");
+	Msg("  Allow HUDs: %s\n", config.m_bAllowHUDs ? "Yes" : "No");
+	Msg("\nsv_pure Override: ");
+	if (config.m_nSvPureOverride < 0)
+		Msg("None\n");
+	else
+		Msg("%d\n", config.m_nSvPureOverride);
+	Msg("\nLogging:\n");
+	Msg("  Enabled: %s\n", config.m_bLoggingEnabled ? "Yes" : "No");
+	Msg("  Verbose: %s\n", config.m_bVerboseLogging ? "Yes" : "No");
+	Msg("  Log Downloads: %s\n", config.m_bLogDownloads ? "Yes" : "No");
+	Msg("  Log Updates: %s\n", config.m_bLogUpdates ? "Yes" : "No");
+	Msg("========================================\n");
+}
+
+CON_COMMAND(cf_workshop_download_config_items, "Download all items specified in workshop_config.txt")
+{
+	if (!CFWorkshop()->IsConfigEnabled())
+	{
+		Warning("[CF Workshop] Configuration not loaded. Cannot download config items.\n");
+		return;
+	}
+	
+	const CFWorkshopConfig_t& config = CFWorkshop()->GetConfig();
+	
+	int downloadCount = 0;
+	
+	// Download configured maps
+	FOR_EACH_VEC(config.m_vecMapIDs, i)
+	{
+		PublishedFileId_t mapID = config.m_vecMapIDs[i];
+		if (mapID != 0)
+		{
+			CCFWorkshopItem* pItem = CFWorkshop()->GetItem(mapID);
+			if (!pItem)
+			{
+				pItem = CFWorkshop()->AddItem(mapID, CF_WORKSHOP_TYPE_MAP);
+			}
+			
+			if (pItem && !pItem->IsDownloaded())
+			{
+				Msg("[CF Workshop] Downloading map %llu...\n", mapID);
+				pItem->Download(config.m_bHighPriority);
+				downloadCount++;
+			}
+		}
+	}
+	
+	// Download configured items
+	FOR_EACH_VEC(config.m_vecItemIDs, i)
+	{
+		PublishedFileId_t itemID = config.m_vecItemIDs[i];
+		if (itemID != 0)
+		{
+			CCFWorkshopItem* pItem = CFWorkshop()->GetItem(itemID);
+			if (!pItem)
+			{
+				pItem = CFWorkshop()->AddItem(itemID, CF_WORKSHOP_TYPE_OTHER);
+			}
+			
+			if (pItem && !pItem->IsDownloaded())
+			{
+				Msg("[CF Workshop] Downloading item %llu...\n", itemID);
+				pItem->Download(config.m_bHighPriority);
+				downloadCount++;
+			}
+		}
+	}
+	
+	if (downloadCount == 0)
+	{
+		Msg("[CF Workshop] All configured items are already downloaded.\n");
+	}
+	else
+	{
+		Msg("[CF Workshop] Started downloading %d items.\n", downloadCount);
+	}
 }
 
 #endif // CLIENT_DLL

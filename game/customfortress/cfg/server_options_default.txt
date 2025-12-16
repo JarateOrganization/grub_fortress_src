@@ -247,12 +247,6 @@
 			"type"		"BOOL"
 			"val"		"0"
 		}
-		"mp_friendlyfire"
-		{
-			"label"		"ENABLE FRIENDLY FIRE"
-			"type"		"BOOL"
-			"val"		"0"
-		}
 		"mp_disable_respawn_times"
 		{
 			"label"		"DISABLE RESPAWN TIMES"

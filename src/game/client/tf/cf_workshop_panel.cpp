@@ -1646,7 +1646,10 @@ void CCFWorkshopUploadDialog::OpenContentFolderBrowser()
 	m_eBrowsingType = BROWSE_CONTENT;
 	
 	FileOpenDialog* pDialog = new FileOpenDialog(this, "Select Content Folder", FOD_SELECT_DIRECTORY);
-	pDialog->SetStartDirectory(".");
+	// Set start directory to the game root (Custom Fortress directory)
+	char szGameDir[MAX_PATH];
+	V_snprintf(szGameDir, sizeof(szGameDir), "%s", engine->GetGameDirectory());
+	pDialog->SetStartDirectory(szGameDir);
 	pDialog->AddActionSignalTarget(this);
 	
 	// Make background solid
@@ -1662,7 +1665,10 @@ void CCFWorkshopUploadDialog::OpenPreviewFileBrowser()
 	m_eBrowsingType = BROWSE_PREVIEW;
 	
 	FileOpenDialog* pDialog = new FileOpenDialog(this, "Select Preview Image", FOD_OPEN);
-	pDialog->SetStartDirectory(".");
+	// Set start directory to the game root (Custom Fortress directory)
+	char szGameDir[MAX_PATH];
+	V_snprintf(szGameDir, sizeof(szGameDir), "%s", engine->GetGameDirectory());
+	pDialog->SetStartDirectory(szGameDir);
 	pDialog->AddFilter("*.jpg;*.jpeg;*.png", "Image Files (*.jpg, *.png)", true);
 	pDialog->AddFilter("*.*", "All Files (*.*)", false);
 	pDialog->AddActionSignalTarget(this);
@@ -1680,7 +1686,10 @@ void CCFWorkshopUploadDialog::OpenScreenshotsFolderBrowser()
 	m_eBrowsingType = BROWSE_SCREENSHOTS;
 	
 	FileOpenDialog* pDialog = new FileOpenDialog(this, "Select Screenshots Folder", FOD_SELECT_DIRECTORY);
-	pDialog->SetStartDirectory(".");
+	// Set start directory to the game root (Custom Fortress directory)
+	char szGameDir[MAX_PATH];
+	V_snprintf(szGameDir, sizeof(szGameDir), "%s", engine->GetGameDirectory());
+	pDialog->SetStartDirectory(szGameDir);
 	pDialog->AddActionSignalTarget(this);
 	
 	// Make background solid

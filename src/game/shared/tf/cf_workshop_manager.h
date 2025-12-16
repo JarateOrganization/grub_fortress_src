@@ -21,6 +21,77 @@
 // #define CF_WORKSHOP_DEBUG
 
 //-----------------------------------------------------------------------------
+// Workshop Configuration Structure
+//-----------------------------------------------------------------------------
+struct CFWorkshopConfig_t
+{
+	// Collection ID for bulk downloads
+	PublishedFileId_t m_nCollectionID;
+	
+	// Auto-download settings
+	bool m_bAutoDownload;
+	bool m_bAllowWorkshopInRotation;
+	
+	// Specific map IDs to keep synced
+	CUtlVector<PublishedFileId_t> m_vecMapIDs;
+	
+	// Specific item IDs to download
+	CUtlVector<PublishedFileId_t> m_vecItemIDs;
+	
+	// Priority settings
+	bool m_bHighPriority;
+	
+	// Update checking (in seconds, 0 = only on server start)
+	uint32 m_nUpdateCheckInterval;
+	
+	// Content path (relative to game directory)
+	char m_szContentPath[MAX_PATH];
+	
+	// Restrictions
+	uint32 m_nMaxFileSizeMB;
+	bool m_bAllowSkins;
+	bool m_bAllowParticles;
+	bool m_bAllowSounds;
+	bool m_bAllowHUDs;
+	
+	// sv_pure override
+	int m_nSvPureOverride;
+	
+	// Logging
+	bool m_bLoggingEnabled;
+	bool m_bVerboseLogging;
+	bool m_bLogDownloads;
+	bool m_bLogUpdates;
+	
+	CFWorkshopConfig_t()
+	{
+		Reset();
+	}
+	
+	void Reset()
+	{
+		m_nCollectionID = 0;
+		m_bAutoDownload = true;
+		m_bAllowWorkshopInRotation = true;
+		m_vecMapIDs.RemoveAll();
+		m_vecItemIDs.RemoveAll();
+		m_bHighPriority = true;
+		m_nUpdateCheckInterval = 3600;
+		V_strcpy_safe(m_szContentPath, "workshop_content");
+		m_nMaxFileSizeMB = 100;
+		m_bAllowSkins = true;
+		m_bAllowParticles = true;
+		m_bAllowSounds = false;
+		m_bAllowHUDs = false;
+		m_nSvPureOverride = -1; // -1 means don't override
+		m_bLoggingEnabled = true;
+		m_bVerboseLogging = false;
+		m_bLogDownloads = true;
+		m_bLogUpdates = true;
+	}
+};
+
+//-----------------------------------------------------------------------------
 // Workshop Tag Categories and Tags
 // These must match the Steam Workshop configuration
 //-----------------------------------------------------------------------------
@@ -356,6 +427,7 @@ public:
 	void QueryItemDetails(PublishedFileId_t fileID);
 	void SearchWorkshop(const char* pszSearchText, CFWorkshopItemType_t type = CF_WORKSHOP_TYPE_OTHER);
 	void QueryRecentItems(uint32 numItems = 35);
+	void QueryCollection(PublishedFileId_t collectionID);
 	
 	// Get browseable items (from queries)
 	uint32 GetBrowseableItemCount() const { return m_vecBrowseableItems.Count(); }
@@ -411,6 +483,12 @@ public:
 	
 	// Console commands
 	void PrintStatus();
+	
+	// Configuration
+	void LoadConfig();
+	void ReloadConfig();
+	const CFWorkshopConfig_t& GetConfig() const { return m_config; }
+	bool IsConfigEnabled() const { return m_bConfigLoaded; }
 	
 	// Content reload (deferred to avoid crashes during Steam callbacks)
 	void SetContentReloadPending(bool bPending) { m_bContentReloadPending = bPending; }
@@ -517,6 +595,11 @@ private:
 	
 	// App ID
 	AppId_t m_nAppID;
+	
+	// Configuration
+	CFWorkshopConfig_t m_config;
+	bool m_bConfigLoaded;
+	float m_flNextConfigUpdateCheck;
 	
 	// Initialization state
 	bool m_bInitialized;
