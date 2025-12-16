@@ -11017,7 +11017,7 @@ float CTFPlayer::TeamFortress_CalculateMaxSpeed( bool bIgnoreSpecialAbility /*= 
 	{
 		if ( maxfbspeed > 0.0f )
 		{
-			maxfbspeed *= 1.90f; // 90% speed increase
+			maxfbspeed *= 1.80f; // 80% speed increase
 		}
 	}
 #endif
