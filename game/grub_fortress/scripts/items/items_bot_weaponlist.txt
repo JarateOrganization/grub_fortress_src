@@ -16,33 +16,82 @@
 // 129 - Buff Banner
 // 226 - Battalion's Backup
 // 354 - Concheror
+// 444 - The Mantreads
 // 128 - Equalizer
 // Pyro:
-// 38 - Axtinguisher
-// 39 - Flare gun
 // 40 - Backburner
+// 215 - Degreaser
+// 39 - Flare gun
+// 740 - Scorch Shot
+// 38 - Axtinguisher
+// 153 - Homewrecker
+// 326 - Back Scratcher
+// 348 - Sharpened Volcano Fragment
+// 593 - Third Degree
+// 813 - Neon Annihilator
 // Demoman:
+// 308 - Loch-n-Load
+// 1151 - Iron Bomber
 // 130 - Scottish Resistance
 // 131 - Charge n Targe
+// 406 - Splendid Screen
+// 608 - Bootlegger
+// 1099 - Tide Turner
+// 1150 - Quickiebomb Launcher
 // 132 - Eyelander
+// 172 - Scotsman's Skullcutter
+// 327 - Claidheamohmor
+// 404 - Persian Persuader
 // Heavy:
 // 41 - Natascha
-// 43 - KGB
+// 312 - Brass Beast
+// 424 - Tomislav
+// 811 - Huo-Long Heater
+// 43 - Killing Gloves of Boxing
+// 239 - Gloves of Running Urgently
+// 310 - Warrior's Spirit
+// 331 - Fists of Steel
+// 426 - Eviction Notice
 // Engineer:
+// 141 - Frontier Justice
+// 527 - Widowmaker
+// 155 - Southern Hospitality
+// 329 - Jag
 // Medic:
-// 35 - Kritzkrieg
 // 36 - Blutsauger
+// 412 - Overdose
+// 35 - Kritzkrieg
+// 411 - Quick-Fix
 // 37 - Ubersaw
+// 304 - Amputator
 // Sniper:
+// 402 - Bazaar Bargain
+// 526 - Machina
+// 752 - Hitman's Heatmaker
 // 57 - Razorback
 // 58 - Jarate
+// 231 - Darwin's Danger Shield
+// 642 - Cozy Camper
+// 751 - Cleaner's Carbine
+// 171 = Tribalman's Shiv
+// 232 - Bushwacka
+// 401 - Shahanshah
 // Spy:
-// 60 - Cloak and Dagger
 // 61 - Ambassador
+// 224 - Letranger
+// 460 - Enforcer
+// 525 - Diamondback
+// 461 - Big Earner
+// 60 - Cloak and Dagger
 // Multiclass:
 // 133 - Gunboats
+// 154 - Pain Train
+// 357 - Half-Zatoichi
+// 415 - Reserve Shooter
+// 425 - Family Business
 // 449 - Winger
 // 773 - Pretty Boy's Pocket Pistol
+// 1153 - Panic Attack
 
 #base items_game.txt
 
@@ -50,43 +99,16 @@
 {
 	"items"
 	{
-		"35" // Kritzkrieg
-		{
-			"usable_by_bots"			"1"
-		}
-		"36" // Blutsauger
-		{
-			"usable_by_bots"			"1"
-		}
-		"37" // Ubersaw
-		{
-			"usable_by_bots"			"1"
-		}
-		"38" // Axtinguisher
-		{
-			"usable_by_bots"			"1"
-		}
-		"39" // Flare gun
-		{
-			"usable_by_bots"			"1"
-		}
-		"40" // Backburner
-		{
-			"usable_by_bots"			"1"
-		}
-		"41" // Natascha
-		{
-			"usable_by_bots"			"1"
-		}
-		"43" // KGB
-		{
-			"usable_by_bots"			"1"
-		}
-		"44" // Sandman
-		{
-			"usable_by_bots"			"1"
-		}
+		// Scout: 
 		"45" // Force-a-Nature
+		{
+			"usable_by_bots"			"1"
+		}
+		"772" // Baby Face's Blaster
+		{
+			"usable_by_bots"			"1"
+		}
+		"1103" // Back Scatter
 		{
 			"usable_by_bots"			"1"
 		}
@@ -94,31 +116,110 @@
 		{
 			"usable_by_bots"			"1"
 		}
-		"57" // Razorback
+		"163" // Crit-a-Cola
 		{
 			"usable_by_bots"			"1"
 		}
-		"58" // Jarate
+		"222" // Mad Milk
 		{
 			"usable_by_bots"			"1"
 		}
-		"60" // Cloak and Dagger
+		"44" // Sandman
 		{
 			"usable_by_bots"			"1"
 		}
-		"61" // Ambassador
+		"317" // Candy Cane
 		{
 			"usable_by_bots"			"1"
 		}
+		"325" // Boston Basher
+		{
+			"usable_by_bots"			"1"
+		}
+		"648" // Wrap Assassin
+		{
+			"usable_by_bots"			"1"
+		}
+		// Soldier: 
 		"127" // Direct Hit
 		{
 			"usable_by_bots"			"1"
 		}
-		"128" // Eqalizer
+		"228" // Black Box
+		{
+			"usable_by_bots"			"1"
+		}
+		"414" // Liberty Launcher
 		{
 			"usable_by_bots"			"1"
 		}
 		"129" // Buff Banner
+		{
+			"usable_by_bots"			"1"
+		}
+		"226" // Battalion's Backup
+		{
+			"usable_by_bots"			"1"
+		}
+		"354" // Concheror
+		{
+			"usable_by_bots"			"1"
+		}
+		"444" // The Mantreads
+		{
+			"usable_by_bots"			"1"
+		}
+		"128" // Equalizer
+		{
+			"usable_by_bots"			"1"
+		}
+		// Pyro: 
+		"40" // Backburner
+		{
+			"usable_by_bots"			"1"
+		}
+		"215" // Degreaser
+		{
+			"usable_by_bots"			"1"
+		}
+		"39" // Flare gun
+		{
+			"usable_by_bots"			"1"
+		}
+		"740" // Scorch Shot
+		{
+			"usable_by_bots"			"1"
+		}
+		"38" // Axtinguisher
+		{
+			"usable_by_bots"			"1"
+		}
+		"153" // Homewrecker
+		{
+			"usable_by_bots"			"1"
+		}
+		"326" // Back Scratcher
+		{
+			"usable_by_bots"			"1"
+		}
+		"348" // Sharpened Volcano Fragment
+		{
+			"usable_by_bots"			"1"
+		}
+		"593" // Third Degree
+		{
+			"usable_by_bots"			"1"
+		}
+		"813" // Neon Annihilator
+		{
+			"usable_by_bots"			"1"
+		}
+		// Demoman: 
+		"308" // Loch-n-Load
+		{
+			"usable_by_bots"			"1"
+		}
+		"1151" // Iron Bomber
 		{
 			"usable_by_bots"			"1"
 		}
@@ -130,11 +231,217 @@
 		{
 			"usable_by_bots"			"1"
 		}
+		"406" // Splendid Screen
+		{
+			"usable_by_bots"			"1"
+		}
+		"608" // Bootlegger
+		{
+			"usable_by_bots"			"1"
+		}
+		"1099" // Tide Turner
+		{
+			"usable_by_bots"			"1"
+		}
+		"1150" // Quickiebomb Launcher
+		{
+			"usable_by_bots"			"1"
+		}
 		"132" // Eyelander
 		{
 			"usable_by_bots"			"1"
 		}
+		"172" // Scotsman's Skullcutter
+		{
+			"usable_by_bots"			"1"
+		}
+		"327" // Claidheamohmor
+		{
+			"usable_by_bots"			"1"
+		}
+		"404" // Persian Persuader
+		{
+			"usable_by_bots"			"1"
+		}
+		// Heavy: 
+		"41" // Natascha
+		{
+			"usable_by_bots"			"1"
+		}
+		"312" // Brass Beast
+		{
+			"usable_by_bots"			"1"
+		}
+		"424" // Tomislav
+		{
+			"usable_by_bots"			"1"
+		}
+		"811" // Huo-Long Heater
+		{
+			"usable_by_bots"			"1"
+		}
+		"43" // Killing Gloves of Boxing
+		{
+			"usable_by_bots"			"1"
+		}
+		"239" // Gloves of Running Urgently
+		{
+			"usable_by_bots"			"1"
+		}
+		"310" // Warrior's Spirit
+		{
+			"usable_by_bots"			"1"
+		}
+		"331" // Fists of Steel
+		{
+			"usable_by_bots"			"1"
+		}
+		"426" // Eviction Notice
+		{
+			"usable_by_bots"			"1"
+		}
+		// Engineer: 
+		"141" // Frontier Justice
+		{
+			"usable_by_bots"			"1"
+		}
+		"527" // Widowmaker
+		{
+			"usable_by_bots"			"1"
+		}
+		"155" // Southern Hospitality
+		{
+			"usable_by_bots"			"1"
+		}
+		"329" // Jag
+		{
+			"usable_by_bots"			"1"
+		}
+		// Medic: 
+		"36" // Blutsauger
+		{
+			"usable_by_bots"			"1"
+		}
+		"412" // Overdose
+		{
+			"usable_by_bots"			"1"
+		}
+		"35" // Kritzkrieg
+		{
+			"usable_by_bots"			"1"
+		}
+		"411" // Quick-Fix
+		{
+			"usable_by_bots"			"1"
+		}
+		"37" // Ubersaw
+		{
+			"usable_by_bots"			"1"
+		}
+		"304" // Amputator
+		{
+			"usable_by_bots"			"1"
+		}
+		// Sniper: 
+		"402" // Bazaar Bargain
+		{
+			"usable_by_bots"			"1"
+		}
+		"526" // Machina
+		{
+			"usable_by_bots"			"1"
+		}
+		"752" // Hitman's Heatmaker
+		{
+			"usable_by_bots"			"1"
+		}
+		"57" // Razorback
+		{
+			"usable_by_bots"			"1"
+		}
+		"58" // Jarate
+		{
+			"usable_by_bots"			"1"
+		}
+		"231" // Darwin's Danger Shield
+		{
+			"usable_by_bots"			"1"
+		}
+		"642" // Cozy Camper
+		{
+			"usable_by_bots"			"1"
+		}
+		"751" // Cleaner's Carbine
+		{
+			"usable_by_bots"			"1"
+		}
+		"171" // Tribalman's Shiv
+		{
+			"usable_by_bots"			"1"
+		}
+		"232" // Bushwacka
+		{
+			"usable_by_bots"			"1"
+		}
+		"401" // Shahanshah
+		{
+			"usable_by_bots"			"1"
+		}
+		// Spy: 
+		"61" // Ambassador
+		{
+			"usable_by_bots"			"1"
+		}
+		"224" // Letranger
+		{
+			"usable_by_bots"			"1"
+		}
+		"460" // Enforcer
+		{
+			"usable_by_bots"			"1"
+		}
+		"525" // Diamondback
+		{
+			"usable_by_bots"			"1"
+		}
+		"461" // Big Earner
+		{
+			"usable_by_bots"			"1"
+		}
+		"60" // Cloak and Dagger
+		{
+			"usable_by_bots"			"1"
+		}
+		// Multiclass:
 		"133" // Gunboats
+		{
+			"usable_by_bots"			"1"
+		}
+		"154" // Pain Train
+		{
+			"usable_by_bots"			"1"
+		}
+		"357" // Half-Zatoichi
+		{
+			"usable_by_bots"			"1"
+		}
+		"415" // Reserve Shooter
+		{
+			"usable_by_bots"			"1"
+		}
+		"425" // Family Business
+		{
+			"usable_by_bots"			"1"
+		}
+		"449" // Winger
+		{
+			"usable_by_bots"			"1"
+		}
+		"773" // Pretty Boy's Pocket Pistol
+		{
+			"usable_by_bots"			"1"
+		}
+		"1153" // Panic Attack
 		{
 			"usable_by_bots"			"1"
 		}
