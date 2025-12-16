@@ -1494,7 +1494,7 @@ void CTFBot::PhysicsSimulate( void )
 		}
 
 		CTFWeaponBase *pActiveWeapon = m_Shared.GetActiveTFWeapon();
-		if ( ( pActiveWeapon == NULL || !IsCombatWeapon( pActiveWeapon ) ) && m_requiredWeaponStack.Count() == 0 )
+		if ( ( pActiveWeapon == NULL ) && m_requiredWeaponStack.Count() == 0 )
 		{
 			CTFWeaponBase *pMelee = dynamic_cast< CTFWeaponBase * >( Weapon_GetSlot( TF_WPN_TYPE_MELEE ) );
 			if ( pMelee && IsCombatWeapon( pMelee ) )

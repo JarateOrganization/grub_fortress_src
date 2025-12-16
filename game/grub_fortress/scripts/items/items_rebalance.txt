@@ -511,6 +511,11 @@
 				{
 					"value"				"delete"
 				}
+				"health from packs increased"
+				{
+					"attribute_class"	"mult_health_frompacks"
+					"value"				"1.20"
+				}
 				"max health additive penalty"
 				{
 					"attribute_class"	"add_maxhealth"

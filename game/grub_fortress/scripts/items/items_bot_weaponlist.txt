@@ -1,27 +1,48 @@
-// 35 - Kritzkrieg
-// 36 - Blutsauger
-// 37 - Ubersaw
+// Scout:
+// 45 - Force-a-Nature
+// 772 - Baby Face's Blaster
+// 1103 - Back Scatter
+// 46 - Bonk! Atomic Punch
+// 163 - Crit-a-Cola
+// 222 - Mad Milk
+// 44 - Sandman
+// 317 - Candy Cane
+// 325 - Boston Basher
+// 648 - Wrap Assassin
+// Soldier:
+// 127 - Direct Hit
+// 228 - Black Box
+// 414 - Liberty Launcher
+// 129 - Buff Banner
+// 226 - Battalion's Backup
+// 354 - Concheror
+// 128 - Equalizer
+// Pyro:
 // 38 - Axtinguisher
 // 39 - Flare gun
 // 40 - Backburner
-// 41 - Natascha
-// 42 - Sandvich
-// 43 - KGB
-// 44 - Sandman
-// 45 - Force-a-Nature
-// 46 - Bonk! Atomic Punch
-// 56 - Huntsman
-// 57 - Razorback
-// 58 - Jarate
-// 60 - Cloak and Dagger
-// 61 - Ambassador
-// 127 - Direct Hit
-// 128 - Eqalizer
-// 129 - Buff Banner
+// Demoman:
 // 130 - Scottish Resistance
 // 131 - Charge n Targe
 // 132 - Eyelander
+// Heavy:
+// 41 - Natascha
+// 43 - KGB
+// Engineer:
+// Medic:
+// 35 - Kritzkrieg
+// 36 - Blutsauger
+// 37 - Ubersaw
+// Sniper:
+// 57 - Razorback
+// 58 - Jarate
+// Spy:
+// 60 - Cloak and Dagger
+// 61 - Ambassador
+// Multiclass:
 // 133 - Gunboats
+// 449 - Winger
+// 773 - Pretty Boy's Pocket Pistol
 
 #base items_game.txt
 
@@ -57,10 +78,6 @@
 		{
 			"usable_by_bots"			"1"
 		}
-		"42" // Sandvich
-		{
-			"usable_by_bots"			"1"
-		}
 		"43" // KGB
 		{
 			"usable_by_bots"			"1"
@@ -74,10 +91,6 @@
 			"usable_by_bots"			"1"
 		}
 		"46" // Bonk! Atomic Punch
-		{
-			"usable_by_bots"			"1"
-		}
-		"56" // Huntsman
 		{
 			"usable_by_bots"			"1"
 		}
