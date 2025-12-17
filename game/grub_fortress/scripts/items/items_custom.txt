@@ -300,7 +300,7 @@ not sure if it should be used as a weapon"
 			"attribute_class"	"mult_decloak_rate"
 			"description_string"	"#Attrib_DecloakRate"
 			"description_format"	"value_is_additive_percentage"
-			"hidden"	"0"
+			"hidden"	"1"
 			"effect_type"	"positive"
 		}
 		"5011"
@@ -376,6 +376,15 @@ not sure if it should be used as a weapon"
 			"hidden"	"0"
 			"effect_type"	"neutral"
 			"stored_as_integer"	"1"
+		}
+		"5018"
+		{
+			"name"	"mult decloak rate DISPLAY ONLY"
+			"attribute_class"	"mult_decloak_rate_DISPLAY_ONLY"
+			"description_string"	"#Attrib_DecloakRate"
+			"description_format"	"value_is_inverted_percentage"
+			"hidden"	"0"
+			"effect_type"	"positive"
 		}
 	}
 	"items"
@@ -879,6 +888,11 @@ not sure if it should be used as a weapon"
 				"mult decloak rate percentage"
 				{
 					"attribute_class"	"mult_decloak_rate"
+					"value"				"0.75"
+				}
+				"mult decloak rate DISPLAY ONLY"
+				{
+					"attribute_class"	"mult_decloak_rate_DISPLAY_ONLY"
 					"value"				"0.75"
 				}
 				"mod_cloak_no_damage_reduction"
