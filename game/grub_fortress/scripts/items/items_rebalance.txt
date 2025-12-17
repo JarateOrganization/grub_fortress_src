@@ -3,6 +3,16 @@
 {
     "attributes"
     {
+		"264"
+		{
+			"name"	"melee range multiplier"
+			"attribute_class"	"melee_range_multiplier"
+			"description_string"	"#Attrib_MeleeRangeMultiplier"
+			"description_format"	"value_is_percentage"
+			"hidden"	"0"
+			"effect_type"	"positive"
+			"stored_as_integer"	"0"
+		}
 		"296"
 		{
 			"name"	"sapper kills collect crits"
