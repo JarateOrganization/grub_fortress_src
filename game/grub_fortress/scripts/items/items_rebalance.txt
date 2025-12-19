@@ -296,7 +296,7 @@
 				}
 			}
 		}
-		"weapon_battleaxe"
+		"weapon_battleaxe" // The Scotsman's Skullcutter
 		{
 			"attributes"
 			{
@@ -312,7 +312,7 @@
 				}
 			}
 		}
-		"weapon_targe"
+		"weapon_targe" // The Chargin' Targe
 		{
 			"attributes"
 			{
@@ -328,7 +328,7 @@
 				}
 			}
 		}
-		"weapon_disciplinary_action"
+		"weapon_disciplinary_action" // The Disciplinary Action
 		{	
 			"attributes"
 			{
@@ -343,7 +343,7 @@
 				}
 			}
 		}	
-		"weapon_amputator"
+		"weapon_amputator" // The Amputator
 		{
 			"attributes"
 			{
@@ -354,7 +354,7 @@
 				}
 			}
 		}
-		"weapon_shortstop"
+		"weapon_shortstop" // The Shortstop
 		{
 			"attributes"
 			{
