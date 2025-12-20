@@ -53,9 +53,14 @@
 			"label"		"#GameUI_Map"
 			"type"		"CATEGORY"
 		}
+		"cl_map_search"
+		{
+			"label"		"SEARCH MAPS"
+			"type"		"STRING"
+		}
 		"cl_map"
 		{
-			"label"		"#GameUI_Map"
+			"label"		"SELECT MAP"
 			"type"		"LIST"
 			"options"
 			{
@@ -65,7 +70,7 @@
 		}
 		"map_preview"
 		{
-			"label"		""
+			"label"		"Unnamed"
 			"type"		"CATEGORY"
 		}
 		"category4"
@@ -217,29 +222,18 @@
 			"val"		"1"
 		}
 	}
-	"#Replay_Contest_Rules"
+	"GAMEPLAY"
 	{
 		"category1"
 		{
-			"label"		"GAMEPLAY RULES"
+			"label"		"GENERAL"
 			"type"		"CATEGORY"
-		}
-		"mp_friendlyfire"
-		{
-			"label"		"ENABLE FRIENDLY FIRE"
-			"type"		"BOOL"
-			"val"		"0"
 		}
 		"mp_disable_respawn_times"
 		{
 			"label"		"DISABLE RESPAWN TIMES"
 			"type"		"BOOL"
 			"val"		"0"
-		}
-		"category2"
-		{
-			"label"		"CLASS AND WEAPON MODIFIERS"
-			"type"		"CATEGORY"
 		}
 		"tf_classlimit"
 		{
@@ -259,9 +253,9 @@
 			"type"		"LIST"
 			"options"
 			{
-				"OFF"		"0"
-				"ON"		"1"
 				"ON (IGNORES WEAPON CRITICALS)"		"2"
+				"ON"		"1"
+				"OFF"		"0"
 			}
 			"val"		"2"
 		}
@@ -271,50 +265,17 @@
 			"type"		"BOOL"
 			"val"		"0"
 		}
-		"sv_infinite_ammo"
+		"cf_voicespam"
 		{
-			"label"		"INFINITE AMMO"
-			"type"		"BOOL"
-			"val"		"0"
-		}
-		"category_scout"
-		{
-			"label"		"SCOUT"
-			"type"		"CATEGORY"
-		}
-		"cf_scout_stunball_old_stun"
-		{
-			"label"		"OLD SANDMAN STUN"
-			"type"		"BOOL"
-			"val"		"0"
-		}
-		"cf_infinite_shotgun_knockback"
-		{
-			"label"		"INFINITE F.A.N KNOCKBACK"
-			"type"		"BOOL"
-			"val"		"0"
-		}
-		"category_heavy"
-		{
-			"label"		"HEAVY"
-			"type"		"CATEGORY"
-		}
-		"tfgrub_lunchbox_owner_can_heal"
-		{
-			"label"		"#TFGRUB_Lunchbox_OwnerPickup"
-			"type"		"BOOL"
-			"val"		"0"
-		}
-		"category_engineer"
-		{
-			"label"		"ENGINEER"
-			"type"		"CATEGORY"
-		}
-		"tfgrub_can_pickup_buildings"
-		{
-			"label"		"Allow Building Pickup"
+			"label"		"ALLOW VOICE SPAM"
 			"type"		"BOOL"
 			"val"		"1"
+		}
+		"cf_max_voice_speak_delay"
+		{
+			"label"		"MAX VOICE SPEAK DELAY (SECONDS)"
+			"type"		"STRING"
+			"val"		"1.500000"
 		}
 		"category3"
 		{
@@ -329,7 +290,7 @@
 		}
 		"mp_highlander"
 		{
-			"label"		"ENABLE HIGHLANDER MODE (REQUIRES TOURNAMENT MODE)"
+			"label"		"ENABLE HIGHLANDER MODE"
 			"type"		"BOOL"
 			"val"		"0"
 		}
@@ -387,35 +348,81 @@
 			"type"		"STRING"
 			"val"		"-1"
 		}
-		"category3b"
+	}
+	"BALANCE"
+	{
+		"category2"
 		{
-			"label"		"COSMETICS AND VOICE"
+			"label"		"GENERAL"
 			"type"		"CATEGORY"
 		}
-		"cf_voicespam"
+		"cf_dropped_weapons_give_ammo"
 		{
-			"label"		"ALLOW VOICE SPAM"
+			"label"		"DROPPED WEAPONS GIVE AMMO (PRE-GM)"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"cf_pretoughbreak_switch"
+		{
+			"label"		"OLD WEAPON SWITCH SPEED (PRE-TB)"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"category_SCOUT"
+		{
+			"label"		"SCOUT"
+			"type"		"CATEGORY"
+		}
+		"cf_scout_stunball_old_stun"
+		{
+			"label"		"OLD SANDMAN STUN"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"cf_enable_shortstop_shove"
+		{
+			"label"		"ENABLE SHORTSTOP SHOVE (PRE-MYM)"
 			"type"		"BOOL"
 			"val"		"1"
 		}
-		"cf_max_voice_speak_delay"
+		"category_SOLDIER"
 		{
-			"label"		"MAX VOICE SPEAK DELAY (SECONDS)"
-			"type"		"STRING"
-			"val"		"1.5"
-		}
-		"category4"
-		{
-			"label"		"MANN VS MACHINE OPTIONS"
+			"label"		"SOLDIER"
 			"type"		"CATEGORY"
-			"prefix"		"mvm_"
 		}
-		"cf_mvm_inspect_friends_only"
+		"cf_revert_airstrike"
 		{
-			"label"		"INSPECT FRIENDS ONLY"
+			"label"		"REVERT AIRSTRIKE (PRE-TB)"
 			"type"		"BOOL"
 			"val"		"0"
-			"prefix"		"mvm_"
+		}
+		"category_PYRO"
+		{
+			"label"		"PYRO"
+			"type"		"CATEGORY"
+		}
+		"cf_revert_airblast"
+		{
+			"label"		"REVERT AIRBLAST MECHANICS (PRE-JI)"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"cf_revert_flamethrower"
+		{
+			"label"		"REVERT FLAMETHROWER (PRE-BM)"
+			"type"		"BOOL"
+			"val"		"0"
+		}
+		"category_HEAVY"
+		{
+			"label"		"HEAVY"
+			"type"		"CATEGORY"
+		}
+		"tfgrub_lunchbox_owner_can_heal"
+		{
+			"label"		"#TFGRUB_Lunchbox_OwnerPickup"
+			"type"		"BOOL"
+			"val"		"0"
 		}
 	}
 }

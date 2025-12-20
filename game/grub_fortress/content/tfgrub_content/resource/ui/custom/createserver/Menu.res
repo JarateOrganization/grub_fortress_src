@@ -168,7 +168,7 @@
 				"border"		"MainMenuBGBorder"
 				
 				"xpos"			"4"
-				"ypos"			"220"
+				"ypos"			"250"
 				"wide"			"74"
 				"tall"			"60"
 			}	
@@ -181,7 +181,7 @@
 				"image"			"maps/menu_thumb_default"
 				
 				"xpos"			"12"
-				"ypos"			"228"
+				"ypos"			"258"
 				"wide"			"64"
 				"tall"			"43"
 			}
@@ -204,26 +204,10 @@
 		"bgcolor_override"	"0 0 0 0"
 	}
 	
-	"FUN"
+	"BALANCE"
 	{
 		"ControlName"		"CPanelListPanel"
-		"fieldName"		"FUN"
-		"xpos"		"10"
-		"ypos"		"40"
-		"wide"		"480"
-		"tall"		"260"
-		"autoResize"		"0"
-		"pinCorner"		"0"
-		"visible"		"0"
-		"enabled"		"1"
-		"tabPosition"		"0"
-		"bgcolor_override"	"0 0 0 0"
-	}
-
-	"MVM"
-	{
-		"ControlName"		"CPanelListPanel"
-		"fieldName"		"MVM"
+		"fieldName"		"BALANCE"
 		"xpos"		"10"
 		"ypos"		"40"
 		"wide"		"480"
