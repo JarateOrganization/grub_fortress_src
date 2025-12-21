@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright Valve Corporation, All rights reserved. ============//
 //
 //
 //=============================================================================
@@ -22,7 +22,7 @@
 #ifdef TFGRUB_DYNAMICLIGHT_FLAMETHROWER
 #include "dlight.h"
 #include "iefx.h"
-#endif
+#endif // TFGRUB_DYNAMICLIGHT_FLAMETHROWERS
 #endif // CLIENT_DLL
 
 const float tf_flame_burn_index_drain_rate = 1.25f;
@@ -1069,23 +1069,34 @@ void CTFFlameManager::Update()
 	}
 
 #ifdef TFGRUB_DYNAMICLIGHT_FLAMETHROWER
-	if (!m_pDynamicLight || (m_pDynamicLight->key != index))
+	FOR_EACH_VEC( GetPointVec(), i )
 	{
-		m_pDynamicLight = effects->CL_AllocDlight(index);
-		assert(m_pDynamicLight);
+		const flame_point_t* pFlame =
+			static_cast<const flame_point_t*>( GetPointVec()[i] );
+
+		if ( !pFlame )
+			continue;
+
+		// Unique key per flame particle
+		int dlightKey = ( entindex() << 8) | ( pFlame->m_nPointIndex & 0xFF );
+
+		dlight_t* dl = effects->CL_AllocDlight( dlightKey );
+		if ( !dl )
+			continue;
+
+		ColorRGBExp32 color;
+		color.r = 255;
+		color.g = 110;
+		color.b = 30;
+		color.exponent = 4;
+
+		dl->origin = pFlame->m_vecPosition;
+		dl->radius = 75.0f;
+		dl->color = color;
+		dl->die = gpGlobals->curtime + 0.1f;
+		dl->decay = 0.0f;
 	}
-
-	ColorRGBExp32 color;
-	color.r = 255;
-	color.g = 100;
-	color.b = 30;
-	color.exponent = 8;
-
-	m_pDynamicLight->radius = 75.f;
-	m_pDynamicLight->origin = GetAbsOrigin();
-	m_pDynamicLight->die = gpGlobals->curtime + 0.05f;
-	m_pDynamicLight->color = color;
-#endif
+#endif // TFGRUB_DYNAMICLIGHT_FLAMETHROWERS
 
 #endif // CLIENT_DLL
 }

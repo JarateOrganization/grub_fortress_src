@@ -503,8 +503,7 @@
 				}
 			}
 		}
-		// Heal Saw Beta 1
-// 		"35000"
+// 		"35000" // Heal Saw Beta 1
 // 		{
 // 			"name"						"Heal Saw Beta 1"
 // 			"item_name"					"Der Erwecker Beta 1"
@@ -542,8 +541,7 @@
 // 				}
 // 			}
 // 		}
-// 		// Heal Saw Beta 2
-// 		"35001"
+// 		"35001" // Heal Saw Beta 2
 // 		{
 // 			"name"						"Heal Saw Beta 2"
 // 			"item_name"					"Der Erwecker Beta 2"

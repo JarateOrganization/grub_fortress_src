@@ -523,17 +523,13 @@ void CTFGrenadePipebombProjectile::Spawn()
 		{
 			SetModel( TF_WEAPON_PIPEBOMB2_MODEL );
 		}
+		else if ( m_iType == TF_GL_MODE_REMOTE_DETONATE_ROLLER )
+		{
+			SetModel( TF_WEAPON_PIPE_REMOTE_MODEL );
+		}
 		else
 		{
 			SetModel( TF_WEAPON_PIPEBOMB_MODEL );
-		}
-		if (m_iType == TF_GL_MODE_REMOTE_DETONATE_ROLLER)
-		{
-			SetModel(TF_WEAPON_PIPE_REMOTE_MODEL);
-		}
-		else
-		{
-			SetModel(TF_WEAPON_PIPEBOMB_MODEL);
 		}
 		SetDetonateTimerLength( FLT_MAX );
 		SetContextThink( &CTFGrenadePipebombProjectile::PreArmThink, gpGlobals->curtime + 0.001f, "PRE_ARM_THINK" ); // Next frame.
