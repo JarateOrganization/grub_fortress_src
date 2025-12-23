@@ -1,0 +1,18 @@
+// Bot Weapon Whitelist
+#base items_bot_weaponlist.txt
+// Dev Items
+//#base items_dev.txt
+// Experimental Items
+#base items_experimental.txt
+// TF:Grub Item Schema
+#base items_rebalance.txt
+#base items_custom.txt
+// Live TF2 Item Schema
+#base items_game.txt
+
+// =============================
+// Additional notes:
+// =============================
+// The last file listed in here gets loaded first, in this case it's "items_game.txt" which gets loaded first.
+// And that pattern continues upwards, with each file overriding the previous ones as necessary.
+// ============================

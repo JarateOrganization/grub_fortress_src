@@ -93,8 +93,6 @@
 // 773 - Pretty Boy's Pocket Pistol
 // 1153 - Panic Attack
 
-#base items_game.txt
-
 "items_game"
 {
 	"items"
