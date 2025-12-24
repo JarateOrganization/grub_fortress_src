@@ -936,6 +936,14 @@
 					"value"				"0.80"
 				}
 			}
+			"visuals_red"
+			{
+				"skin"	"0"
+			}
+			"visuals_blu"
+			{
+				"skin"	"1"
+			}
 		}
 		"1098" // The Classic
 		{
