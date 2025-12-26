@@ -55,6 +55,8 @@ ConVar tf_meleeattackforcescale( "tf_meleeattackforcescale", "80.0", FCVAR_CHEAT
 extern ConVar tf_weapon_criticals_force_random;
 #endif // _DEBUG
 
+#define TF_HEALTHKIT_PICKUP_SOUND	"HealthKit.Touch"
+
 //=============================================================================
 //
 // TFWeaponBase Melee functions.
@@ -112,6 +114,7 @@ void CTFWeaponBaseMelee::Precache()
 		}
 	}
 	CBaseEntity::PrecacheScriptSound("MVM_Weapon_Default.HitFlesh");
+	PrecacheScriptSound( TF_HEALTHKIT_PICKUP_SOUND );
 }
 
 // -----------------------------------------------------------------------------
@@ -693,6 +696,8 @@ bool CTFWeaponBaseMelee::OnSwingHit( trace_t &trace )
 
 				if (nHealthGiven > 0)
 				{
+					CPASAttenuationFilter filter( pPlayer );
+					EmitSound( filter, entindex(), TF_HEALTHKIT_PICKUP_SOUND );
 					CWeaponMedigun *pMedigun = static_cast<CWeaponMedigun *>( pPlayer->Weapon_OwnsThisID( TF_WEAPON_MEDIGUN ) );
 					if ( pMedigun )
 					{
