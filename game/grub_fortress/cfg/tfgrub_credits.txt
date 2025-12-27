@@ -103,7 +103,7 @@ DESCRIPTION INFO_OPTIONS
 	}
 	"bdsbase"
 	{
-		"Source SDK 2013 BDS Base - Quick Search, TF Bot Give Item Cvars"
+		"Source SDK 2013 BDS Base - Quick Search, TF Bot Give Item Cvars, Achievement notifications"
 		"github.com/BitlDevelopmentStudios/source-sdk-2013-bds-base"
 		{ BOOL }
 		{ "1" }
