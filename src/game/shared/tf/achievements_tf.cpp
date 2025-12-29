@@ -288,7 +288,7 @@ class CAchievementTFGrubScout_KillWithNailgun3 : public CBaseTFAchievement
 	void Init()
 	{
 		SetFlags(ACH_SAVE_GLOBAL | ACH_LISTEN_PLAYER_KILL_ENEMY_EVENTS);
-		SetGoal(1000); // kill 1000 enemies with the nailgun
+		SetGoal(500); // kill 500 enemies with the nailgun
 	}
 
 	virtual void Event_EntityKilled(CBaseEntity* pVictim, CBaseEntity* pAttacker, CBaseEntity* pInflictor, IGameEvent* event)

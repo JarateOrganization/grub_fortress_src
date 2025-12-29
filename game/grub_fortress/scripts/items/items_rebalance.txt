@@ -455,6 +455,17 @@
 				}
 			}
 		}
+		"131" // The Chargin' Targe
+		{
+			"visuals_red"
+			{
+				"skin"	"0"
+			}
+			"visuals_blu"
+			{
+				"skin"	"1"
+			}
+		}
 		"133" // The Gunboats
 		{
 			"used_by_classes"
@@ -992,11 +1003,6 @@
 				{
 					"attribute_class"	"mult_dmg"
 					"value"				"0.80"
-				}
-				"crit_dmg_falloff"
-				{
-					"attribute_class"	"crit_dmg_falloff"
-					"value"				"1"
 				}
 				"fire rate penalty"
 				{

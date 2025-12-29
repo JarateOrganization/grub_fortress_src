@@ -31,6 +31,7 @@ using namespace vgui;
 #define ACHIEVEMENT_NOTIFICATION_DURATION 10.0f
 
 ConVar cl_achievements_theme("cl_achievements_theme", "0", FCVAR_CLIENTDLL | FCVAR_ARCHIVE, "0 = light grey, 1 = dark grey, 2 = light green (original)");
+ConVar tfgrub_show_achievement_notification("tfgrub_show_achievement_notification", "1", FCVAR_CLIENTDLL | FCVAR_ARCHIVE, "Enables the Achievement notification");
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -96,13 +97,13 @@ void CAchievementNotificationPanel::PerformLayout( void )
 	vgui::IScheme* pSourceScheme = vgui::scheme()->GetIScheme( vgui::scheme()->GetScheme( "SourceScheme" ) );
 	if (pSourceScheme)
 	{
-		if ( cl_achievements_theme.GetInt() == 0)
+		if ( cl_achievements_theme.GetInt() == 0 )
 		{
-			c = pSourceScheme->GetColor("AchievementsLightGrey", defaultColor);
+			c = pSourceScheme->GetColor( "AchievementsLightGrey", defaultColor );
 		}
-		else if (cl_achievements_theme.GetInt() == 1)
+		else if ( cl_achievements_theme.GetInt() == 1 )
 		{
-			c = pSourceScheme->GetColor("AchievementsDarkGrey", defaultColor);
+			c = pSourceScheme->GetColor( "AchievementsDarkGrey", defaultColor );
 		}
 	}
 
@@ -114,57 +115,60 @@ void CAchievementNotificationPanel::PerformLayout( void )
 //-----------------------------------------------------------------------------
 void CAchievementNotificationPanel::FireGameEvent( IGameEvent * event )
 {
-	const char *name = event->GetName();
-	if ( 0 == Q_strcmp( name, "achievement_event" ) )
+	if ( tfgrub_show_achievement_notification.GetBool() )
 	{
-		const char *pchName = event->GetString( "achievement_name" );
-		int iCur = event->GetInt( "cur_val" );
-		int iMax = event->GetInt( "max_val" );
-		wchar_t szLocalizedName[256]=L"";
+		const char *name = event->GetName();
+		if ( 0 == Q_strcmp( name, "achievement_event" ) )
+		{
+			const char *pchName = event->GetString( "achievement_name" );
+			int iCur = event->GetInt( "cur_val" );
+			int iMax = event->GetInt( "max_val" );
+			wchar_t szLocalizedName[256]=L"";
 
-		const wchar_t *pchLocalizedName = ACHIEVEMENT_LOCALIZED_NAME_FROM_STR( pchName );
-		Assert( pchLocalizedName );
-		if ( !pchLocalizedName || !pchLocalizedName[0] )
-			return;
-		Q_wcsncpy( szLocalizedName, pchLocalizedName, sizeof( szLocalizedName ) );
+			const wchar_t *pchLocalizedName = ACHIEVEMENT_LOCALIZED_NAME_FROM_STR( pchName );
+			Assert( pchLocalizedName );
+			if ( !pchLocalizedName || !pchLocalizedName[0] )
+				return;
+			Q_wcsncpy( szLocalizedName, pchLocalizedName, sizeof( szLocalizedName ) );
 
-		// this is achievement progress, compose the message of form: "<name> (<#>/<max>)"
-		wchar_t szFmt[128]=L"";
-		wchar_t szText[512]=L"";
-		wchar_t szNumFound[16]=L"";
-		wchar_t szNumTotal[16]=L"";
-		_snwprintf( szNumFound, ARRAYSIZE( szNumFound ), L"%i", iCur );
-		_snwprintf( szNumTotal, ARRAYSIZE( szNumTotal ), L"%i", iMax );
+			// this is achievement progress, compose the message of form: "<name> (<#>/<max>)"
+			wchar_t szFmt[128]=L"";
+			wchar_t szText[512]=L"";
+			wchar_t szNumFound[16]=L"";
+			wchar_t szNumTotal[16]=L"";
+			_snwprintf( szNumFound, ARRAYSIZE( szNumFound ), L"%i", iCur );
+			_snwprintf( szNumTotal, ARRAYSIZE( szNumTotal ), L"%i", iMax );
 
-		const wchar_t *pchFmt = g_pVGuiLocalize->Find( "#GameUI_Achievement_Progress_Fmt" );
-		if ( !pchFmt || !pchFmt[0] )
-			return;
-		Q_wcsncpy( szFmt, pchFmt, sizeof( szFmt ) );
+			const wchar_t *pchFmt = g_pVGuiLocalize->Find( "#GameUI_Achievement_Progress_Fmt" );
+			if ( !pchFmt || !pchFmt[0] )
+				return;
+			Q_wcsncpy( szFmt, pchFmt, sizeof( szFmt ) );
 
-		g_pVGuiLocalize->ConstructString_safe( szText, szFmt, 3, szLocalizedName, szNumFound, szNumTotal );
-		AddNotification( pchName, g_pVGuiLocalize->Find( "#GameUI_Achievement_Progress" ), szText );
-	}
-	else if (0 == Q_strcmp(name, "achievement_earned"))
-	{
-		int iID = event->GetInt("achievement");
+			g_pVGuiLocalize->ConstructString_safe( szText, szFmt, 3, szLocalizedName, szNumFound, szNumTotal );
+			AddNotification( pchName, g_pVGuiLocalize->Find( "#GameUI_Achievement_Progress" ), szText );
+		}
+		else if (0 == Q_strcmp(name, "achievement_earned"))
+		{
+			int iID = event->GetInt("achievement");
 
-		IAchievementMgr* pAchievementMgr = engine->GetAchievementMgr();
-		if (!pAchievementMgr)
-			return;
+			IAchievementMgr* pAchievementMgr = engine->GetAchievementMgr();
+			if (!pAchievementMgr)
+				return;
 
-		CBaseAchievement* pAchievement = pAchievementMgr->GetAchievementByID(iID);
-		if (!pAchievement)
-			return;
+			CBaseAchievement* pAchievement = pAchievementMgr->GetAchievementByID(iID);
+			if (!pAchievement)
+				return;
 
-		wchar_t szLocalizedName[256] = L"";
+			wchar_t szLocalizedName[256] = L"";
 
-		const wchar_t* pchLocalizedName = ACHIEVEMENT_LOCALIZED_NAME(pAchievement);
-		Assert(pchLocalizedName);
-		if (!pchLocalizedName || !pchLocalizedName[0])
-			return;
-		Q_wcsncpy(szLocalizedName, pchLocalizedName, sizeof(szLocalizedName));
+			const wchar_t* pchLocalizedName = ACHIEVEMENT_LOCALIZED_NAME(pAchievement);
+			Assert(pchLocalizedName);
+			if (!pchLocalizedName || !pchLocalizedName[0])
+				return;
+			Q_wcsncpy(szLocalizedName, pchLocalizedName, sizeof(szLocalizedName));
 
-		AddNotification(pAchievement->GetName(), g_pVGuiLocalize->Find("#GameUI_Achievement_Unlocked"), szLocalizedName);
+			AddNotification(pAchievement->GetName(), g_pVGuiLocalize->Find("#GameUI_Achievement_Awarded"), szLocalizedName);
+		}
 	}
 }
 
