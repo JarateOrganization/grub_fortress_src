@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8870"
-	"mapversion" "75"
+	"mapversion" "78"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "75"
+	"mapversion" "78"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -2211,7 +2211,7 @@ world
 			}
 			"material" "CUSTOMDEV/DEV_MEASUREWALL01BLU"
 			"uaxis" "[0 -1 0 0] 0.25"
-			"vaxis" "[0 0 1 -0] 0.25"
+			"vaxis" "[0 0 1 0] 0.25"
 			"rotation" "0"
 			"lightmapscale" "16"
 			"smoothing_groups" "0"
@@ -8978,7 +8978,7 @@ entity
 	"spawnflags" "4"
 	"targetname" "r_sentry_3"
 	"TeamNum" "2"
-	"origin" "1088 -512 5.00698"
+	"origin" "1088 -512 0"
 	editor
 	{
 		"color" "220 30 220"
@@ -8996,7 +8996,7 @@ entity
 	"spawnflags" "4"
 	"targetname" "r_sentry_2"
 	"TeamNum" "2"
-	"origin" "1088 -384 5.00698"
+	"origin" "1088 -384 0"
 	editor
 	{
 		"color" "220 30 220"
@@ -9014,7 +9014,7 @@ entity
 	"spawnflags" "4"
 	"targetname" "r_sentry_1"
 	"TeamNum" "2"
-	"origin" "1088 -256 5.00698"
+	"origin" "1088 -256 0"
 	editor
 	{
 		"color" "220 30 220"
@@ -9032,7 +9032,7 @@ entity
 	"spawnflags" "4"
 	"targetname" "r_dispenser_2"
 	"TeamNum" "2"
-	"origin" "960 -384 5.00698"
+	"origin" "960 -384 0"
 	editor
 	{
 		"color" "220 30 220"
@@ -9050,7 +9050,7 @@ entity
 	"spawnflags" "4"
 	"targetname" "r_dispenser_3"
 	"TeamNum" "2"
-	"origin" "960 -512 5.00698"
+	"origin" "960 -512 0"
 	editor
 	{
 		"color" "220 30 220"
@@ -9068,7 +9068,7 @@ entity
 	"spawnflags" "4"
 	"targetname" "r_dispenser_1"
 	"TeamNum" "2"
-	"origin" "960 -256 5.00698"
+	"origin" "960 -256 0"
 	editor
 	{
 		"color" "220 30 220"
@@ -9086,7 +9086,7 @@ entity
 	"spawnflags" "4"
 	"targetname" "b_dispenser_1"
 	"TeamNum" "3"
-	"origin" "960 128 5.00698"
+	"origin" "960 128 0"
 	editor
 	{
 		"color" "220 30 220"
@@ -9104,7 +9104,7 @@ entity
 	"spawnflags" "4"
 	"targetname" "b_sentry_1"
 	"TeamNum" "3"
-	"origin" "1088 128 5.00698"
+	"origin" "1088 128 0"
 	editor
 	{
 		"color" "220 30 220"
@@ -9122,7 +9122,7 @@ entity
 	"spawnflags" "4"
 	"targetname" "b_sentry_2"
 	"TeamNum" "3"
-	"origin" "1088 0 5.00698"
+	"origin" "1088 0 0"
 	editor
 	{
 		"color" "220 30 220"
@@ -9140,7 +9140,7 @@ entity
 	"spawnflags" "4"
 	"targetname" "b_dispenser_2"
 	"TeamNum" "3"
-	"origin" "960 0 5.00698"
+	"origin" "960 0 0"
 	editor
 	{
 		"color" "220 30 220"
@@ -9158,7 +9158,7 @@ entity
 	"spawnflags" "4"
 	"targetname" "b_sentry_3"
 	"TeamNum" "3"
-	"origin" "1088 -128 5.00698"
+	"origin" "1088 -128 0"
 	editor
 	{
 		"color" "220 30 220"
@@ -9176,7 +9176,7 @@ entity
 	"spawnflags" "4"
 	"targetname" "b_dispenser_3"
 	"TeamNum" "3"
-	"origin" "960 -128 5.00698"
+	"origin" "960 -128 0"
 	editor
 	{
 		"color" "220 30 220"
