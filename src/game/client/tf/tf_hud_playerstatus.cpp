@@ -448,7 +448,6 @@ void CTFHudPlayerClass::UpdateModelPanel()
 		int nClass;
 		int nTeam;
 		int nItemSlot = m_nLoadoutPosition;
-		const char* pCustomClassMDL = NULL;
 
 		bool bDisguised = pPlayer->m_Shared.InCond( TF_COND_DISGUISED );
 		if ( bDisguised )
@@ -486,14 +485,9 @@ void CTFHudPlayerClass::UpdateModelPanel()
 					m_pPlayerModelPanel->AddCarriedItem( pEconItemView );
 				}
 			}
-
-			if ( pPlayer->GetPlayerClass()->HasCustomModel() )
-			{
-				pCustomClassMDL = pPlayer->GetPlayerClass()->GetModelName();
-			}
 		}
 
-		m_pPlayerModelPanel->SetToPlayerClass( nClass, false, pCustomClassMDL );
+		m_pPlayerModelPanel->SetToPlayerClass( nClass );
 		m_pPlayerModelPanel->SetTeam( nTeam );
 
 		for ( int wbl = pPlayer->GetNumWearables()-1; wbl >= 0; wbl-- )
