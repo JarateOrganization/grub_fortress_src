@@ -1,0 +1,1 @@
+grub_fortress_win64.exe -dev -multirun -novid +mp_disable_respawn_times 1 +maxplayers 25

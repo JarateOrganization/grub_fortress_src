@@ -221,6 +221,8 @@ ConVar tf_taunt_first_person( "tf_taunt_first_person", "0", FCVAR_NONE, "1 = tau
 ConVar tf_romevision_opt_in( "tf_romevision_opt_in", "0", FCVAR_ARCHIVE, "Enable Romevision in Mann vs. Machine mode when available." );
 ConVar tf_romevision_skip_prompt( "tf_romevision_skip_prompt", "0", FCVAR_ARCHIVE, "If nonzero, skip the prompt about sharing Romevision." );
 
+ConVar tf_chat_particle( "tf_chat_particle", "1", FCVAR_ARCHIVE, "Show typing bubble above player heads" );
+
 // Callback functions for cosmetic ConVars to update visibility immediately
 void cf_disable_cosmetics_changed( IConVar *var, const char *pOldValue, float flOldValue );
 void cf_disable_unusual_effects_changed( IConVar *var, const char *pOldValue, float flOldValue );
@@ -3858,6 +3860,7 @@ IMPLEMENT_CLIENTCLASS_DT( C_TFPlayer, DT_TFPlayer, CTFPlayer )
 	RecvPropBool( RECVINFO( m_bIsRobot ) ),
 	RecvPropBool( RECVINFO( m_bViewingCYOAPDA ) ),
 	RecvPropBool( RECVINFO( m_bRegenerating ) ),
+	RecvPropBool( RECVINFO( m_bTyping  ) ),
 END_RECV_TABLE()
 
 
@@ -3924,6 +3927,7 @@ C_TFPlayer::C_TFPlayer() :
 	m_flBurnEffectStartTime = 0;
 	m_pDisguisingEffect = NULL;
 	m_pSaveMeEffect = NULL;
+	m_pTypingEffect = NULL;
 	m_pCritHealIndicator = NULL;
 	m_pTauntWithMeEffect = NULL;
 	m_flLastDamageTime = 0.0f;
@@ -4042,6 +4046,7 @@ C_TFPlayer::C_TFPlayer() :
 	m_flHelpmeButtonPressTime = 0.f;
 	m_bViewingCYOAPDA = false;
 	m_bRegenerating = false;
+	m_bTyping = false;
 
 	m_bNotifiedWeaponInspectThisLife = false;
 
@@ -4371,6 +4376,8 @@ void C_TFPlayer::SetDormant( bool bDormant )
 		{
 			ShowBirthdayEffect( false );
 		}
+
+		ToggleTypingEffect( false );
 	}
 
 	if ( IsDormant() && !bDormant )
@@ -4590,6 +4597,8 @@ void C_TFPlayer::OnDataChanged( DataUpdateType_t updateType )
 		// Player has triggered a save me command
 		CreateSaveMeEffect();
 	}
+
+	UpdateTypingEffect();
 
 	// To better support old demos, which have some screwed up flags, we just ignore various things if we're a SourceTV client.
 	if ( !IsHLTV() )
@@ -8359,6 +8368,48 @@ void C_TFPlayer::StopSaveMeEffect( bool bForceRemoveInstantly /*= false*/ )
 		}
 		
 		m_pSaveMeEffect = NULL;
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void C_TFPlayer::UpdateTypingEffect()
+{
+	if ( tf_chat_particle.GetBool()
+		&& m_bTyping 
+		&& !GetClientVoiceMgr()->IsPlayerSpeaking( entindex() )
+		&& IsAlive() 
+		&& !InFirstPersonView()
+		&& ( !m_Shared.IsStealthed() || !IsEnemyPlayer() ) )
+	{
+		ToggleTypingEffect( true );
+	}
+	else
+	{
+		ToggleTypingEffect( false );
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void C_TFPlayer::ToggleTypingEffect( bool bToggle )
+{
+	if ( bToggle )
+	{
+		if ( !m_pTypingEffect )
+		{
+			m_pTypingEffect = ParticleProp()->Create( "speech_typing", PATTACH_POINT_FOLLOW, "head" );
+		}
+	}
+	else
+	{
+		if ( m_pTypingEffect )
+		{
+			ParticleProp()->StopEmissionAndDestroyImmediately( m_pTypingEffect );
+			m_pTypingEffect = NULL;
+		}
 	}
 }
 
