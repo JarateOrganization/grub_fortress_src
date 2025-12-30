@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8870"
-	"mapversion" "353"
+	"mapversion" "361"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -95,7 +95,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "353"
+	"mapversion" "361"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -29323,12 +29323,14 @@ entity
 	"flag_paper" "player_intel_papertrail"
 	"flag_trail" "flagtrail"
 	"GameType" "7"
+	"model" "models/props_bd/blue_bomb.mdl"
 	"NeutralType" "0"
 	"PointValue" "0"
 	"ReturnBetweenWaves" "1"
 	"ReturnTime" "5"
 	"ScoringType" "0"
 	"ShotClockMode" "0"
+	"skin" "0"
 	"TeamNum" "3"
 	"trail_effect" "3"
 	"VisibleWhenDisabled" "0"

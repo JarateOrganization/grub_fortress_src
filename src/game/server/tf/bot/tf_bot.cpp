@@ -4899,22 +4899,10 @@ Action< CTFBot > *CTFBot::OpportunisticallyUseWeaponAbilities( void )
 			CTFLunchBox *lunchbox = (CTFLunchBox *)weapon;
 			if ( lunchbox->HasAmmo() )
 			{
-				// Scout lunchboxes are gated by their energy drink meter
-				if ( IsPlayerClass( TF_CLASS_SCOUT ) )
+				// scout lunchboxes are also gated by their energy drink meter
+				if ( !IsPlayerClass( TF_CLASS_SCOUT ) || m_Shared.GetScoutEnergyDrinkMeter() >= 100 )
 				{
-					if ( m_Shared.GetScoutEnergyDrinkMeter() >= 100 )
-					{
-						return new CTFBotUseItem( lunchbox );
-					}
-				}
-				// Heavy only eats if health is below 150
-				else if ( IsPlayerClass( TF_CLASS_HEAVYWEAPONS ) )
-				{
-					if ( GetHealth() < GetMaxHealth() * 0.5f )
-					{
-						Weapon_Switch( Weapon_GetSlot( TF_WPN_TYPE_SECONDARY ) );
-						return new CTFBotUseItem( lunchbox );
-					}
+					return new CTFBotUseItem( lunchbox );
 				}
 			}
 		}

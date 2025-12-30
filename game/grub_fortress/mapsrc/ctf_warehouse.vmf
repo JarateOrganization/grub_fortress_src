@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8870"
-	"mapversion" "391"
+	"mapversion" "392"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -131,7 +131,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "391"
+	"mapversion" "392"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -26879,7 +26879,7 @@ entity
 	}
 	editor
 	{
-		"color" "0 180 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 -11268]"
@@ -27139,7 +27139,7 @@ entity
 	}
 	editor
 	{
-		"color" "0 180 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 -11268]"
@@ -28464,6 +28464,7 @@ entity
 	"flag_model" "models/flag/briefcase.mdl"
 	"flag_paper" "player_intel_papertrail"
 	"flag_trail" "flagtrail"
+	"model" "models/flag/briefcase.mdl"
 	"NeutralType" "1"
 	"ReturnBetweenWaves" "1"
 	"ReturnTime" "60"
@@ -32024,7 +32025,7 @@ entity
 	}
 	editor
 	{
-		"color" "0 180 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 -11268]"
@@ -32284,7 +32285,7 @@ entity
 	}
 	editor
 	{
-		"color" "0 180 0"
+		"color" "220 30 220"
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 -11268]"
@@ -33587,9 +33588,11 @@ entity
 	"flag_model" "models/flag/briefcase.mdl"
 	"flag_paper" "player_intel_papertrail"
 	"flag_trail" "flagtrail"
+	"model" "models/flag/briefcase.mdl"
 	"NeutralType" "1"
 	"ReturnBetweenWaves" "1"
 	"ReturnTime" "60"
+	"skin" "1"
 	"TeamNum" "3"
 	"trail_effect" "1"
 	"origin" "1408 -2496 -496"
