@@ -108,10 +108,17 @@ DESCRIPTION INFO_OPTIONS
 		{ BOOL }
 		{ "1" }
 	}
-	"ficool"
+	"ficool2"
 	{
 		"Ficool2 - 3rd person chat bubble, chat selection fix, Fix inefficient lookup by name"
 		"https://github.com/ficool2"
+		{ BOOL }
+		{ "1" }
+	}
+	"Horiuchi"
+	{
+		"Horiuchi - Visual timer for vote duration"
+		"https://github.com/horiuchii"
 		{ BOOL }
 		{ "1" }
 	}
