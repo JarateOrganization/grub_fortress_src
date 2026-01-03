@@ -337,7 +337,14 @@ void CObjectDispenser::MakeMiniBuilding( CTFPlayer* pPlayer )
 	SetModelScale(MINI_DISPENSER_SCALE);
 
 	int iHealth = GetMaxHealthForCurrentLevel();
-
+	if ( GetTeamNumber() == TF_TEAM_RED )
+	{
+		SetSkin( 2 );
+	}
+	else
+	{
+		SetSkin( 3 );
+	}
 	SetMaxHealth( iHealth );
 	SetHealth( iHealth );
 }
