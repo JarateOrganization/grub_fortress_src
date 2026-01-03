@@ -108,6 +108,13 @@ DESCRIPTION INFO_OPTIONS
 		{ BOOL }
 		{ "1" }
 	}
+	"ficool"
+	{
+		"Ficool2 - 3rd person chat bubble, chat selection fix, Fix inefficient lookup by name"
+		"https://github.com/ficool2"
+		{ BOOL }
+		{ "1" }
+	}
 	"ttrf_old_menu"
 	{
 		"Toru the Red Fox - Old TF2 Main menu code"

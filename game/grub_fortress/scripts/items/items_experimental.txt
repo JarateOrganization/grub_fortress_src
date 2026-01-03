@@ -158,11 +158,6 @@
 			}	
 			"attributes"
 			{
-				"panic_attack"
-				{
-					"attribute_class"	"panic_attack"
-					"value"				"1"
-				}
 				"reload time decreased"
 				{
 					"attribute_class" 	"mult_reload_time"
@@ -204,8 +199,7 @@
 			"prefab"					"weapon_syringegun"
 			"show_in_armory"			"1"
 			"moditem"					"1"
-			"item_type_name"			"#TF_Weapon_shotgun"
-			"item_name"					"Syringe gun prototype"
+			"item_name"					"Syringe Gun Prototype"
 			"item_quality"				"unique"
 			"attributes"
 			{

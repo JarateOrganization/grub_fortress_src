@@ -42,4 +42,6 @@ LICENSE text
 protoc binary
 ccache binary
 
-*_english.txt binary
+// why? - Grub
+
+//*_english.txt binary
