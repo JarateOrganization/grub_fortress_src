@@ -115,14 +115,14 @@
 	"QuitButton_New"
 	{
 		"label" "#TF_Quit_Title"
-		"command" "engine quit prompt"
+		"command" "engine showquitconfirmdialog"
 		"subimage" "glyph_quit"
 		"OnlyAtMenu" "1"
 	}
 	"DisconnectButton_New"
 	{
 		"label" "#GameUI_GameMenu_Disconnect"
-		"command" "engine disconnect"
+		"command" "engine showdisconnectconfirmdialog"
 		"subimage" "glyph_quit"
 		"OnlyInGame" "1"
 	}

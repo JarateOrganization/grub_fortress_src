@@ -23,12 +23,9 @@
 enum armory_filters_t
 {
 	// These are listed in the dropdown, for players to select
+	ARMFILT_MODITEMS,
 	ARMFILT_ALL_ITEMS,
 	ARMFILT_WEAPONS,
-	ARMFILT_MISCITEMS,
-	ARMFILT_ACTIONITEMS,
-	ARMFILT_CRAFTITEMS,
-	ARMFILT_TOOLS,
 	ARMFILT_CLASS_ALL,
 	ARMFILT_CLASS_SCOUT,
 	ARMFILT_CLASS_SNIPER,
@@ -39,8 +36,6 @@ enum armory_filters_t
 	ARMFILT_CLASS_PYRO,
 	ARMFILT_CLASS_SPY,
 	ARMFILT_CLASS_ENGINEER,
-	ARMFILT_DONATIONITEMS,
-	ARMFILT_MODITEMS,
 
 	ARMFILT_NUM_IN_DROPDOWN,
 
@@ -59,7 +54,7 @@ public:
 	virtual ~CArmoryPanel();
 
 	// Show the armory with one of the default filters set
-	void		 ShowPanel( int iItemDef, armory_filters_t nFilter = ARMFILT_ALL_ITEMS );
+	void		 ShowPanel( int iItemDef, armory_filters_t nFilter = ARMFILT_MODITEMS );
 
 	// Show the armory with a custom list of item definitions, and a custom filter string 
 	void		 ShowPanel( const char *pszFilterString, CUtlVector<item_definition_index_t> *vecItems );

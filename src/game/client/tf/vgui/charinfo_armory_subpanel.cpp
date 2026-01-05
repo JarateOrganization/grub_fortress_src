@@ -27,12 +27,9 @@ ConVar tf_armory_page_skip( "tf_armory_page_skip", "10", FCVAR_ARCHIVE, "Number 
 
 const char *g_szArmoryFilterStrings[ARMFILT_TOTAL] =
 {
-	"#ArmoryFilter_AllItems",		// ARMFILT_ALL_ITEMS.
+	"#ArmoryFilter_ModItems",		// ARMFILT_MODITEMS,
+	"#ArmoryFilter_AllItems",		// ARMFILT_ALL_ITEMS,
 	"#ArmoryFilter_Weapons",		// ARMFILT_WEAPONS,
-	"#ArmoryFilter_MiscItems",		// ARMFILT_MISCITEMS,
-	"#ArmoryFilter_ActionItems",	// ARMFILT_ACTIONITEMS,
-	"#ArmoryFilter_CraftItems",		// ARMFILT_CRAFTITEMS,
-	"#ArmoryFilter_Tools",			// ARMFILT_TOOLS,
 	"#ArmoryFilter_AllClass",		// ARMFILT_CLASS_ALL,
 	"#ArmoryFilter_Scout",			// ARMFILT_CLASS_SCOUT,
 	"#ArmoryFilter_Sniper",			// ARMFILT_CLASS_SNIPER,
@@ -43,8 +40,6 @@ const char *g_szArmoryFilterStrings[ARMFILT_TOTAL] =
 	"#ArmoryFilter_Pyro",			// ARMFILT_CLASS_PYRO,
 	"#ArmoryFilter_Spy",			// ARMFILT_CLASS_SPY,
 	"#ArmoryFilter_Engineer",		// ARMFILT_CLASS_ENGINEER,
-	"#ArmoryFilter_Donationitems",	// ARMFILT_DONATIONITEMS,
-	"#ArmoryFilter_ModItems",		// ARMFILT_MODITEMS,
 
 	"",								// ARMFILT_NUM_IN_DROPDOWN
 	"Not Used",						// ARMFILT_CUSTOM
@@ -59,8 +54,8 @@ CArmoryPanel::CArmoryPanel(Panel *parent, const char *panelName) : vgui::Editabl
 	m_pSelectedItemImageModelPanel = new CItemModelPanel( this, "SelectedItemImageModelPanel" );
 	m_pThumbnailModelPanelKVs = NULL;
 	m_bReapplyItemKVs = false;
-	m_CurrentFilter = ARMFILT_ALL_ITEMS;
-	m_OldFilter = ARMFILT_ALL_ITEMS;
+	m_CurrentFilter = ARMFILT_MODITEMS;
+	m_OldFilter = ARMFILT_MODITEMS;
 	m_iFilterPage = 0;
 	m_pViewSetButton = NULL;
 	m_pStoreButton = NULL;
@@ -584,10 +579,32 @@ void CArmoryPanel::SetFilterTo( int iItemDef, armory_filters_t nFilter )
 //-----------------------------------------------------------------------------
 bool CArmoryPanel::DefPassesFilter( const CTFItemDefinition *pDef, armory_filters_t iFilter )
 {
+	int iSlot = pDef->GetDefaultLoadoutSlot();
 	bool bInList = false;
+
+	if ( iSlot == LOADOUT_POSITION_HEAD ||
+		iSlot == LOADOUT_POSITION_MISC ||
+		iSlot == LOADOUT_POSITION_MISC2 ||
+		iSlot == LOADOUT_POSITION_ACTION ||
+		iSlot == LOADOUT_POSITION_TAUNT ||
+		iSlot == LOADOUT_POSITION_TAUNT2 ||
+		iSlot == LOADOUT_POSITION_TAUNT3 ||
+		iSlot == LOADOUT_POSITION_TAUNT4 ||
+		iSlot == LOADOUT_POSITION_TAUNT5 ||
+		iSlot == LOADOUT_POSITION_TAUNT6 ||
+		iSlot == LOADOUT_POSITION_TAUNT7 ||
+		iSlot == LOADOUT_POSITION_TAUNT8 )
+		return false;
 
 	switch (iFilter)
 	{
+
+	case ARMFILT_MODITEMS:
+		{
+			bInList = pDef->IsModItem();
+			break;
+		}
+
 	case ARMFILT_ALL_ITEMS:
 		{
 			bInList = true;
@@ -595,42 +612,11 @@ bool CArmoryPanel::DefPassesFilter( const CTFItemDefinition *pDef, armory_filter
 		}
 
 	case ARMFILT_WEAPONS:
-		{
-			int iSlot = pDef->GetDefaultLoadoutSlot();
-			bInList = ( iSlot == LOADOUT_POSITION_PRIMARY || iSlot == LOADOUT_POSITION_SECONDARY || iSlot == LOADOUT_POSITION_MELEE );
-			break;
-		}
-
-	case ARMFILT_MISCITEMS:
-		{
-			bInList = (pDef->GetDefaultLoadoutSlot() == LOADOUT_POSITION_MISC);
-			break;
-		}
-
-	case ARMFILT_ACTIONITEMS:
-		{
-			bInList = (pDef->GetDefaultLoadoutSlot() == LOADOUT_POSITION_ACTION);
-			break;
-		}
-
-	case ARMFILT_CRAFTITEMS:
-		{
-			bInList = pDef->GetItemClass() && ( !V_strcmp( pDef->GetItemClass(), "craft_item" ) || !V_strcmp( pDef->GetItemClass(), "class_token" ) || !V_strcmp( pDef->GetItemClass(), "slot_token" ) );
-			break;
-		}
-
-	case ARMFILT_TOOLS:
-		{
-			// For now, put the supply crates into the tool list, since it's the only item that shows up in no other lists
-			bInList = pDef->GetItemClass() && ( !V_strcmp( pDef->GetItemClass(), "tool" ) || !V_strcmp( pDef->GetItemClass(), "supply_crate" ) );
-			break;
-		}
-
-	case ARMFILT_CLASS_ALL:
-		{
-			bInList = pDef->CanBeUsedByAllClasses();
-			break;
-		}
+	{
+		int iSlot = pDef->GetDefaultLoadoutSlot();
+		bInList = ( iSlot == LOADOUT_POSITION_PRIMARY || iSlot == LOADOUT_POSITION_SECONDARY || iSlot == LOADOUT_POSITION_MELEE || iSlot == LOADOUT_POSITION_BUILDING || iSlot == LOADOUT_POSITION_PDA || iSlot == LOADOUT_POSITION_PDA2 );
+		break;
+	}
 
 	case ARMFILT_CLASS_SCOUT:
 	case ARMFILT_CLASS_SNIPER:
@@ -650,16 +636,9 @@ bool CArmoryPanel::DefPassesFilter( const CTFItemDefinition *pDef, armory_filter
 			break;
 		}
 
-	case ARMFILT_DONATIONITEMS:
+	case ARMFILT_CLASS_ALL:
 		{
-			// Don't show class/slot usage for class/slot tokens
-			bInList = pDef->GetItemClass() && !V_strcmp( pDef->GetItemClass(), "map_token" );
-			break;
-		}
-
-	case ARMFILT_MODITEMS:
-		{
-			bInList = pDef->IsModItem();
+			bInList = pDef->CanBeUsedByAllClasses();
 			break;
 		}
 	}
@@ -969,7 +948,7 @@ void CArmoryPanel::OnItemLinkClicked( KeyValues *pParams )
 {
 	const char *pURL = pParams->GetString( "url" );
 	int iItemDef = atoi( pURL + 7 );
-	JumpToItem( iItemDef, ARMFILT_ALL_ITEMS );
+	JumpToItem( iItemDef, ARMFILT_MODITEMS );
 	m_pFilterComboBox->ActivateItemByRow( 0 );
 }
 

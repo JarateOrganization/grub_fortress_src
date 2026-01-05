@@ -3373,3 +3373,27 @@ void CHudMainMenuOverride::GenerateIcons(bool bLarge, int min /*= -1*/, int max 
 	m_bGeneratingLargeTestIcons = bLarge;
 }
 #endif
+
+CON_COMMAND(showdisconnectconfirmdialog, "Show a disconnect confirmation dialog")
+{
+	ShowConfirmDialog( "#GameUI_Disconnect",
+		"#GameUI_DisconnectConfirmationText",
+		"#TF_Coach_Yes",
+		"#TF_Coach_No", []( bool bConfirmed, void* pContext )
+		{
+			if ( bConfirmed )
+				engine->ClientCmd_Unrestricted( "disconnect\n" );
+		} );
+}
+
+CON_COMMAND(showquitconfirmdialog, "Show a quit confirmation dialog")
+{
+	ShowConfirmDialog( "#GameUI_Quit",
+		"#GameUI_QuitConfirmationText",
+		"#TF_Coach_Yes",
+		"#TF_Coach_No", []( bool bConfirmed, void* pContext )
+		{
+			if ( bConfirmed )
+				engine->ClientCmd_Unrestricted( "quit\n" );
+		} );
+}

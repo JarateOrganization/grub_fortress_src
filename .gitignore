@@ -511,7 +511,7 @@ FodyWeavers.xsd
 /game/grub_fortress/cfg/user.scr
 /game/grub_fortress/cfg/settings.scr
 /game/grub_fortress/cfg/server_options.scr
-/game/grub_fortress/cfg/local_loadout.txt
+/game/grub_fortress/cfg/tfgrub_loadout.txt
 /game/grub_fortress/download
 /game/steam_appid.txt
 /game/platform/config/Serverbrowser.vdf

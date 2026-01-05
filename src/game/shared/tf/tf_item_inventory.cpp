@@ -48,7 +48,7 @@
 
 using namespace GCSDK;
 
-#define LOCAL_LOADOUT_FILE		"cfg/local_loadout.txt"
+#define LOCAL_LOADOUT_FILE		"cfg/tfgrub_loadout.txt"
 
 ConVar cf_cosmetic_restrictions("cf_cosmetic_restrictions", "1", FCVAR_REPLICATED | FCVAR_DEVELOPMENTONLY, "Disable holiday restrictions on items.");
 
@@ -961,7 +961,6 @@ void CTFPlayerInventory::UpdateCachedServerLoadoutItems()
 //-----------------------------------------------------------------------------
 void CTFPlayerInventory::UpdateRealTFLoadoutItems()
 {
-	V_memcpy( m_RealTFLoadoutItems, m_LoadoutItems, sizeof( itemid_t ) * ARRAYSIZE( m_RealTFLoadoutItems ) * ARRAYSIZE( m_RealTFLoadoutItems[0] ) );
 }
 
 void CTFPlayerInventory::LoadLocalLoadout()
@@ -973,14 +972,14 @@ void CTFPlayerInventory::LoadLocalLoadout()
 		return;
 	}
 
-	KeyValues *pLoadoutKV = new KeyValues("local_loadout");
+	KeyValues *pLoadoutKV = new KeyValues("tfgrub_loadout");
 	if (!pLoadoutKV->LoadFromFile(g_pFullFileSystem, LOCAL_LOADOUT_FILE, "MOD"))
 	{
 		SaveLocalLoadout( true, true );
 
 		if ( !pLoadoutKV->LoadFromFile( g_pFullFileSystem, LOCAL_LOADOUT_FILE, "MOD" ) )
 		{
-			Warning( "Unable to parse local_loadout.txt into keyvalues.\n" );
+			Warning( "Unable to parse tfgrub_loadout.txt into keyvalues.\n" );
 			return;
 		}
 	}
@@ -1067,7 +1066,7 @@ void CTFPlayerInventory::SaveLocalLoadout( bool bReset, bool bDefaultToGC )
 		return;
 	}
 
-	KeyValues *pLoadoutKV = new KeyValues("local_loadout");
+	KeyValues *pLoadoutKV = new KeyValues("tfgrub_loadout");
 
 	KeyValues *pActivePresetKV = new KeyValues("active_preset");
 	for (int iClass = 1; iClass < TF_CLASS_COUNT_ALL; ++iClass)
