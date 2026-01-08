@@ -12,7 +12,7 @@
 	}
 	nodegraph 				0
 	icon					"resource/icon"
-	GameData				"tfgrub.fgd"
+	GameData				"bin/tfgrub.fgd"
 	AdditionalLocalization	"tf"
 	InstancePath			"mapsrc/instances/"
 	advcrosshair 			1

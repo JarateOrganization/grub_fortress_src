@@ -945,9 +945,14 @@ void CHudMainMenuOverride::ApplySchemeSettings(IScheme* scheme)
 
 	const char* pszMenuRes = "resource/UI/MainMenu_New.res";
 
-	if (CommandLine()->FindParm("-oldmenu") != 0)
+	if ( CommandLine()->FindParm( "-oldmenu" ) != 0 )
 	{
 		pszMenuRes = "resource/UI/MainMenu.res";
+	}
+
+	if ( CommandLine()->FindParm( "-newmenu" ) != 0 )
+	{
+		pszMenuRes = "resource/UI/MainMenu_Newer.res";
 	}
 
 	LoadControlSettings(pszMenuRes, NULL, NULL, pConditions);
@@ -1190,6 +1195,12 @@ void CHudMainMenuOverride::LoadMenuEntries(void)
 	{
 		pszMenuFile = "Resource/GameMenu_Grub.res";
 	}
+
+	else if ( CommandLine()->FindParm( "-newmenu" ) != 0 )
+	{
+		pszMenuFile = "Resource/GameMenu_Grub_Newer.res";
+	}
+
 
 	bool bLoaded = datafile->LoadFromFile( g_pFullFileSystem, pszMenuFile, "custom_mod" );
 	if (!bLoaded)
