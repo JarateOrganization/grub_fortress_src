@@ -182,20 +182,6 @@
 		"brighttext"	"1"
 	}
 	
-	"TFCharacterImage"
-	{
-		"ControlName"	"ImagePanel"
-		"fieldName"		"TFCharacterImage"
-		"xpos"			"c-250"
-		"ypos"			"-60"
-		"zpos"			"-99"
-		"wide"			"600"
-		"tall"			"600"
-		"visible"		"1"
-		"enabled"		"1"
-		"scaleImage"	"1"
-	}
-	
 	"MainMenuBGPanel"
 	{
 		"ControlName"	"EditablePanel"
@@ -3444,8 +3430,8 @@
 		"ControlName"	"Label"
 		"fieldName"		"Version"
 		"font" 			"HudFontMedium"
-		"xpos"			"r60"
-		"ypos"			"r40"
+		"xpos"			"r605"
+		"ypos"			"r25"
 		"zpos"			"10"
 		"wide"			"600"
 		"tall"			"24"
@@ -3455,7 +3441,7 @@
 		"visible"		"0" // Enable After Alpha/Beta
 		"enabled"		"0" // Enable After Alpha/Beta
 		"labelText"		"#TFGRUB_Version_Short"
-		"textAlignment"	"west"
+		"textAlignment"	"east"
 		"dulltext"		"0"
 		"brighttext"	"1"
 	}
@@ -3464,8 +3450,8 @@
 		"ControlName"	"Label"
 		"fieldName"		"Version"
 		"font" 			"HudFontMedium"
-		"xpos"			"r130"
-		"ypos"			"r40"
+		"xpos"			"r605"
+		"ypos"			"r25"
 		"zpos"			"10"
 		"wide"			"600"
 		"tall"			"24"
@@ -3475,7 +3461,7 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"labelText"		"#TFGRUB_Version_Short_Longer"
-		"textAlignment"	"west"
+		"textAlignment"	"east"
 		"dulltext"		"0"
 		"brighttext"	"1"
 	}

@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8870"
-	"mapversion" "25"
+	"mapversion" "28"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -95,7 +95,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "25"
+	"mapversion" "28"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -148,6 +148,7 @@ entity
 	"GlowColor" "255 0 0 255"
 	"Mode" "0"
 	"target" "generator_model"
+	"targetname" "generator_glow"
 	"origin" "-24 24 72"
 	editor
 	{
@@ -187,7 +188,7 @@ entity
 	"targetname" "generator"
 	connections
 	{
-		"OnBreak" "generator_modelTurnOff0-1"
+		"OnBreak" "generator_modelKill0-1"
 		"OnBreak" "@logic_relay_counterTrigger0-1"
 	}
 	solid
@@ -330,6 +331,43 @@ entity
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 -16268]"
+	}
+}
+entity
+{
+	"id" "39"
+	"classname" "logic_relay"
+	"spawnflags" "0"
+	"targetname" "generator_repair_relay"
+	connections
+	{
+		"OnTrigger" "generator_repairForceSpawn0-1"
+	}
+	"origin" "-8 24 72"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 13000]"
+	}
+}
+entity
+{
+	"id" "45"
+	"classname" "point_template"
+	"spawnflags" "3"
+	"targetname" "generator_repair"
+	"Template01" "generator"
+	"Template02" "generator_model"
+	"Template03" "generator_glow"
+	"origin" "0 0 72"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 13000]"
 	}
 }
 cameras

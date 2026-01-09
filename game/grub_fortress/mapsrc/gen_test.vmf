@@ -2,7 +2,7 @@ versioninfo
 {
 	"editorversion" "400"
 	"editorbuild" "8870"
-	"mapversion" "64"
+	"mapversion" "67"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -89,7 +89,7 @@ bgimages_plus
 world
 {
 	"id" "1"
-	"mapversion" "64"
+	"mapversion" "67"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -3037,7 +3037,7 @@ entity
 	"id" "1010"
 	"classname" "func_instance"
 	"angles" "-0 0 0"
-	"file" "instances/generator.vmf"
+	"file" "generator.vmf"
 	"targetname" "generator1"
 	"origin" "-160 -576 320"
 	editor
@@ -3074,7 +3074,7 @@ entity
 	"id" "1059"
 	"classname" "func_instance"
 	"angles" "-0 180 0"
-	"file" "instances/generator.vmf"
+	"file" "generator.vmf"
 	"targetname" "generator2"
 	"origin" "-416 224 64"
 	editor
@@ -4797,6 +4797,54 @@ entity
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[500 -11768]"
+	}
+}
+entity
+{
+	"id" "2262"
+	"classname" "logic_relay"
+	"spawnflags" "0"
+	"targetname" "generator_respawns"
+	connections
+	{
+		"OnTrigger" "generator_message_4Display0-1"
+		"OnTrigger" "generator1-generator_repair_relayTrigger0-1"
+		"OnTrigger" "generator2-generator_repair_relayTrigger0-1"
+		"OnTrigger" "generator3-generator_repair_relayTrigger0-1"
+	}
+	"origin" "-312 248 184"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 -14268]"
+	}
+}
+entity
+{
+	"id" "2269"
+	"classname" "game_text"
+	"channel" "1"
+	"color" "255 255 255"
+	"color2" "197 197 197"
+	"effect" "0"
+	"fadein" "0.5"
+	"fadeout" "0.5"
+	"fxtime" "0.25"
+	"holdtime" "5"
+	"message" "#TFGRUB_Generator_Respawned"
+	"spawnflags" "0"
+	"targetname" "generator_message_4"
+	"x" "-1"
+	"y" "0.8"
+	"origin" "-312 248 168"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 -14768]"
 	}
 }
 cameras
