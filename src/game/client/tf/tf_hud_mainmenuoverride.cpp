@@ -943,16 +943,16 @@ void CHudMainMenuOverride::ApplySchemeSettings(IScheme* scheme)
 
 	RemoveAllMenuEntries();
 
-	const char* pszMenuRes = "resource/UI/MainMenu_New.res";
+	const char* pszMenuRes = "resource/UI/MainMenu_Newer.res";
 
-	if ( CommandLine()->FindParm( "-oldmenu" ) != 0 )
+	if ( CommandLine()->FindParm( "-oldermenu" ) != 0 )
 	{
 		pszMenuRes = "resource/UI/MainMenu.res";
 	}
 
-	if ( CommandLine()->FindParm( "-newmenu" ) != 0 )
+	else if ( CommandLine()->FindParm( "-oldmenu" ) != 0 )
 	{
-		pszMenuRes = "resource/UI/MainMenu_Newer.res";
+		pszMenuRes = "resource/UI/MainMenu_New.res";
 	}
 
 	LoadControlSettings(pszMenuRes, NULL, NULL, pConditions);
@@ -1189,16 +1189,16 @@ void CHudMainMenuOverride::LoadMenuEntries(void)
 {
 	KeyValues* datafile = new KeyValues("GameMenu");
 	datafile->UsesEscapeSequences(true);	// VGUI uses escape sequences
-	const char* pszMenuFile = "Resource/GameMenu_Grub_New.res";
+	const char* pszMenuFile = "Resource/GameMenu_Grub_Newer.res";
 
-	if ( CommandLine()->FindParm( "-oldmenu" ) != 0 )
+	if ( CommandLine()->FindParm( "-oldermenu" ) != 0 )
 	{
 		pszMenuFile = "Resource/GameMenu_Grub.res";
 	}
 
-	else if ( CommandLine()->FindParm( "-newmenu" ) != 0 )
+	else if ( CommandLine()->FindParm( "-oldmenu" ) != 0 )
 	{
-		pszMenuFile = "Resource/GameMenu_Grub_Newer.res";
+		pszMenuFile = "Resource/GameMenu_Grub_New.res";
 	}
 
 
@@ -1328,7 +1328,7 @@ void CHudMainMenuOverride::PerformLayout(void)
 
 		if (bFirstButton && m_pMMButtonEntries[i].pPanel != NULL)
 		{
-			m_pMMButtonEntries[i].pPanel->NavigateTo();
+			m_pMMButtonEntries[i].pPanel->RequestFocus();
 			bFirstButton = false;
 		}
 
