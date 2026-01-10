@@ -43,5 +43,7 @@ protoc binary
 ccache binary
 
 // why? - Grub
+// ok i know why - Grub
 
-//*_english.txt binary
+*_english.txt binary
+*_polish.txt binary
